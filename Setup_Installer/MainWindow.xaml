@@ -41,7 +41,6 @@
             Margin="10">
             <Border>
                 <Grid>
-                    1991
                     <TabControl BorderThickness="0">
                         <TabItem
                             x:Name="Page1"
@@ -85,7 +84,7 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="5,20,0,0"
-                                        Text="É recomendado que você feche todos os outros aplicativos antes de iniciar o instalador. Isto tornará possível atualizar os arquivos de sistema relevantes. Ao final da instalação você será solicitado a reiniciar o computador."
+                                        Text="É recomendado que você feche todos os outros aplicativos antes de iniciar o instalador. Isto tornará possível atualizar os arquivos de sistema relevantes. Ao final da instalação, você será solicitado a reiniciar o computador."
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
                                     <TextBlock
@@ -145,8 +144,7 @@
                                         Grid.Column="0"
                                         Margin="0,5,0,0"
                                         Content="ProlexNet - Cliente"
-                                        IsChecked="False"
-                                        IsEnabled="True" />
+                                        IsChecked="False" />
                                 </Grid>
                                 <Grid
                                     Grid.Row="3"
@@ -174,12 +172,14 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <TextBox
+                                        <Label
+                                            x:Name="InstallationPathField"
                                             Grid.Row="0"
                                             Grid.Column="0"
                                             Width="440"
                                             HorizontalAlignment="Left"
-                                            Text="C:\Automatiza\" />
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1" />
                                         <Button
                                             x:Name="ButtonChangeInstallPath"
                                             Grid.Row="0"
@@ -204,29 +204,37 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Content="Escolha a opção de instalação que deseja executar." />
-                                <Label
+                                <Grid
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Margin="0,20,0,0"
-                                    Padding="10"
-                                    Content="Selecione em qual Estado o ProlexNet será instalado:" />
-                                <Grid
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    Margin="20,0,0,0">
+                                    Margin="15,15,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <ComboBox Width="150" HorizontalAlignment="Left">
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Selecione em qual Estado o ProlexNet será instalado:" />
+                                    <ComboBox
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Width="150"
+                                        Margin="25,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        IsEnabled="False">
                                         <ComboBoxItem x:Name="AC" Content="Acre" />
                                         <ComboBoxItem x:Name="AL" Content="Alagoas" />
                                         <ComboBoxItem x:Name="AP" Content="Amapá" />
@@ -259,6 +267,62 @@
                                         <ComboBoxItem x:Name="TO" Content="Tocantins" />
                                     </ComboBox>
                                 </Grid>
+                                <Grid
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="15,13,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Outros parâmetros da instalação:" />
+                                    <CheckBox
+                                        x:Name="CheckBoxFirebirdSilentInstallation"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content="Instalação automática do Firebird"
+                                        IsChecked="True" />
+                                </Grid>
+                                <Grid
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="15,13,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Versão do Microsoft .NET Framework:" />
+                                    <RadioButton
+                                        x:Name="CheckBoxDotNet46"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content=".NET Framework 4.6"
+                                        IsChecked="False" />
+                                    <RadioButton
+                                        x:Name="CheckBoxDotNet47"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content=".NET Framework 4.7"
+                                        IsChecked="True" />
+                                </Grid>
                             </Grid>
                         </TabItem>
 
@@ -266,16 +330,25 @@
                             x:Name="Page4"
                             Selector.IsSelected="False"
                             Visibility="Collapsed">
-                            <Grid Background="#FFE5E5E5">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Label Content="TESTE 4" />
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Content="Os seguintes componentes serão instalados:" />
+                                <TextBlock
+                                    x:Name="ComponentsToBeInstalled"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="15,15,0,0"
+                                    Padding="10" />
                             </Grid>
                         </TabItem>
 
@@ -283,16 +356,48 @@
                             x:Name="Page5"
                             Selector.IsSelected="False"
                             Visibility="Collapsed">
-                            <Grid Background="#FFE5E5E5">
+                            <Grid VerticalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Label Content="TESTE 5" />
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Content="O instalador está fazendo o download dos componentes mais atualizados." />
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="0,20,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Download em andamento..." />
+                                    <ProgressBar
+                                        x:Name="ProgressBar"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Height="20"
+                                        Margin="10,0,10,0" />
+                                    <TextBlock
+                                        x:Name="InstallationStatus"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="10" />
+                                </Grid>
+
                             </Grid>
                         </TabItem>
 
@@ -300,7 +405,7 @@
                             x:Name="Page6"
                             Selector.IsSelected="False"
                             Visibility="Collapsed">
-                            <Grid Background="#FFE5E5E5">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
@@ -309,7 +414,38 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Content="TESTE 6" />
+                                <Label Content="O ProlexNet foi instalado com sucesso!" />
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Content="Deseja reiniciar o seu computador agora?" />
+                                    <RadioButton
+                                        x:Name="RadioRestart"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="10,5,0,0"
+                                        Content="Reiniciar agora."
+                                        IsChecked="False" />
+                                    <RadioButton
+                                        x:Name="RadioNoRestart"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="10,5,0,0"
+                                        Content="Não desejo reiniciar agora. Reiniciarei manualmente mais tarde."
+                                        IsChecked="True" />
+                                </Grid>
                             </Grid>
                         </TabItem>
                     </TabControl>
@@ -364,7 +500,7 @@
                 Grid.Column="2"
                 Width="80"
                 Height="22"
-                Margin="10,0,0,0"
+                Margin="20,0,0,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Click="ButtonCancel_Click"
