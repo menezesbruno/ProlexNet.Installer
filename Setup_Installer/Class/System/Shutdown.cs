@@ -1,12 +1,21 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
-namespace Setup_Installer.Class.System
+namespace ProlexNetSetup.Class.System
 {
     public class Shutdown
     {
         public static void Reboot()
         {
-            Process.Start("ShutDown", "/r /t 0 /f /d p:4:2");
+            // Reinicializa o computador e explica o motivo ao log de eventos do Windows: Instalação de aplicativo.
+            try
+            {
+                Process.Start("ShutDown", "/r /t 0 /f /d p:4:2");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("Shutdown:Reboot:" + ex.Message);
+            }
         }
     }
 }

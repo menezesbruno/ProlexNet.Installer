@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Setup_Installer.Class.Download
+namespace ProlexNetSetup.Class.Download
 {
     public class DownloadParameters
     {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Setup_Installer.Class.Download
+namespace ProlexNetSetup.Class.Download
 {
     public class HashCheck
     {

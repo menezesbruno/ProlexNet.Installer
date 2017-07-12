@@ -4,7 +4,7 @@ using System.Net;
 using System.Windows;
 using System.Threading.Tasks;
 
-namespace Setup_Installer.Class.Download
+namespace ProlexNetSetup.Class.Download
 {
     public class Download
     {
@@ -28,9 +28,7 @@ namespace Setup_Installer.Class.Download
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            await Installer.FirebirdAsync(file, silentInstallation);
-
-            return;
+            Installer.Firebird(file, silentInstallation);
         }
       
         public static async Task ProlexNetHostAsync(string servicePath, string installationPath)
@@ -81,7 +79,7 @@ namespace Setup_Installer.Class.Download
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            await Installer.VCRedist(file);
+            Installer.VCRedist(file);
 
             return;
         }
@@ -101,7 +99,7 @@ namespace Setup_Installer.Class.Download
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            await Installer.DotNet(file);
+            Installer.DotNet(file);
 
             return;
         }

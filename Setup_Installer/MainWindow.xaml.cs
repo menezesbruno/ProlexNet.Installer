@@ -3,9 +3,10 @@ using System.IO;
 using System.Windows;
 using Forms = System.Windows.Forms;
 using System.Windows.Controls;
-using Setup_Installer.Class.Download;
+using ProlexNetSetup.Class.Download;
+using System.Threading.Tasks;
 
-namespace Setup_Installer
+namespace ProlexNetSetup
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -179,7 +180,6 @@ namespace Setup_Installer
         private async void StartInstallationAsync(object sender, RoutedEventArgs e)
         {
             ProgressBar.IsIndeterminate = true;
-
             var silentInstallation = CheckBoxFirebirdSilentInstallation.IsChecked == true;
 
             var systemVersion = "x86";
@@ -206,7 +206,7 @@ namespace Setup_Installer
             InstallationStatus.Text += "OK" + Environment.NewLine;
 
             InstallationStatus.Text += "Instalando o Serviços de Informações da Internet - IIS... ";
-            await Installer.IISAsync(ServicePath);
+            Installer.IISAsync(ServicePath);
             InstallationStatus.Text += "OK" + Environment.NewLine;
 
             if (checkbox_ProlexNetServer.IsChecked == true)
@@ -237,7 +237,7 @@ namespace Setup_Installer
                 }
             }
 
-            Class.Common.IISConfiguration.ProlexSettings(InstallationPath);
+            Class.Common.IISConfiguration.ProlexNetSettings(InstallationPath);
 
             ButtonAdvance_Click(null, null);
         }
