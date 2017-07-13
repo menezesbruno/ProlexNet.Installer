@@ -10,12 +10,12 @@ namespace ProlexNetSetup.Class.Common
         public static void ProlexNetSettings(string installationPath)
         {
             Process process = new Process();
-            // Chama o regiis para informar o IIS sobre a versão do DotNet
+            // Chama o aspnet_regiis para informar o IIS sobre a versão do DotNet
             try
             {
-                string regiisVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "Microsoft.NET", "Framework", "aspnet_regiis.exe");
+                var regiisVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "Microsoft.NET", "Framework", "v4.0.30319", "aspnet_regiis.exe");
                 if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-                    regiisVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "Microsoft.NET", "Framework64", "aspnet_regiis.exe");
+                    regiisVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "Microsoft.NET", "Framework64", "v4.0.30319", "aspnet_regiis.exe");
 
                 var regiisArgs = "-i";
                 process.StartInfo.FileName = regiisVersion;
@@ -66,9 +66,9 @@ namespace ProlexNetSetup.Class.Common
             // Remove, se houver, uma configuração já existente do Pool de aplicativo "prolexnet".
             try
             {
-                var appcmdArgsDeletion = "delete apppool /name:prolexnet";
+                var appcmdArgs = "delete apppool /name:prolexnet";
                 process.StartInfo.FileName = appcmdVersion;
-                process.StartInfo.Arguments = appcmdArgsDeletion;
+                process.StartInfo.Arguments = appcmdArgs;
                 process.StartInfo.CreateNoWindow = true;
                 process.Start();
                 process.WaitForExit();

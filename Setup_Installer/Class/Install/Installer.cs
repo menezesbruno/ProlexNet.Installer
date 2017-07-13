@@ -43,9 +43,7 @@ namespace ProlexNetSetup.Class.Download
             {
                 string dismVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "dism.exe");
                 if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-                {
                     dismVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "sysnative", "dism.exe");
-                }
 
                 var dismOutputFile = Path.Combine(servicePath, "dismOutput.txt");
                 var dismArgs = $"/Online /Get-Features /Format:Table";
