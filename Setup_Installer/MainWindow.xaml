@@ -146,8 +146,7 @@
                                         Grid.Column="0"
                                         Margin="0,5,0,0"
                                         Content="ProlexNet - Cliente"
-                                        IsChecked="False"
-                                        IsEnabled="False" />
+                                        IsChecked="False" />
                                 </Grid>
                                 <Grid
                                     Grid.Row="3"
@@ -318,14 +317,14 @@
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
                                         Content=".NET Framework 4.6 - Selecione esta opção para Windows 7 SP1"
-                                        IsChecked="False" />
+                                        IsChecked="True" />
                                     <RadioButton
                                         x:Name="CheckBoxDotNet47"
                                         Grid.Row="2"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
                                         Content=".NET Framework 4.7 - Selecione esta opção para Windows 8 ou superior"
-                                        IsChecked="True" />
+                                        IsChecked="False" />
                                 </Grid>
                             </Grid>
                         </TabItem>
@@ -391,19 +390,23 @@
                                         Grid.Column="0"
                                         Padding="10"
                                         Content="Download em andamento..." />
-                                    <ProgressBar
-                                        x:Name="ProgressBar"
+                                    <Grid
                                         Grid.Row="1"
                                         Grid.Column="0"
-                                        Height="20"
-                                        Margin="10,0,10,0" />
+                                        Margin="10,0,10,0">
+                                        <ProgressBar x:Name="ProgressBar" Height="20" />
+                                        <Label
+                                            x:Name="ProgressBarValue"
+                                            HorizontalAlignment="Center"
+                                            TextBlock.FontWeight="Bold" />
+                                        <Label x:Name="ProgressBarSpeed" HorizontalAlignment="Right" />
+                                    </Grid>
                                     <TextBlock
                                         x:Name="InstallationStatus"
                                         Grid.Row="2"
                                         Grid.Column="0"
                                         Margin="10" />
                                 </Grid>
-
                             </Grid>
                         </TabItem>
 
@@ -421,7 +424,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Content="O ProlexNet foi instalado com sucesso!" />
+                                <Label x:Name="LabelInstallationResult" Content="O ProlexNet foi instalado com sucesso!" />
                                 <Grid
                                     Grid.Row="1"
                                     Grid.Column="0"

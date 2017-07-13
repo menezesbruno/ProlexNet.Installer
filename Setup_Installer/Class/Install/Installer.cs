@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ProlexNetSetup.Class.Download
 {
@@ -13,7 +11,7 @@ namespace ProlexNetSetup.Class.Download
     {
         public static void Firebird(string file, bool silentInstallation)
         {
-            // Argumentos para a correta instalação do Firebird 3
+            // Argumentos para a correta instalação do Firebird 3.
             try
             {
                 var installargsComponents = "/COMPONENTS=" + "\"ServerComponent,DevAdminComponent,ClientComponent\"";
@@ -35,10 +33,13 @@ namespace ProlexNetSetup.Class.Download
             {
                 Trace.WriteLine("Installer:FirebirdAsync:" + ex.Message);
             }
+
+            return;
         }
 
         public static void IISAsync(string servicePath)
         {
+            // Carrega o DISM e lista os pacotes disponíveis para a instalaçao do IIS no Sistema Operacional.
             try
             {
                 string dismVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "dism.exe");
@@ -72,7 +73,7 @@ namespace ProlexNetSetup.Class.Download
 
         public static void IISDismService(string servicePath, string dismOutputFile)
         {
-            // Define a versão correta do Dism que será executada baseado no Sistema Operacional
+            // Carrega o DISM e instala os pacotes do IIS.
             try
             {
                 List<string> packagesToInstall = new List<string>();
@@ -85,19 +86,39 @@ namespace ProlexNetSetup.Class.Download
                 foreach (string line in packagesList)
                 {
                     if (line.StartsWith("IIS"))
-                        packagesToInstall.Add($"/featurename:{line.Split(' ').FirstOrDefault()}");
+                    {
+                        if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 1)
+                        {
+                            packagesToInstall.Add($"/FeatureName:{line.Split(' ').FirstOrDefault()}");
+                        }
+                        else
+                        {
+                            packagesToInstall.Add($"/FeatureName:{line.Split(' ').FirstOrDefault()} /All");
+                        }
+                    }
                 }
 
                 string concat = String.Join(" ", packagesToInstall.ToArray());
 
                 var dismArgs = $"/Online /Enable-Feature {concat}";
-
                 Process process = new Process();
                 process.StartInfo.FileName = dismVersion;
                 process.StartInfo.Arguments = dismArgs;
                 process.StartInfo.CreateNoWindow = false;
                 process.Start();
                 process.WaitForExit();
+
+                dismArgs = $"/Online /Get-Features /Format:Table";
+                process.StartInfo.FileName = dismVersion;
+                process.StartInfo.Arguments = dismArgs;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+                var output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+
+                File.WriteAllText(dismOutputFile, output, Encoding.UTF8);
             }
             catch (Exception ex)
             {
@@ -109,7 +130,7 @@ namespace ProlexNetSetup.Class.Download
 
         public static void DotNet(string file)
         {
-            // Argumentos para a correta instalação do DotNet
+            // Argumentos para a correta instalação do DotNet.
             try
             {
                 var installArgs = "/repair /passive /norestart";
@@ -117,6 +138,7 @@ namespace ProlexNetSetup.Class.Download
                 Process process = new Process();
                 process.StartInfo.FileName = file;
                 process.StartInfo.Arguments = installArgs;
+                process.Start();
                 process.WaitForExit();
             }
             catch (Exception ex)
@@ -129,7 +151,7 @@ namespace ProlexNetSetup.Class.Download
 
         public static void VCRedist(string file)
         {
-            // Argumentos para a correta instalação do VCRedist
+            // Argumentos para a correta instalação do VCRedist.
             try
             {
                 var installArgs = "/install /repair /passive /norestart";

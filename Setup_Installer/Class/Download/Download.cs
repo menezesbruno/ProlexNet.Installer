@@ -106,16 +106,15 @@ namespace ProlexNetSetup.Class.Download
         
         public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash)
         {
-            IProgress<DownloadProgressChangedEventArgs> Progress;
-            MainWindow mainWindow = new MainWindow();
-            var progress = new Progress<DownloadProgressChangedEventArgs>(args =>
-            {
-                mainWindow.ProgressBar.Maximum = args.TotalBytesToReceive;
-                mainWindow.ProgressBar.Value = args.BytesReceived;
-            });
+            IProgress<DownloadProgressChangedEventArgs> Progress = 
+                new Progress<DownloadProgressChangedEventArgs>(((MainWindow)Application.Current.MainWindow).UpdateDownloadProgress);
 
-            Progress = progress;
             WebClient client = new WebClient();
+
+            client.DownloadProgressChanged += (sender, args) =>
+            {
+                Progress.Report(args); 
+            };
 
             client.DownloadFileCompleted += async (sender, args) =>
             {
@@ -129,7 +128,7 @@ namespace ProlexNetSetup.Class.Download
                     await DownloadFileInBackgroundAsync(url, file, hash);
                 }
             };
-            client.DownloadProgressChanged += (sender, args) => Progress.Report(args);
+
             await client.DownloadFileTaskAsync(url, file);
             return;
         }
