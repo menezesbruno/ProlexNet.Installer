@@ -2,12 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Threading.Tasks;
 
 namespace ProlexNetSetup.Class.Download
 {
     public class ZipExtractor
     {
-        public static void Extract(string file, string installationSubFolder)
+        public static async Task Extract(string file, string installationSubFolder)
         {
             try
             {

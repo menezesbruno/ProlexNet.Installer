@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Windows;
 using System.Threading.Tasks;
+using ProlexNet.Setup.Class.Common;
 
 namespace ProlexNetSetup.Class.Download
 {
@@ -31,7 +32,7 @@ namespace ProlexNetSetup.Class.Download
             Installer.Firebird(file, silentInstallation);
         }
       
-        public static async Task ProlexNetHostAsync(string servicePath, string installationPath)
+        public static async Task ProlexNetServerAsync(string servicePath, string installationPath)
         {
             var url = DownloadParameters.Instance.ProlexNet_Server_Url;
             var hash = DownloadParameters.Instance.ProlexNet_Server_Hash;
@@ -42,7 +43,7 @@ namespace ProlexNetSetup.Class.Download
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server");
             if(Directory.Exists(installationSubFolder))
                 FolderBackup.Backup(servicePath, installationSubFolder);
-            ZipExtractor.Extract(file, installationSubFolder);
+            await ZipExtractor.Extract(file, installationSubFolder);
 
             return;
         }
@@ -58,7 +59,8 @@ namespace ProlexNetSetup.Class.Download
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Client");
             if (Directory.Exists(installationSubFolder))
                 FolderBackup.Backup(servicePath, installationSubFolder);
-            ZipExtractor.Extract(file, installationSubFolder);
+            await ZipExtractor.Extract(file, installationSubFolder);
+            ShortcutCreation.ProlexNetClient(installationSubFolder);
 
             return;
         }

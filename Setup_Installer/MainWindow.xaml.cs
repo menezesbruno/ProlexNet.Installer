@@ -197,19 +197,6 @@ namespace ProlexNetSetup
             // Download e instalação acontece aqui.
             try
             {
-                // Chama a classe que faz o download e instala o Firebird 3 baseado na versão do Sistema Operacional.
-                try
-                {
-                    InstallationStatus.Text += "Firebird 3... ";
-                    await Download.FirebirdAsync(ServicePath, silentInstallation);
-                    InstallationStatus.Text += "OK" + Environment.NewLine;
-                }
-                catch (Exception ex)
-                {
-                    InstallationStatus.Text += "Erro" + Environment.NewLine;
-                    MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-
                 // Chama a classe que faz o download e instala o DotNet de acordo com a versão selecionada.
                 try
                 {
@@ -236,26 +223,52 @@ namespace ProlexNetSetup
                     MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
-                // Chama a classe que faz o download e instala o IIS.
-                try
-                {
-                    InstallationStatus.Text += "Serviços de Informações da Internet - IIS... ";
-                    Installer.IISAsync(ServicePath);
-                    InstallationStatus.Text += "OK" + Environment.NewLine;
-                }
-                catch (Exception ex)
-                {
-                    InstallationStatus.Text += "Erro" + Environment.NewLine;
-                    MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-
-                // Chama a classe que faz o download e instala o ProlexNet Server.
                 if (checkbox_ProlexNetServer.IsChecked == true)
                 {
+                    // Chama a classe que faz o download e instala o Firebird 3 baseado na versão do Sistema Operacional.
+                    try
+                    {
+                        InstallationStatus.Text += "Firebird 3... ";
+                        await Download.FirebirdAsync(ServicePath, silentInstallation);
+                        InstallationStatus.Text += "OK" + Environment.NewLine;
+                    }
+                    catch (Exception ex)
+                    {
+                        InstallationStatus.Text += "Erro" + Environment.NewLine;
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    // Chama a classe que faz o download e instala o IIS
+                    try
+                    {
+                        InstallationStatus.Text += "Serviços de Informações da Internet - IIS... ";
+                        Installer.IISAsync(ServicePath);
+                        InstallationStatus.Text += "OK" + Environment.NewLine;
+                    }
+                    catch (Exception ex)
+                    {
+                        InstallationStatus.Text += "Erro" + Environment.NewLine;
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    // Chama a classe que faz o download e instala o ProlexNet Server.
                     try
                     {
                         InstallationStatus.Text += "ProlexNet Server... ";
-                        await Download.ProlexNetHostAsync(ServicePath, InstallationPath);
+                        await Download.ProlexNetServerAsync(ServicePath, InstallationPath);
+                        InstallationStatus.Text += "OK" + Environment.NewLine;
+                    }
+                    catch (Exception ex)
+                    {
+                        InstallationStatus.Text += "Erro" + Environment.NewLine;
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    // Chama a classe que configura o IIS para o uso.
+                    try
+                    {
+                        InstallationStatus.Text += "Configurando o IIS... ";
+                        Class.Common.IISConfiguration.ProlexNetSettings(InstallationPath);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
@@ -265,9 +278,9 @@ namespace ProlexNetSetup
                     }
                 }
 
-                // Chama a classe que faz o download e instala o ProlexNet Client.
                 if (checkbox_ProlexNetClient.IsChecked == true)
                 {
+                    // Chama a classe que faz o download e instala o ProlexNet Client.
                     try
                     {
                         InstallationStatus.Text += "ProlexNet Client... ";
@@ -280,23 +293,10 @@ namespace ProlexNetSetup
                         MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-
-                // Chama a classe que configura o IIS para o uso.
-                try
-                {
-                    InstallationStatus.Text += "Configurando o IIS... ";
-                    Class.Common.IISConfiguration.ProlexNetSettings(InstallationPath);
-                    InstallationStatus.Text += "OK" + Environment.NewLine;
-                }
-                catch (Exception ex)
-                {
-                    InstallationStatus.Text += "Erro" + Environment.NewLine;
-                    MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
             }
             catch
             {
-                LabelInstallationResult.Content = "Houve um ou mais erros durante a instalação. Tente instalar novamente ou reinicie o computador e faça mais uma nova tentativa.";
+                LabelInstallationResult.Content = "Houve um ou mais erros durante a instalação. Reinicie o computador e tente instalar novamente.";
             }
 
             ButtonAdvance_Click(null, null);
