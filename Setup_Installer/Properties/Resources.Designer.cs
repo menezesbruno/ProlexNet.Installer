@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProlexNet.Setup.Properties {
+namespace ProlexNetSetup.Properties {
     using System;
     
     

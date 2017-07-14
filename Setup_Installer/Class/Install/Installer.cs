@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ProlexNetSetup.Class.Download
 {
@@ -37,7 +38,7 @@ namespace ProlexNetSetup.Class.Download
             return;
         }
 
-        public static void IISAsync(string servicePath)
+        public static async Task IISAsync(string servicePath)
         {
             // Carrega o DISM e lista os pacotes disponíveis para a instalaçao do IIS no Sistema Operacional.
             try

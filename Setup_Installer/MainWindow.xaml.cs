@@ -5,12 +5,14 @@ using Forms = System.Windows.Forms;
 using System.Windows.Controls;
 using ProlexNetSetup.Class.Download;
 using System.Net;
+using ProlexNet.Setup.Class.Common;
 
 namespace ProlexNetSetup
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
     public partial class MainWindow : Window
     {
         public int CountPages = 0;
@@ -18,7 +20,6 @@ namespace ProlexNetSetup
         public string InstallationPath = @"C:\Automatiza";
 
         public MainWindow()
-
         {
             InitializeComponent();
 
@@ -62,9 +63,20 @@ namespace ProlexNetSetup
                     Page5.IsSelected = false;
                     Page6.IsSelected = false;
 
+                    if (checkbox_ProlexNetClient.IsChecked == true)
+                        ServerNameOverNetwork.IsEnabled = true;
+                    if (checkbox_ProlexNetClient.IsChecked == false)
+                        ServerNameOverNetwork.IsEnabled = false;
+
+                    if (checkbox_ProlexNetClient.IsChecked == true)
+                        CheckBoxFirebirdSilentInstallation.IsEnabled = true;
+                    if (checkbox_ProlexNetClient.IsChecked == false)
+                        CheckBoxFirebirdSilentInstallation.IsEnabled = false;
+
                     ButtonBack.Visibility = Visibility.Visible;
                     ButtonAdvance.Content = "Próximo >";
                     ButtonAdvance.Click += BeforeInstallation;
+                    ButtonAdvance.Click -= StartInstallationAsync;
                     break;
 
                 case 3:
@@ -166,21 +178,25 @@ namespace ProlexNetSetup
                 dotNetVersion = "4.7";
 
             ComponentsToBeInstalled.Text = "";
-            ComponentsToBeInstalled.Text += $"Firebird 3 {systemVersion}" + Environment.NewLine;
+
             ComponentsToBeInstalled.Text += $"Microsoft .NET Framework {dotNetVersion}" + Environment.NewLine;
             ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 {systemVersion}" + Environment.NewLine;
-            ComponentsToBeInstalled.Text += "Serviços de Informações da Internet - IIS" + Environment.NewLine;
-            ComponentsToBeInstalled.Text += "" + Environment.NewLine;
+
             if (checkbox_ProlexNetServer.IsChecked == true)
+            {
+                ComponentsToBeInstalled.Text += $"Firebird 3 {systemVersion}" + Environment.NewLine;
+                ComponentsToBeInstalled.Text += "Serviços de Informações da Internet - IIS" + Environment.NewLine;
                 ComponentsToBeInstalled.Text += "ProlexNet Server" + Environment.NewLine;
+            }
+
             if (checkbox_ProlexNetClient.IsChecked == true)
                 ComponentsToBeInstalled.Text += "ProlexNet Client";
-
         }
 
         private async void StartInstallationAsync(object sender, RoutedEventArgs e)
         {
-
+            var serverName = ServerNameOverNetwork.Text;
+            var serverPort = ServerPortOverNetrork.Text;
             var silentInstallation = CheckBoxFirebirdSilentInstallation.IsChecked == true;
 
             var systemVersion = "x86";
@@ -242,7 +258,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "Serviços de Informações da Internet - IIS... ";
-                        Installer.IISAsync(ServicePath);
+                        await Installer.IISAsync(ServicePath);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
@@ -268,7 +284,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "Configurando o IIS... ";
-                        Class.Common.IISConfiguration.ProlexNetSettings(InstallationPath);
+                        await Class.Common.IISConfiguration.ProlexNetSettings(InstallationPath);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
@@ -285,6 +301,19 @@ namespace ProlexNetSetup
                     {
                         InstallationStatus.Text += "ProlexNet Client... ";
                         await Download.ProlexNetClientAsync(ServicePath, InstallationPath);
+                        InstallationStatus.Text += "OK" + Environment.NewLine;
+                    }
+                    catch (Exception ex)
+                    {
+                        InstallationStatus.Text += "Erro" + Environment.NewLine;
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    // Chama a classe que faz a configuração do ProlexNet Client.
+                    try
+                    {
+                        InstallationStatus.Text += "COnfigurando o ProlexNet Client... ";
+                        await ProlexNetConfiguration.Client(InstallationPath, serverName, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)

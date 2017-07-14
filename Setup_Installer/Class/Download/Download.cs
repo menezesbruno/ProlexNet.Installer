@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Windows;
 using System.Threading.Tasks;
-using ProlexNet.Setup.Class.Common;
+using ProlexNetSetup.Setup.Class.Common;
 
 namespace ProlexNetSetup.Class.Download
 {

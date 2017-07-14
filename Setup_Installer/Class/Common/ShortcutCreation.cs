@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using IWshRuntimeLibrary;
 
-namespace ProlexNet.Setup.Class.Common
+namespace ProlexNetSetup.Setup.Class.Common
 {
     public static class ShortcutCreation
     {
         public static void ProlexNetClient(string installationSubFolder)
         {
-            var startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory);
             var shell = new WshShell();
             var shortCutLinkFilePath = Path.Combine(startupFolderPath, "ProlexNet.lnk");
             var windowsApplicationShortcut = (IWshShortcut)shell.CreateShortcut(shortCutLinkFilePath);

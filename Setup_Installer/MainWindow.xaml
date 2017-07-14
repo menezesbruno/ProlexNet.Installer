@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:ProlexNetSetup"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Instalação do ProlexNet"
     Width="640"
@@ -121,7 +120,7 @@
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Margin="20,20,0,0"
+                                    Margin="20,10,0,0"
                                     Content="Selecione qual sistema deseja instalar:" />
                                 <Grid
                                     Grid.Row="2"
@@ -172,13 +171,15 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <Label
                                             x:Name="InstallationPathField"
                                             Grid.Row="0"
                                             Grid.Column="0"
                                             Width="440"
+                                            Height="22"
+                                            Padding="5,1,1,5"
                                             HorizontalAlignment="Left"
                                             BorderBrush="LightGray"
                                             BorderThickness="1" />
@@ -188,6 +189,7 @@
                                             Grid.Column="1"
                                             Width="80"
                                             Margin="5,0,0,0"
+                                            VerticalContentAlignment="Center"
                                             Click="ButtonChangeInstallPath_Click"
                                             Content="Alterar" />
                                     </Grid>
@@ -218,7 +220,7 @@
                                 <Grid
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Margin="15,15,0,0">
+                                    Margin="15,5,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
@@ -273,31 +275,7 @@
                                 <Grid
                                     Grid.Row="2"
                                     Grid.Column="0"
-                                    Margin="15,13,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Label
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Padding="10"
-                                        Content="Outros parâmetros da instalação:" />
-                                    <CheckBox
-                                        x:Name="CheckBoxFirebirdSilentInstallation"
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="25,0,0,0"
-                                        Content="Instalação automática do Firebird"
-                                        IsChecked="True" />
-                                </Grid>
-                                <Grid
-                                    Grid.Row="3"
-                                    Grid.Column="0"
-                                    Margin="15,13,0,0">
+                                    Margin="15,5,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
@@ -326,6 +304,63 @@
                                         Content=".NET Framework 4.7 - Selecione esta opção para Windows 8 ou superior"
                                         IsChecked="False" />
                                 </Grid>
+                                <Grid
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="15,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Outros parâmetros da instalação:" />
+                                    <CheckBox
+                                        x:Name="CheckBoxFirebirdSilentInstallation"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content="Instalação automática do Firebird"
+                                        IsChecked="True" />
+                                </Grid>
+                                <Grid
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Margin="15,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Nome e porta do Servidor:" />
+                                    <TextBox
+                                        x:Name="ServerNameOverNetwork"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Width="150"
+                                        Margin="25,0,0,0"
+                                        Text="localhost" />
+                                    <TextBox
+                                        x:Name="ServerPortOverNetrork"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Width="75"
+                                        Margin="5,0,0,0"
+                                        VerticalContentAlignment="Center"
+                                        Text="18520" />
+                                </Grid>
                             </Grid>
                         </TabItem>
 
@@ -351,7 +386,7 @@
                                     x:Name="ComponentsToBeInstalled"
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Margin="15,15,0,0"
+                                    Margin="15,5,0,0"
                                     Padding="10" />
                             </Grid>
                         </TabItem>
@@ -486,6 +521,7 @@
                 Margin="5,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
                 Click="ButtonBack_Click"
                 Content="&lt; Voltar"
                 Focusable="False"
@@ -500,6 +536,7 @@
                 Margin="5,0,0,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
                 Click="ButtonAdvance_Click"
                 Content="Próximo &gt;"
                 Focusable="False" />
@@ -513,6 +550,7 @@
                 Margin="20,0,0,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
                 Click="ButtonCancel_Click"
                 Content="Cancelar"
                 Focusable="False" />

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using ProlexNetSetup.Class.Download;
+using ProlexNetSetup.Class.System;
 
 namespace ProlexNetSetup
 {
@@ -15,17 +12,14 @@ namespace ProlexNetSetup
     {
         protected override async void OnStartup(StartupEventArgs e)
         {
-            if (Environment.OSVersion.Version.Major < 6)
+            if (DetectOSVersion.Windows())
             {
-                if (Environment.OSVersion.Version.Minor < 1)
-                {
-                    MessageBox.Show("Este programa requer no mínimo o Windows 7 SP1", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    MainWindow.Close();
-                }
+                MessageBox.Show("Versão do Windows não suportada! A instalação exige no mínimo Windows 7 com SP1 instalado.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
             }
 
             base.OnStartup(e);
-            await Class.Download.DownloadParameters.ApplicationListAsync();
+            await DownloadParameters.ApplicationListAsync();
         }
     }
 }

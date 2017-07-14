@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Web.Administration;
 
 namespace ProlexNetSetup.Class.Common
 {
     public class IISConfiguration
     {
-        public static void ProlexNetSettings(string installationPath)
+        public static async Task ProlexNetSettings(string installationPath)
         {
             Process process = new Process();
             // Chama o aspnet_regiis para informar o IIS sobre a versão do DotNet
