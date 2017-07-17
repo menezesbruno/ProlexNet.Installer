@@ -3,9 +3,11 @@ using System.IO;
 using System.Windows;
 using Forms = System.Windows.Forms;
 using System.Windows.Controls;
-using ProlexNetSetup.Class.Download;
 using System.Net;
-using ProlexNet.Setup.Class.Common;
+using Microsoft.Win32;
+using ProlexNetSetup.Class.Download;
+using ProlexNetSetup.Class.Install;
+using ProlexNetSetup.Class.Common;
 
 namespace ProlexNetSetup
 {
@@ -19,13 +21,23 @@ namespace ProlexNetSetup
         public string ServicePath { get; set; }
         public string InstallationPath = @"C:\Automatiza";
 
+        // GUID usado para criar entrada de registro de desinstalação do Windows.
+        // Deve ser ÚNICO por aplicativo e deve também ser IMUTÁVEL durante toda a vida do aplicativo.
+        // Pode ser criado em: https://www.guidgenerator.com/online-guid-generator.aspx
+        // Opções a serem selecionadas: Braces + Hyphens
+        public static string ApplicationGuid = "{ee152ba9-9db3-47c5-ba10-b6d08cdb74f4}";
+
+        // Caminho padrão do Windows onde ficam os registros de instalação
+        public static string WindowsUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+
         public MainWindow()
         {
-            InitializeComponent();
-
             ServicePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Automatiza", "Instalador");
             Directory.CreateDirectory(ServicePath);
 
+            Uninstaller.ProlexNetClient(ApplicationGuid, WindowsUninstallPath);
+
+            InitializeComponent();
             InstallationPathField.Content = InstallationPath;
         }
 
@@ -68,9 +80,9 @@ namespace ProlexNetSetup
                     if (checkbox_ProlexNetClient.IsChecked == false)
                         ServerNameOverNetwork.IsEnabled = false;
 
-                    if (checkbox_ProlexNetClient.IsChecked == true)
+                    if (checkbox_ProlexNetServer.IsChecked == true)
                         CheckBoxFirebirdSilentInstallation.IsEnabled = true;
-                    if (checkbox_ProlexNetClient.IsChecked == false)
+                    if (checkbox_ProlexNetServer.IsChecked == false)
                         CheckBoxFirebirdSilentInstallation.IsEnabled = false;
 
                     ButtonBack.Visibility = Visibility.Visible;
@@ -300,7 +312,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "ProlexNet Client... ";
-                        await Download.ProlexNetClientAsync(ServicePath, InstallationPath);
+                        await Download.ProlexNetClientAsync(ServicePath, InstallationPath, ApplicationGuid, WindowsUninstallPath);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
@@ -312,7 +324,7 @@ namespace ProlexNetSetup
                     // Chama a classe que faz a configuração do ProlexNet Client.
                     try
                     {
-                        InstallationStatus.Text += "COnfigurando o ProlexNet Client... ";
+                        InstallationStatus.Text += "Configurando o ProlexNet Client... ";
                         await ProlexNetConfiguration.Client(InstallationPath, serverName, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }

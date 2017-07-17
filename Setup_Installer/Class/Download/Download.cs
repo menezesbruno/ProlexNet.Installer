@@ -4,6 +4,7 @@ using System.Net;
 using System.Windows;
 using System.Threading.Tasks;
 using ProlexNetSetup.Setup.Class.Common;
+using ProlexNetSetup.Class.Common;
 
 namespace ProlexNetSetup.Class.Download
 {
@@ -44,11 +45,12 @@ namespace ProlexNetSetup.Class.Download
             if(Directory.Exists(installationSubFolder))
                 FolderBackup.Backup(servicePath, installationSubFolder);
             await ZipExtractor.Extract(file, installationSubFolder);
+            await ProlexNetConfiguration.DatabaseDeploy(servicePath, installationPath);
 
             return;
         }
 
-        public static async Task ProlexNetClientAsync(string servicePath, string installationPath)
+        public static async Task ProlexNetClientAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
         {
             var url = DownloadParameters.Instance.ProlexNet_Client_Url;
             var hash = DownloadParameters.Instance.ProlexNet_Client_Hash;
@@ -61,6 +63,7 @@ namespace ProlexNetSetup.Class.Download
                 FolderBackup.Backup(servicePath, installationSubFolder);
             await ZipExtractor.Extract(file, installationSubFolder);
             ShortcutCreation.ProlexNetClient(installationSubFolder);
+            RegistryEntry.CreateProlexNetClientUninstaller(servicePath, installationPath, applicationGuid, windowsUninstallPath);
 
             return;
         }

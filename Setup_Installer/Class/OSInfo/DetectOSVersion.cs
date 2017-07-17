@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProlexNetSetup.Class.System
+namespace ProlexNetSetup.Class.OSInfo
 {
     public class DetectOSVersion
     {

@@ -120,13 +120,15 @@
     <Compile Include="Class\Common\HashChecker.cs" />
     <Compile Include="Class\Common\IISConfiguration.cs" />
     <Compile Include="Class\Common\ProlexNetConfiguration.cs" />
+    <Compile Include="Class\Common\RegistryEntry.cs" />
     <Compile Include="Class\Common\ShortcutCreation.cs" />
     <Compile Include="Class\Common\ZipManipulation.cs" />
     <Compile Include="Class\Download\Download.cs" />
     <Compile Include="Class\Download\DownloadParameter.cs" />
     <Compile Include="Class\Install\Installer.cs" />
-    <Compile Include="Class\System\DetectOSVersion.cs" />
-    <Compile Include="Class\System\Shutdown.cs" />
+    <Compile Include="Class\Install\Uninstaller.cs" />
+    <Compile Include="Class\OSInfo\DetectOSVersion.cs" />
+    <Compile Include="Class\OSInfo\Shutdown.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

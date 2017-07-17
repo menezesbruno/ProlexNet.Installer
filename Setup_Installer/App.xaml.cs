@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using ProlexNetSetup.Class.Download;
-using ProlexNetSetup.Class.System;
+using ProlexNetSetup.Class.OSInfo;
 
 namespace ProlexNetSetup
 {

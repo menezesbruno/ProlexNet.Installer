@@ -22,6 +22,8 @@ namespace ProlexNetSetup.Class.Download
         public string ProlexNet_Server_Hash { get; set; }
         public string ProlexNet_Client_Url { get; set; }
         public string ProlexNet_Client_Hash { get; set; }
+        public string ProlexNet_Database_Url { get; set; }
+        public string ProlexNet_Database_Hash { get; set; }
         public string DotNet46_Url { get; set; }
         public string DotNet46_Hash { get; set; }
         public string DotNet47_Url { get; set; }
