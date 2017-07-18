@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 
-namespace ProlexNetSetup.Class.Download
+namespace ProlexNetSetup.Class.Common
 {
     public class ZipExtractor
     {

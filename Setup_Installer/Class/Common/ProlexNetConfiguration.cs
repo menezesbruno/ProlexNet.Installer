@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ProlexNetSetup.Class.Download;
-using ProlexNetSetup.Class.OSInfo;
 
 namespace ProlexNetSetup.Class.Common
 {

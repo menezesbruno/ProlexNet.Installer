@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProlexNetSetup.Class.Download
+namespace ProlexNetSetup.Class.Install
 {
     public class Installer
     {

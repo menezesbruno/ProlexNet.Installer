@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace ProlexNetSetup.Class.Download
+namespace ProlexNetSetup.Class.Common
 {
     public class FolderBackup
     {

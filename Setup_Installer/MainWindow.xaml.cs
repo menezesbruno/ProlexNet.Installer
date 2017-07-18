@@ -139,6 +139,20 @@ namespace ProlexNetSetup
             }
         }
 
+        public void UpdateDownloadProgress(DownloadProgressChangedEventArgs args)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                ProgressBar.Maximum = args.TotalBytesToReceive;
+                ProgressBar.Value = args.BytesReceived;
+                ProgressBarValue.Content = args.ProgressPercentage + "%";
+
+                decimal total = args.TotalBytesToReceive;
+                decimal received = args.BytesReceived;
+                ProgressBarSpeed.Content = $"{(received / 1048576):n3} mb / {(total / 1048576):n3} mb";
+            });
+        }
+
         private void ButtonBack_Click(object sender, RoutedEventArgs e)
         {
             CountPages = CountPages - 1;
@@ -256,7 +270,7 @@ namespace ProlexNetSetup
                     // Chama a classe que faz o download e instala o Firebird 3 baseado na versão do Sistema Operacional.
                     try
                     {
-                        InstallationStatus.Text += "Firebird 3... ";
+                        InstallationStatus.Text += $"Firebird 3 {systemVersion}... ";
                         await Download.FirebirdAsync(ServicePath, silentInstallation);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
@@ -341,20 +355,6 @@ namespace ProlexNetSetup
             }
 
             ButtonAdvance_Click(null, null);
-        }
-
-        public void UpdateDownloadProgress(DownloadProgressChangedEventArgs args)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                ProgressBar.Maximum = args.TotalBytesToReceive;
-                ProgressBar.Value = args.BytesReceived;
-                ProgressBarValue.Content = args.ProgressPercentage + "%";
-
-                decimal total = args.TotalBytesToReceive;
-                decimal received = args.BytesReceived;
-                ProgressBarSpeed.Content = $"{(received / 1048576):n3} mb / {(total / 1048576):n3} mb";
-            });
         }
     }
 }

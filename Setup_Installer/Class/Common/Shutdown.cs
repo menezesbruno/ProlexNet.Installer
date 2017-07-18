@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace ProlexNetSetup.Class.OSInfo
+namespace ProlexNetSetup.Class.Common
 {
     public class Shutdown
     {

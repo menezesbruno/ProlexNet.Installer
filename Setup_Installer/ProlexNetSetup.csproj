@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{04DBC519-57D4-4524-833E-F77348EB18B4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ProlexNet.Setup</RootNamespace>
+    <RootNamespace>ProlexNetSetup</RootNamespace>
     <AssemblyName>ProlexNet.Setup</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -125,10 +125,11 @@
     <Compile Include="Class\Common\ZipManipulation.cs" />
     <Compile Include="Class\Download\Download.cs" />
     <Compile Include="Class\Download\DownloadParameter.cs" />
+    <Compile Include="Class\Install\DetectRequirements.cs" />
     <Compile Include="Class\Install\Installer.cs" />
     <Compile Include="Class\Install\Uninstaller.cs" />
-    <Compile Include="Class\OSInfo\DetectOSVersion.cs" />
-    <Compile Include="Class\OSInfo\Shutdown.cs" />
+    <Compile Include="Class\Common\DetectOSVersion.cs" />
+    <Compile Include="Class\Common\Shutdown.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
