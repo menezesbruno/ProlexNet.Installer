@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using ProlexNetSetup.Class.Download;
 
 namespace ProlexNetSetup.Class.Common
@@ -24,6 +25,40 @@ namespace ProlexNetSetup.Class.Common
             File.WriteAllText(configFile, Regex.Replace(File.ReadAllText(configFile), originalServerUrl, replacedServerUrl));
         }
 
+        public static async Task Server(string installationPath, string serverName, string serverPort)
+        {
+            var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
+            var webConfigFile = Path.Combine(installationSubFolder, "Web.config");
+            var appConfigFile = Path.Combine(installationSubFolder, "Scripts", "app.config.js");
+
+            var oldString = "\"urlServer\": 'http://(.*?)',";
+            var newString = $"\"urlServer\": 'http://{serverName}:{serverPort}',";
+
+            File.WriteAllText(appConfigFile, Regex.Replace(File.ReadAllText(appConfigFile), oldString, newString));
+
+            //
+            var database = "ProlexNet";
+
+            var doc = XDocument.Load(webConfigFile);
+            var connectionStringsElement = doc.Root.Element("connectionStrings");
+            var firstConnectionString = connectionStringsElement.Element("add");
+
+            var name = firstConnectionString.Attribute("name");
+            name.Value = database;
+
+            var conn = firstConnectionString.Attribute("connectionString");
+            conn.Value = $"port=3050;charset=UTF8;dialect=3;servertype=0;datasource={serverName};database={database};user=sysdba;password=masterkey;Connection Lifetime=10;Pooling=true";
+
+            var appSettingsElement = doc.Root.Element("appSettings");
+            var appSetting = appSettingsElement.Elements().FirstOrDefault(c => c.Attribute("key").Value == "Automatiza.EF6.DefaultConnectionString");
+            var defaultConnectionString = appSetting.Attribute("value");
+            defaultConnectionString.Value = database;
+
+            connectionStringsElement.RemoveAll();
+            connectionStringsElement.Add(firstConnectionString);
+            doc.Save(webConfigFile);
+        }
+
         public static async Task DatabaseDeploy(string servicePath, string installationPath)
         {
             var databaseFolder = Path.Combine(installationPath, "Database");
@@ -37,11 +72,7 @@ namespace ProlexNetSetup.Class.Common
             await Download.Download.DownloadFileInBackgroundAsync(url, file, hash);
             await ZipExtractor.Extract(file, databaseFolder);
 
-            var firebirdPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Firebird");
-            if (DetectOSVersion.Is64Bits() == true)
-                firebirdPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Firebird");
-
-            var databasesConf = Directory.GetFiles(firebirdPath, "databases.conf", SearchOption.AllDirectories).FirstOrDefault();
+            var databasesConf = Directory.GetFiles(@"C:\Program Files\Firebird", "databases.conf", SearchOption.AllDirectories).FirstOrDefault();
 
             using (StreamWriter writer = new StreamWriter(databasesConf, false))
             {

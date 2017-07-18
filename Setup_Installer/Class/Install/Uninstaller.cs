@@ -30,9 +30,21 @@ namespace ProlexNetSetup.Class.Install
                                         child.Close();
                                         try
                                         {
+                                            var deleteShortcut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "ProlexNet.lnk");
                                             Directory.Delete(installedPath.ToString(), true);
                                             key.DeleteSubKey(applicationGuid, false);
-                                            MessageBox.Show("ProlexNet Client removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
+                                            if (File.Exists(deleteShortcut))
+                                            {
+                                                try
+                                                {
+                                                    File.Delete(deleteShortcut);
+                                                }
+                                                catch
+                                                {
+
+                                                }
+                                            }
+                                                MessageBox.Show("ProlexNet Client removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
                                             Environment.Exit(1);
                                         }
                                         catch (Exception ex)

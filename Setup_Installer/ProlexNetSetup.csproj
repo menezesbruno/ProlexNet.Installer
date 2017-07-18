@@ -125,7 +125,6 @@
     <Compile Include="Class\Common\ZipManipulation.cs" />
     <Compile Include="Class\Download\Download.cs" />
     <Compile Include="Class\Download\DownloadParameter.cs" />
-    <Compile Include="Class\Install\DetectRequirements.cs" />
     <Compile Include="Class\Install\Installer.cs" />
     <Compile Include="Class\Install\Uninstaller.cs" />
     <Compile Include="Class\Common\DetectOSVersion.cs" />

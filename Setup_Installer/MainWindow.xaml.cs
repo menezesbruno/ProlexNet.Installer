@@ -75,11 +75,6 @@ namespace ProlexNetSetup
                     Page5.IsSelected = false;
                     Page6.IsSelected = false;
 
-                    if (checkbox_ProlexNetClient.IsChecked == true)
-                        ServerNameOverNetwork.IsEnabled = true;
-                    if (checkbox_ProlexNetClient.IsChecked == false)
-                        ServerNameOverNetwork.IsEnabled = false;
-
                     if (checkbox_ProlexNetServer.IsChecked == true)
                         CheckBoxFirebirdSilentInstallation.IsEnabled = true;
                     if (checkbox_ProlexNetServer.IsChecked == false)
@@ -298,6 +293,7 @@ namespace ProlexNetSetup
                     {
                         InstallationStatus.Text += "ProlexNet Server... ";
                         await Download.ProlexNetServerAsync(ServicePath, InstallationPath);
+                        await ProlexNetConfiguration.Server(InstallationPath, serverName, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
@@ -310,7 +306,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "Configurando o IIS... ";
-                        await Class.Common.IISConfiguration.ProlexNetSettings(InstallationPath);
+                        await IISConfiguration.ProlexNetSettings(InstallationPath, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
@@ -327,18 +323,6 @@ namespace ProlexNetSetup
                     {
                         InstallationStatus.Text += "ProlexNet Client... ";
                         await Download.ProlexNetClientAsync(ServicePath, InstallationPath, ApplicationGuid, WindowsUninstallPath);
-                        InstallationStatus.Text += "OK" + Environment.NewLine;
-                    }
-                    catch (Exception ex)
-                    {
-                        InstallationStatus.Text += "Erro" + Environment.NewLine;
-                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-
-                    // Chama a classe que faz a configuração do ProlexNet Client.
-                    try
-                    {
-                        InstallationStatus.Text += "Configurando o ProlexNet Client... ";
                         await ProlexNetConfiguration.Client(InstallationPath, serverName, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }

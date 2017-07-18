@@ -8,7 +8,7 @@ namespace ProlexNetSetup.Class.Common
 {
     public class IISConfiguration
     {
-        public static async Task ProlexNetSettings(string installationPath)
+        public static async Task ProlexNetSettings(string installationPath, string serverPort)
         {
             Process process = new Process();
             // Chama o aspnet_regiis para informar o IIS sobre a versão do DotNet
@@ -48,7 +48,7 @@ namespace ProlexNetSetup.Class.Common
             {
                 var site = "prolexnet";
                 var protocol = "http";
-                var port = "*:18520:";
+                var port = $"*:{serverPort}:";
                 var installationSiteFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
                 ServerManager iisManager = new ServerManager();
                 iisManager.Sites.Add(site, protocol, port, installationSiteFolder);
