@@ -46,7 +46,7 @@ namespace ProlexNetSetup.Class.Download
             if(Directory.Exists(installationSubFolder))
                 FolderBackup.Backup(servicePath, installationSubFolder);
             await ZipExtractor.Extract(file, installationSubFolder);
-            await ProlexNetConfiguration.DatabaseDeploy(servicePath, installationPath);
+            //await ProlexNetConfiguration.DatabaseDeploy(servicePath, installationPath);
 
             return;
         }
