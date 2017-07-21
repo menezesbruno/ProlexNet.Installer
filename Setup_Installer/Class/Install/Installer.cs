@@ -134,7 +134,7 @@ namespace ProlexNetSetup.Class.Install
             // Argumentos para a correta instalação do DotNet.
             try
             {
-                var installArgs = "/repair /passive /norestart";
+                var installArgs = "/passive /norestart";
 
                 Process process = new Process();
                 process.StartInfo.FileName = file;
