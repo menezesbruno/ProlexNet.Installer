@@ -204,7 +204,9 @@ namespace ProlexNetSetup
             ComponentsToBeInstalled.Text = "";
 
             ComponentsToBeInstalled.Text += $"Microsoft .NET Framework {dotNetVersion}" + Environment.NewLine;
-            ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 {systemVersion}" + Environment.NewLine;
+            ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x86" + Environment.NewLine;
+            if (DetectOSVersion.Is64Bits())
+                ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x64" + Environment.NewLine;
 
             if (checkbox_ProlexNetServer.IsChecked == true)
             {
@@ -253,9 +255,15 @@ namespace ProlexNetSetup
                 // Chama a classe que faz o download e instala o VC++ Redist 2013 baseado na versão do Sistema Operacional.
                 try
                 {
-                    InstallationStatus.Text += $"Microsoft Visual C++ 2013 {systemVersion}... ";
-                    await Download.VisualCAsync(ServicePath);
+                    InstallationStatus.Text += $"Microsoft Visual C++ 2013 x86... ";
+                    await Download.VisualCAsync(ServicePath, "x86");
                     InstallationStatus.Text += "OK" + Environment.NewLine;
+                    if (DetectOSVersion.Is64Bits())
+                    {
+                        InstallationStatus.Text += $"Microsoft Visual C++ 2013 x64... ";
+                        await Download.VisualCAsync(ServicePath, "x64");
+                        InstallationStatus.Text += "OK" + Environment.NewLine;
+                    }
                 }
                 catch (Exception ex)
                 {

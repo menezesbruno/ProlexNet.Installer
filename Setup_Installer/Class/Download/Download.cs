@@ -69,13 +69,12 @@ namespace ProlexNetSetup.Class.Download
             return;
         }
 
-        public static async Task VisualCAsync (string servicePath)
+        public static async Task VisualCAsync (string servicePath, string systemType)
         {
             var url = DownloadParameters.Instance.VisualC2103_X86_Url;
             var hash = DownloadParameters.Instance.VisualC2103_X86_Hash;
 
-            var systemType = Environment.Is64BitOperatingSystem;
-            if (systemType)
+            if (systemType == "x64")
             {
                 url = DownloadParameters.Instance.VisualC2103_X64_Url;
                 hash = DownloadParameters.Instance.VisualC2103_X64_Hash;
