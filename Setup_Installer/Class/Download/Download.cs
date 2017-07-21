@@ -46,7 +46,7 @@ namespace ProlexNetSetup.Class.Download
             if(Directory.Exists(installationSubFolder))
                 FolderBackup.Backup(servicePath, installationSubFolder);
             await ZipExtractor.Extract(file, installationSubFolder);
-            //await ProlexNetConfiguration.DatabaseDeploy(servicePath, installationPath);
+            await ProlexNetConfiguration.DatabaseDeploy(servicePath, installationPath);
 
             return;
         }
@@ -131,6 +131,7 @@ namespace ProlexNetSetup.Class.Download
                 }
                 else
                 {
+                    MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}. Uma nova tentativa de download será feita em seguida.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                     await DownloadFileInBackgroundAsync(url, file, hash);
                 }
             };

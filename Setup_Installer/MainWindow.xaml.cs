@@ -76,7 +76,10 @@ namespace ProlexNetSetup
                     Page6.IsSelected = false;
 
                     if (checkbox_ProlexNetServer.IsChecked == true)
+                    {
                         CheckBoxFirebirdSilentInstallation.IsEnabled = true;
+                        ServerNameOverNetwork.Text = Environment.GetEnvironmentVariable("COMPUTERNAME");
+                    }
                     if (checkbox_ProlexNetServer.IsChecked == false)
                         CheckBoxFirebirdSilentInstallation.IsEnabled = false;
 

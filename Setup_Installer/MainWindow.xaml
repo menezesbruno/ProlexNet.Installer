@@ -291,14 +291,14 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content=".NET Framework 4.6 - Selecione esta opção para Windows 7 SP1"
+                                        Content=".NET Framework 4.6 - Selecione esta opção para Windows 7 SP1 ou Windows 8/8.1"
                                         IsChecked="True" />
                                     <RadioButton
                                         x:Name="CheckBoxDotNet47"
                                         Grid.Row="2"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content=".NET Framework 4.7 - Selecione esta opção para Windows 8 ou superior"
+                                        Content=".NET Framework 4.7 - Selecione esta opção para Windows 10"
                                         IsChecked="False" />
                                 </Grid>
                                 <Grid
