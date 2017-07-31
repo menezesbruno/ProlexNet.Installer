@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
 
@@ -67,6 +69,38 @@ namespace ProlexNetSetup.Class.Install
                         }
                     }
                 }
+            }
+        }
+
+        public static void Firebird()
+        {
+            // Desinstala o Firebird
+            try
+            {
+                var firebirdUninstaller = Directory.GetFiles(@"C:\Program Files\Firebird", "unins*.exe", SearchOption.AllDirectories).FirstOrDefault();
+                Process process = new Process();
+                process.StartInfo.FileName = firebirdUninstaller;
+                process.StartInfo.Arguments = "/CLEAN";
+                process.Start();
+                process.WaitForExit();
+            }
+            catch
+            {
+
+            }
+
+            try
+            {
+                var firebirdUninstaller = Directory.GetFiles(@"C:\Program Files (x86)\Firebird", "unins*.exe", SearchOption.AllDirectories).FirstOrDefault();
+                Process process = new Process();
+                process.StartInfo.FileName = firebirdUninstaller;
+                process.StartInfo.Arguments = "/CLEAN";
+                process.Start();
+                process.WaitForExit();
+            }
+            catch
+            {
+
             }
         }
     }

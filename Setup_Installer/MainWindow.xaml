@@ -81,7 +81,7 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="5,20,0,0"
-                                        Text="É recomendado que você feche todos os outros aplicativos antes de iniciar o instalador. Isto tornará possível atualizar os arquivos de sistema relevantes. Ao final da instalação, você será solicitado a reiniciar o computador."
+                                        Text="É recomendado que você feche todos os outros aplicativos antes de iniciar o instalador. Isto tornará possível atualizar os arquivos de sistema relevantes."
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
                                     <TextBlock
@@ -453,42 +453,8 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Label x:Name="LabelInstallationResult" Content="O ProlexNet foi instalado com sucesso!" />
-                                <Grid
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="15,5,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Label
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Padding="10"
-                                        Content="Deseja reiniciar o seu computador agora?" />
-                                    <RadioButton
-                                        x:Name="RadioRestart"
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="10,0,0,0"
-                                        Content="Reiniciar agora."
-                                        IsChecked="False" />
-                                    <RadioButton
-                                        x:Name="RadioNoRestart"
-                                        Grid.Row="2"
-                                        Grid.Column="0"
-                                        Margin="10,5,0,0"
-                                        Content="Não desejo reiniciar agora. Reiniciarei manualmente mais tarde."
-                                        IsChecked="True" />
-                                </Grid>
                             </Grid>
                         </TabItem>
                     </TabControl>

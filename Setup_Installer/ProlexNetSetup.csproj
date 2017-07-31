@@ -125,10 +125,10 @@
     <Compile Include="Class\Common\ZipManipulation.cs" />
     <Compile Include="Class\Download\Download.cs" />
     <Compile Include="Class\Download\DownloadParameter.cs" />
+    <Compile Include="Class\Install\InstallationDetect.cs" />
     <Compile Include="Class\Install\Installer.cs" />
     <Compile Include="Class\Install\Uninstaller.cs" />
     <Compile Include="Class\Common\DetectOSVersion.cs" />
-    <Compile Include="Class\Common\Shutdown.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

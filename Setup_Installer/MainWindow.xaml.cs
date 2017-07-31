@@ -175,8 +175,7 @@ namespace ProlexNetSetup
                 if (close == MessageBoxResult.Yes)
                     Environment.Exit(1);
             }
-            else
-                Environment.Exit(1);
+            Environment.Exit(1);
         }
 
         private void ButtonChangeInstallPath_Click(object sender, RoutedEventArgs e)
@@ -197,16 +196,23 @@ namespace ProlexNetSetup
             if (Environment.Is64BitOperatingSystem)
                 systemVersion = "x64";
 
-            var dotNetVersion = "4.6";
-            if (CheckBoxDotNet47.IsChecked == true)
-                dotNetVersion = "4.7";
+                var dotNetVersion = "4.6";
+                if (CheckBoxDotNet47.IsChecked == true)
+                    dotNetVersion = "4.7";
 
             ComponentsToBeInstalled.Text = "";
 
-            ComponentsToBeInstalled.Text += $"Microsoft .NET Framework {dotNetVersion}" + Environment.NewLine;
-            ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x86" + Environment.NewLine;
+            if (InstallationDetect.DotNet())
+                ComponentsToBeInstalled.Text += $"Microsoft .NET Framework {dotNetVersion}" + Environment.NewLine;
+
+            if(InstallationDetect.VCRedist_X86())
+                ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x86" + Environment.NewLine;
+
             if (DetectOSVersion.Is64Bits())
-                ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x64" + Environment.NewLine;
+            {
+                if(InstallationDetect.VCRedist_X64())
+                    ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x64" + Environment.NewLine;
+            }
 
             if (checkbox_ProlexNetServer.IsChecked == true)
             {
@@ -240,35 +246,54 @@ namespace ProlexNetSetup
             try
             {
                 // Chama a classe que faz o download e instala o DotNet de acordo com a versão selecionada.
-                try
+                if (InstallationDetect.DotNet())
                 {
-                    InstallationStatus.Text += $"Microsoft .NET Framework {dotNetVersion}... ";
-                    await Download.DotNetAsync(ServicePath, dotNetVersion);
-                    InstallationStatus.Text += "OK" + Environment.NewLine;
-                }
-                catch (Exception ex)
-                {
-                    InstallationStatus.Text += "Erro" + Environment.NewLine;
-                    MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    try
+                    {
+                        InstallationStatus.Text += $"Microsoft .NET Framework {dotNetVersion}... ";
+                        await Download.DotNetAsync(ServicePath, dotNetVersion);
+                        InstallationStatus.Text += "OK" + Environment.NewLine;
+                    }
+                    catch (Exception ex)
+                    {
+                        InstallationStatus.Text += "Erro" + Environment.NewLine;
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
 
                 // Chama a classe que faz o download e instala o VC++ Redist 2013 baseado na versão do Sistema Operacional.
-                try
+                if (InstallationDetect.VCRedist_X86())
                 {
-                    InstallationStatus.Text += $"Microsoft Visual C++ 2013 x86... ";
-                    await Download.VisualCAsync(ServicePath, "x86");
-                    InstallationStatus.Text += "OK" + Environment.NewLine;
-                    if (DetectOSVersion.Is64Bits())
+                    try
                     {
-                        InstallationStatus.Text += $"Microsoft Visual C++ 2013 x64... ";
-                        await Download.VisualCAsync(ServicePath, "x64");
+                        InstallationStatus.Text += $"Microsoft Visual C++ 2013 x86... ";
+                        await Download.VisualCAsync(ServicePath, "x86");
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
+                    catch (Exception ex)
+                    {
+                        InstallationStatus.Text += "Erro" + Environment.NewLine;
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
-                catch (Exception ex)
+
+                if (DetectOSVersion.Is64Bits())
                 {
-                    InstallationStatus.Text += "Erro" + Environment.NewLine;
-                    MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (InstallationDetect.VCRedist_X64())
+                    {
+                        try
+                        {
+                            InstallationStatus.Text += $"Microsoft Visual C++ 2013 x64... ";
+                            await Download.VisualCAsync(ServicePath, "x64");
+                            InstallationStatus.Text += "OK" + Environment.NewLine;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            InstallationStatus.Text += "Erro" + Environment.NewLine;
+                            MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
                 }
 
                 if (checkbox_ProlexNetServer.IsChecked == true)
@@ -276,6 +301,13 @@ namespace ProlexNetSetup
                     // Chama a classe que faz o download e instala o Firebird 3 baseado na versão do Sistema Operacional.
                     try
                     {
+                        if (InstallationDetect.Firebird())
+                        {
+                            var fbInstall = MessageBox.Show("O Firebird já está instalado no computador. Deseja desinstalar a versão atual?", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                            if (fbInstall == MessageBoxResult.Yes)
+                                Uninstaller.Firebird();
+                        }
+
                         InstallationStatus.Text += $"Firebird 3 {systemVersion}... ";
                         await Download.FirebirdAsync(ServicePath, silentInstallation);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
