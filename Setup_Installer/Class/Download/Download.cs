@@ -91,8 +91,8 @@ namespace ProlexNetSetup.Class.Download
 
         public static async Task DotNetAsync(string servicePath)
         {
-            var url = DownloadParameters.Instance.DotNet462_Url;
-            var hash = DownloadParameters.Instance.DotNet462_Hash;
+            var url = DownloadParameters.Instance.DotNet46_Url;
+            var hash = DownloadParameters.Instance.DotNet46_Hash;
 
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);

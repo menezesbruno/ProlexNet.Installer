@@ -208,7 +208,7 @@ namespace ProlexNetSetup
             }
 
             if (InstallationDetect.DotNet())
-                ComponentsToBeInstalled.Text += $"Microsoft .NET Framework 4.6.2" + Environment.NewLine;
+                ComponentsToBeInstalled.Text += $"Microsoft .NET Framework 4.6" + Environment.NewLine;
 
             if (checkbox_ProlexNetServer.IsChecked == true)
             {
@@ -273,12 +273,12 @@ namespace ProlexNetSetup
                     }
                 }
 
-                // Chama a classe que verifica se há necessidade de fazer o download e instalar o DotNet 4.6.2
+                // Chama a classe que verifica se há necessidade de fazer o download e instalar o DotNet 4.6
                 if (InstallationDetect.DotNet())
                 {
                     try
                     {
-                        InstallationStatus.Text += $"Microsoft .NET Framework 4.6.2... ";
+                        InstallationStatus.Text += $"Microsoft .NET Framework 4.6... ";
                         await Download.DotNetAsync(ServicePath);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
