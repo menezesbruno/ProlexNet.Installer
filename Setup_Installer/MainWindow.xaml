@@ -208,7 +208,6 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Label
                                     Grid.Row="0"
@@ -279,38 +278,6 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Label
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Padding="10"
-                                        Content="Versão do Microsoft .NET Framework:" />
-                                    <RadioButton
-                                        x:Name="CheckBoxDotNet46"
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="25,0,0,0"
-                                        Content=".NET Framework 4.6 - Selecione esta opção para Windows 7 SP1 ou Windows 8/8.1"
-                                        IsChecked="True" />
-                                    <RadioButton
-                                        x:Name="CheckBoxDotNet47"
-                                        Grid.Row="2"
-                                        Grid.Column="0"
-                                        Margin="25,0,0,0"
-                                        Content=".NET Framework 4.7 - Selecione esta opção para Windows 10"
-                                        IsChecked="False" />
-                                </Grid>
-                                <Grid
-                                    Grid.Row="3"
-                                    Grid.Column="0"
-                                    Margin="15,5,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Label
                                         Grid.Row="0"
@@ -326,7 +293,7 @@
                                         IsChecked="True" />
                                 </Grid>
                                 <Grid
-                                    Grid.Row="4"
+                                    Grid.Row="3"
                                     Grid.Column="0"
                                     Margin="15,5,0,0">
                                     <Grid.ColumnDefinitions>

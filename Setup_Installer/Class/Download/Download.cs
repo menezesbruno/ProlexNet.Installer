@@ -89,16 +89,10 @@ namespace ProlexNetSetup.Class.Download
             return;
         }
 
-        public static async Task DotNetAsync(string servicePath, string dotNetVersion)
+        public static async Task DotNetAsync(string servicePath)
         {
-            var url = DownloadParameters.Instance.DotNet46_Url;
-            var hash = DownloadParameters.Instance.DotNet46_Hash;
-
-            if (dotNetVersion == "4.7")
-            {
-                url = DownloadParameters.Instance.DotNet47_Url;
-                hash = DownloadParameters.Instance.DotNet47_Hash;
-            }
+            var url = DownloadParameters.Instance.DotNet462_Url;
+            var hash = DownloadParameters.Instance.DotNet462_Hash;
 
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);

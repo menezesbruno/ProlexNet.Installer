@@ -196,28 +196,24 @@ namespace ProlexNetSetup
             if (Environment.Is64BitOperatingSystem)
                 systemVersion = "x64";
 
-                var dotNetVersion = "4.6";
-                if (CheckBoxDotNet47.IsChecked == true)
-                    dotNetVersion = "4.7";
-
             ComponentsToBeInstalled.Text = "";
 
-            if (InstallationDetect.DotNet())
-                ComponentsToBeInstalled.Text += $"Microsoft .NET Framework {dotNetVersion}" + Environment.NewLine;
-
-            if(InstallationDetect.VCRedist_X86())
+            if (InstallationDetect.VCRedist_X86())
                 ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x86" + Environment.NewLine;
 
             if (DetectOSVersion.Is64Bits())
             {
-                if(InstallationDetect.VCRedist_X64())
+                if (InstallationDetect.VCRedist_X64())
                     ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x64" + Environment.NewLine;
             }
 
+            if (InstallationDetect.DotNet())
+                ComponentsToBeInstalled.Text += $"Microsoft .NET Framework 4.6.2" + Environment.NewLine;
+
             if (checkbox_ProlexNetServer.IsChecked == true)
             {
-                ComponentsToBeInstalled.Text += $"Firebird 3 {systemVersion}" + Environment.NewLine;
                 ComponentsToBeInstalled.Text += "Serviços de Informações da Internet - IIS" + Environment.NewLine;
+                ComponentsToBeInstalled.Text += $"Firebird 3 {systemVersion}" + Environment.NewLine;
                 ComponentsToBeInstalled.Text += "ProlexNet Server" + Environment.NewLine;
             }
 
@@ -235,33 +231,13 @@ namespace ProlexNetSetup
             if (Environment.Is64BitOperatingSystem)
                 systemVersion = "x64";
 
-            var dotNetVersion = "4.6";
-            if (CheckBoxDotNet47.IsChecked == true)
-                dotNetVersion = "4.7";
-
             if (!Directory.Exists(InstallationPath))
                 Directory.CreateDirectory(InstallationPath);
 
             // Download e instalação acontece aqui.
             try
             {
-                // Chama a classe que faz o download e instala o DotNet de acordo com a versão selecionada.
-                if (InstallationDetect.DotNet())
-                {
-                    try
-                    {
-                        InstallationStatus.Text += $"Microsoft .NET Framework {dotNetVersion}... ";
-                        await Download.DotNetAsync(ServicePath, dotNetVersion);
-                        InstallationStatus.Text += "OK" + Environment.NewLine;
-                    }
-                    catch (Exception ex)
-                    {
-                        InstallationStatus.Text += "Erro" + Environment.NewLine;
-                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-
-                // Chama a classe que faz o download e instala o VC++ Redist 2013 baseado na versão do Sistema Operacional.
+                // Chama a classe que verifica se há necessidade de fazer o download e instalar o VC++ Redist 2013 x86.
                 if (InstallationDetect.VCRedist_X86())
                 {
                     try
@@ -277,6 +253,7 @@ namespace ProlexNetSetup
                     }
                 }
 
+                // Chama a classe que verifica se há necessidade de fazer o download e instalar o VC++ Redist 2013 x64.
                 if (DetectOSVersion.Is64Bits())
                 {
                     if (InstallationDetect.VCRedist_X64())
@@ -296,8 +273,37 @@ namespace ProlexNetSetup
                     }
                 }
 
+                // Chama a classe que verifica se há necessidade de fazer o download e instalar o DotNet 4.6.2
+                if (InstallationDetect.DotNet())
+                {
+                    try
+                    {
+                        InstallationStatus.Text += $"Microsoft .NET Framework 4.6.2... ";
+                        await Download.DotNetAsync(ServicePath);
+                        InstallationStatus.Text += "OK" + Environment.NewLine;
+                    }
+                    catch (Exception ex)
+                    {
+                        InstallationStatus.Text += "Erro" + Environment.NewLine;
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+
                 if (checkbox_ProlexNetServer.IsChecked == true)
                 {
+                    // Chama a classe que faz o download e instala o IIS
+                    try
+                    {
+                        InstallationStatus.Text += "Serviços de Informações da Internet - IIS... ";
+                        await Installer.IISAsync(ServicePath);
+                        InstallationStatus.Text += "OK" + Environment.NewLine;
+                    }
+                    catch (Exception ex)
+                    {
+                        InstallationStatus.Text += "Erro" + Environment.NewLine;
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
                     // Chama a classe que faz o download e instala o Firebird 3 baseado na versão do Sistema Operacional.
                     try
                     {
@@ -310,19 +316,6 @@ namespace ProlexNetSetup
 
                         InstallationStatus.Text += $"Firebird 3 {systemVersion}... ";
                         await Download.FirebirdAsync(ServicePath, silentInstallation);
-                        InstallationStatus.Text += "OK" + Environment.NewLine;
-                    }
-                    catch (Exception ex)
-                    {
-                        InstallationStatus.Text += "Erro" + Environment.NewLine;
-                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-
-                    // Chama a classe que faz o download e instala o IIS
-                    try
-                    {
-                        InstallationStatus.Text += "Serviços de Informações da Internet - IIS... ";
-                        await Installer.IISAsync(ServicePath);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)

@@ -140,7 +140,11 @@ namespace ProlexNetSetup.Class.Install
                 process.StartInfo.FileName = file;
                 process.StartInfo.Arguments = installArgs;
                 process.Start();
-                process.WaitForExit();
+                while (!process.HasExited)
+                {
+
+                }
+                return;
             }
             catch (Exception ex)
             {
@@ -155,7 +159,7 @@ namespace ProlexNetSetup.Class.Install
             // Argumentos para a correta instalação do VCRedist.
             try
             {
-                var installArgs = "/install /repair /passive /norestart";
+                var installArgs = "/install /passive /norestart";
 
                 Process process = new Process();
                 process.StartInfo.FileName = file;
