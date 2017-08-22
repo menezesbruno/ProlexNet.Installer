@@ -30,6 +30,8 @@ namespace ProlexNetSetup.Class.Download
         public string VisualC2103_X86_Hash { get; set; }
         public string VisualC2103_X64_Url { get; set; }
         public string VisualC2103_X64_Hash { get; set; }
+        public string LINQPad5_Url { get; set; }
+        public string LINQPad5_Hash { get; set; }
 
         public const string AplicationsUrl = "https://automatizabox.azurewebsites.net/uploads/applicationlist.json";
 

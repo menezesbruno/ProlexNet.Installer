@@ -175,5 +175,25 @@ namespace ProlexNetSetup.Class.Install
             return;
         }
 
+        public static void LINQPad(string file)
+        {
+            // Argumentos para a correta instalação do LINQPad5.
+            try
+            {
+                var installArgs = "/silent";
+
+                Process process = new Process();
+                process.StartInfo.FileName = file;
+                process.StartInfo.Arguments = installArgs;
+                process.Start();
+                process.WaitForExit();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("Installer:LINQPad:" + ex.Message);
+            }
+
+            return;
+        }
     }
 }

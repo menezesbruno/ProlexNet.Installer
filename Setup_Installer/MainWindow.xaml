@@ -278,6 +278,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Label
                                         Grid.Row="0"
@@ -289,7 +290,14 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content="Instalação automática do Firebird"
+                                        Content="Instalar o Firebird automaticamente"
+                                        IsChecked="True" />
+                                    <CheckBox
+                                        x:Name="CheckBoxLINQPadInstallation"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content="Instalar o LINQPad 5"
                                         IsChecked="True" />
                                 </Grid>
                                 <Grid

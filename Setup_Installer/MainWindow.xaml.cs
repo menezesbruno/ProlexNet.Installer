@@ -78,10 +78,14 @@ namespace ProlexNetSetup
                     if (checkbox_ProlexNetServer.IsChecked == true)
                     {
                         CheckBoxFirebirdSilentInstallation.IsEnabled = true;
+                        CheckBoxLINQPadInstallation.IsEnabled = true;
                         ServerNameOverNetwork.Text = Environment.GetEnvironmentVariable("COMPUTERNAME");
                     }
                     if (checkbox_ProlexNetServer.IsChecked == false)
+                    {
                         CheckBoxFirebirdSilentInstallation.IsEnabled = false;
+                        CheckBoxLINQPadInstallation.IsEnabled = false;
+                    }
 
                     ButtonBack.Visibility = Visibility.Visible;
                     ButtonAdvance.Content = "Próximo >";
@@ -214,6 +218,8 @@ namespace ProlexNetSetup
             {
                 ComponentsToBeInstalled.Text += "Serviços de Informações da Internet - IIS" + Environment.NewLine;
                 ComponentsToBeInstalled.Text += $"Firebird 3 {systemVersion}" + Environment.NewLine;
+                if(CheckBoxLINQPadInstallation.IsChecked == true)
+                    ComponentsToBeInstalled.Text += "LINQPad 5" + Environment.NewLine;
                 ComponentsToBeInstalled.Text += "ProlexNet Server" + Environment.NewLine;
             }
 
@@ -322,6 +328,22 @@ namespace ProlexNetSetup
                     {
                         InstallationStatus.Text += "Erro" + Environment.NewLine;
                         MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    // Chama a classe que faz o download e instala o LINQPad 5.
+                    if (CheckBoxLINQPadInstallation.IsChecked == true)
+                    {
+                        try
+                        {
+                            InstallationStatus.Text += "LINQPad 5... ";
+                            await Download.LINQPad5Async(ServicePath);
+                            InstallationStatus.Text += "OK" + Environment.NewLine;
+                        }
+                        catch (Exception ex)
+                        {
+                            InstallationStatus.Text += "Erro" + Environment.NewLine;
+                            MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
 
                     // Chama a classe que faz o download e instala o ProlexNet Server.

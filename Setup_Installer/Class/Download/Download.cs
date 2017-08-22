@@ -102,7 +102,21 @@ namespace ProlexNetSetup.Class.Download
 
             return;
         }
-        
+
+        public static async Task LINQPad5Async(string servicePath)
+        {
+            var url = DownloadParameters.Instance.LINQPad5_Url;
+            var hash = DownloadParameters.Instance.LINQPad5_Hash;
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            await DownloadFileInBackgroundAsync(url, file, hash);
+            Installer.LINQPad(file);
+
+            return;
+        }
+
         public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash)
         {
             IProgress<DownloadProgressChangedEventArgs> Progress = 
