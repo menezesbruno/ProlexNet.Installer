@@ -29,6 +29,47 @@ namespace ProlexNetSetup.Class.Install
                     process.StartInfo.Arguments += installargsSilent;
                 process.Start();
                 process.WaitForExit();
+
+                var databasesConf = Directory.GetFiles(@"C:\Program Files\Firebird", "databases.conf", SearchOption.AllDirectories).FirstOrDefault();
+                using (StreamWriter writer = new StreamWriter(databasesConf, false))
+                {
+                    writer.WriteLine("# ------------------------------");
+                    writer.WriteLine("# List of known databases");
+                    writer.WriteLine("# ------------------------------");
+                    writer.WriteLine("");
+                    writer.WriteLine("#");
+                    writer.WriteLine("# Makes it possible to specify per-database configuration parameters.");
+                    writer.WriteLine("# See the list of them and description on file firebird.conf.");
+                    writer.WriteLine("# To place that parameters in this file add them in curly braces");
+                    writer.WriteLine("# after \"alias = / path / to / database.fdb\" line. Example:");
+                    writer.WriteLine("#	big = /databases/bigdb.fdb");
+                    writer.WriteLine("#	{");
+                    writer.WriteLine("#		LockMemSize = 32M		# We know that bigdb needs a lot of locks");
+                    writer.WriteLine("#		LockHashSlots = 19927	#	and big enough hash table for them");
+                    writer.WriteLine("#	}");
+                    writer.WriteLine("#");
+                    writer.WriteLine("");
+                    writer.WriteLine("#");
+                    writer.WriteLine("# Example Database:");
+                    writer.WriteLine("#");
+                    writer.WriteLine("employee.fdb = $(dir_sampleDb)/employee.fdb");
+                    writer.WriteLine("employee = $(dir_sampleDb)/employee.fdb");
+                    writer.WriteLine("");
+                    writer.WriteLine("#");
+                    writer.WriteLine("# Master security database specific setup.");
+                    writer.WriteLine("# Do not remove it until you understand well what are you doing!");
+                    writer.WriteLine("#");
+                    writer.WriteLine("security.db = $(dir_secDb)/security3.fdb");
+                    writer.WriteLine("{");
+                    writer.WriteLine("	RemoteAccess = false");
+                    writer.WriteLine("	DefaultDbCachePages = 50");
+                    writer.WriteLine("}");
+                    writer.WriteLine("");
+                    writer.WriteLine("#");
+                    writer.WriteLine("# Live Databases:");
+                    writer.WriteLine("#");
+                    writer.WriteLine($@"ProlexNet = {databaseFolder}\ProlexNet.prolex");
+                }
             }
             catch (Exception ex)
             {
