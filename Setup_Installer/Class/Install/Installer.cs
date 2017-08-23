@@ -10,7 +10,7 @@ namespace ProlexNetSetup.Class.Install
 {
     public class Installer
     {
-        public static void Firebird(string file, bool silentInstallation)
+        public static void Firebird(string file, bool silentInstallation, string installationPath)
         {
             // Argumentos para a correta instalação do Firebird 3.
             try
@@ -30,6 +30,7 @@ namespace ProlexNetSetup.Class.Install
                 process.Start();
                 process.WaitForExit();
 
+                var databaseFolder = Path.Combine(installationPath, "Database");
                 var databasesConf = Directory.GetFiles(@"C:\Program Files\Firebird", "databases.conf", SearchOption.AllDirectories).FirstOrDefault();
                 using (StreamWriter writer = new StreamWriter(databasesConf, false))
                 {

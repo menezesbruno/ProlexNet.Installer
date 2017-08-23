@@ -321,7 +321,7 @@ namespace ProlexNetSetup
                         }
 
                         InstallationStatus.Text += $"Firebird 3 {systemVersion}... ";
-                        await Download.FirebirdAsync(ServicePath, silentInstallation);
+                        await Download.FirebirdAsync(ServicePath, silentInstallation, InstallationPath);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
