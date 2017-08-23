@@ -67,12 +67,25 @@ namespace ProlexNetSetup.Class.Common
             // Remove, se houver, uma configuração já existente do Pool de aplicativo "prolexnet".
             try
             {
-                var appcmdArgs = "delete apppool /name:prolexnet";
-                process.StartInfo.FileName = appcmdVersion;
-                process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
-                process.Start();
-                process.WaitForExit();
+                try
+                {
+                    var appcmdArgs = "delete apppool /name:prolexnet";
+                    process.StartInfo.FileName = appcmdVersion;
+                    process.StartInfo.Arguments = appcmdArgs;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                    process.WaitForExit();
+                }
+                catch
+                {
+                    appcmdVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "inetsrv", "appcmd.exe");
+                    var appcmdArgs = "delete apppool /name:prolexnet";
+                    process.StartInfo.FileName = appcmdVersion;
+                    process.StartInfo.Arguments = appcmdArgs;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                    process.WaitForExit();
+                }
             }
             catch (Exception ex)
             {
@@ -82,12 +95,25 @@ namespace ProlexNetSetup.Class.Common
             // Adiciona um novo Pool de aplicativo .Net 4.0 ao IIS chamado "prolexnet".
             try
             {
-                var appcmdArgs = "add apppool /name:prolexnet /managedRuntimeVersion:v4.0";
-                process.StartInfo.FileName = appcmdVersion;
-                process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
-                process.Start();
-                process.WaitForExit();
+                try
+                {
+                    var appcmdArgs = "add apppool /name:prolexnet /managedRuntimeVersion:v4.0";
+                    process.StartInfo.FileName = appcmdVersion;
+                    process.StartInfo.Arguments = appcmdArgs;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                    process.WaitForExit();
+                }
+                catch
+                {
+                    appcmdVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "inetsrv", "appcmd.exe");
+                    var appcmdArgs = "add apppool /name:prolexnet /managedRuntimeVersion:v4.0";
+                    process.StartInfo.FileName = appcmdVersion;
+                    process.StartInfo.Arguments = appcmdArgs;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                    process.WaitForExit();
+                }
             }
             catch (Exception ex)
             {
@@ -97,12 +123,25 @@ namespace ProlexNetSetup.Class.Common
             // Registra o Site "prolexnet" para utilizar Pool "prolexnet" anteriormente criado.
             try
             {
-                var appcmdArgs = $"set site /site.name:prolexnet /[path='/'].applicationPool:prolexnet";
-                process.StartInfo.FileName = appcmdVersion;
-                process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
-                process.Start();
-                process.WaitForExit();
+                try
+                {
+                    var appcmdArgs = $"set site /site.name:prolexnet /[path='/'].applicationPool:prolexnet";
+                    process.StartInfo.FileName = appcmdVersion;
+                    process.StartInfo.Arguments = appcmdArgs;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                    process.WaitForExit();
+                }
+                catch
+                {
+                    appcmdVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "inetsrv", "appcmd.exe");
+                    var appcmdArgs = $"set site /site.name:prolexnet /[path='/'].applicationPool:prolexnet";
+                    process.StartInfo.FileName = appcmdVersion;
+                    process.StartInfo.Arguments = appcmdArgs;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                    process.WaitForExit();
+                }
             }
             catch (Exception ex)
             {
