@@ -20,6 +20,8 @@ namespace ProlexNetSetup.Class.Download
         public string ProlexTDPJ_Hash { get; set; }
         public string ProlexNet_Server_Url { get; set; }
         public string ProlexNet_Server_Hash { get; set; }
+        public string ProlexNet_Updater_Url { get; set; }
+        public string ProlexNet_Updater_Hash { get; set; }
         public string ProlexNet_Client_Url { get; set; }
         public string ProlexNet_Client_Hash { get; set; }
         public string ProlexNet_Database_Url { get; set; }

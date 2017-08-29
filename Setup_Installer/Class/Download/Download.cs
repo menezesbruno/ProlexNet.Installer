@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ProlexNetSetup.Class.Common;
 using ProlexNetSetup.Class.Install;
 using ProlexNetSetup.Setup.Class.Common;
+using System.IO.Compression;
 
 namespace ProlexNetSetup.Class.Download
 {
@@ -34,7 +35,7 @@ namespace ProlexNetSetup.Class.Download
             Installer.Firebird(file, silentInstallation, installationPath);
         }
       
-        public static async Task ProlexNetServerAsync(string servicePath, string installationPath)
+        public static async Task ProlexNetServerAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
         {
             var url = DownloadParameters.Instance.ProlexNet_Server_Url;
             var hash = DownloadParameters.Instance.ProlexNet_Server_Hash;
@@ -42,11 +43,36 @@ namespace ProlexNetSetup.Class.Download
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server");
-            if(Directory.Exists(installationSubFolder))
+            var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
+            var installationRootFolder = Path.Combine(installationPath, "ProlexNet Server");
+            if (Directory.Exists(installationSubFolder))
+            {
                 FolderBackup.Backup(servicePath, installationSubFolder);
-            await ZipExtractor.Extract(file, installationSubFolder);
+                Directory.Delete(installationSubFolder);
+            }
+            ZipFile.ExtractToDirectory(file, installationRootFolder);
             await ProlexNetConfiguration.DatabaseDeploy(servicePath, installationPath);
+            RegistryEntry.CreateProlexNetServerUninstaller(servicePath, installationPath, applicationGuid, windowsUninstallPath);
+
+            return;
+        }
+
+        public static async Task ProlexNetUpdaterAsync(string servicePath, string installationPath)
+        {
+            var url = DownloadParameters.Instance.ProlexNet_Updater_Url;
+            var hash = DownloadParameters.Instance.ProlexNet_Updater_Hash;
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            await DownloadFileInBackgroundAsync(url, file, hash);
+            var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "updater");
+            var installationRootFolder = Path.Combine(installationPath, "ProlexNet Server");
+            if (Directory.Exists(installationSubFolder))
+            {
+                FolderBackup.Backup(servicePath, installationSubFolder);
+                Directory.Delete(installationSubFolder);
+            }
+            ZipFile.ExtractToDirectory(file, installationRootFolder);
 
             return;
         }

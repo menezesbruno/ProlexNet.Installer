@@ -43,6 +43,19 @@ namespace ProlexNetSetup.Class.Common
                 Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
             }
 
+            // Remove, se houver, uma configuração já existente do Site "prolexnet_updater" no IIS.
+            try
+            {
+                ServerManager iisManager = new ServerManager();
+                Site site = iisManager.Sites[@"prolexnet_updater"];
+                iisManager.Sites.Remove(site);
+                iisManager.CommitChanges();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
+            }
+
             // Adiciona uma nova configuração do Site "prolexnet" ao IIS.
             try
             {
@@ -59,15 +72,14 @@ namespace ProlexNetSetup.Class.Common
                 Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
             }
 
-            /*
             // Adiciona uma nova configuração do Site "prolexnet_updater" ao IIS.
             try
             {
-                var updaterPort = serverPort + 1;
+                var updaterPort = (Convert.ToInt32(serverPort) + 1);
                 var site = "prolexnet_updater";
                 var protocol = "http";
                 var port = $"*:{updaterPort}:";
-                var installationSiteFolder = Path.Combine(installationPath, "ProlexNet Server", "update service");
+                var installationSiteFolder = Path.Combine(installationPath, "ProlexNet Server", "updater");
                 ServerManager iisManager = new ServerManager();
                 iisManager.Sites.Add(site, protocol, port, installationSiteFolder);
                 iisManager.CommitChanges();
@@ -76,15 +88,10 @@ namespace ProlexNetSetup.Class.Common
             {
                 Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
             }
-            */
-
+            
             // Detecta qual a versão correta do AppCMD deverá ser executada de acordo com a versão do Windows e redireciona ao processo.
             string appcmd = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "inetsrv", "appcmd.exe");
 
-            /*
-            if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-                appcmdVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "sysnative", "inetsrv", "appcmd.exe");
-            */
             // Remove, se houver, uma configuração já existente do Pool de aplicativo "prolexnet".
             try
             {
@@ -104,7 +111,7 @@ namespace ProlexNetSetup.Class.Common
             // Adiciona um novo Pool de aplicativo .Net 4.0 ao IIS chamado "prolexnet".
             try
             {
-                var appcmdArgs = "add apppool /name:prolexnet /managedRuntimeVersion:v4.0 -processModel.identityType:LocalSystem";
+                var appcmdArgs = "add apppool /name:prolexnet /managedRuntimeVersion:v4.0 -processModel.identityType:LocalSystem /enable32BitAppOnWin64:true";
                 process.StartInfo.FileName = appcmd;
                 process.StartInfo.Arguments = appcmdArgs;
                 process.StartInfo.CreateNoWindow = true;
@@ -120,6 +127,21 @@ namespace ProlexNetSetup.Class.Common
             try
             {
                 var appcmdArgs = $"set site /site.name:prolexnet /[path='/'].applicationPool:prolexnet";
+                process.StartInfo.FileName = appcmd;
+                process.StartInfo.Arguments = appcmdArgs;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+                process.WaitForExit();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
+            }
+
+            // Registra o Site "prolexnet_updater" para utilizar Pool "prolexnet" anteriormente criado.
+            try
+            {
+                var appcmdArgs = $"set site /site.name:prolexnet_updater /[path='/'].applicationPool:prolexnet";
                 process.StartInfo.FileName = appcmd;
                 process.StartInfo.Arguments = appcmdArgs;
                 process.StartInfo.CreateNoWindow = true;

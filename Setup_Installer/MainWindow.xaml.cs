@@ -25,9 +25,10 @@ namespace ProlexNetSetup
         // Deve ser ÚNICO por aplicativo e deve também ser IMUTÁVEL durante toda a vida do aplicativo.
         // Pode ser criado em: https://www.guidgenerator.com/online-guid-generator.aspx
         // Opções a serem selecionadas: Braces + Hyphens
-        public static string ApplicationGuid = "{ee152ba9-9db3-47c5-ba10-b6d08cdb74f4}";
+        public static string ClientApplicationGuid = "{ee152ba9-9db3-47c5-ba10-b6d08cdb74f4}"; // Não alterar!
+        public static string ServerApplicationGuid = "{5f64652c-65c0-4e53-9f55-cd25f0afa39c}"; // Não alterar!
 
-        // Caminho padrão do Windows onde ficam os registros de instalação
+        // Caminho padrão do Windows onde ficam salvos os registros de instalação
         public static string WindowsUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
 
         public MainWindow()
@@ -35,7 +36,9 @@ namespace ProlexNetSetup
             ServicePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Automatiza", "Instalador");
             Directory.CreateDirectory(ServicePath);
 
-            Uninstaller.ProlexNetClient(ApplicationGuid, WindowsUninstallPath);
+            // Comandos de desinstalação
+            Uninstaller.ProlexNetClient(ClientApplicationGuid, WindowsUninstallPath);
+            Uninstaller.ProlexNetServer(ServerApplicationGuid, WindowsUninstallPath);
 
             InitializeComponent();
             InstallationPathField.Content = InstallationPath;
@@ -43,6 +46,7 @@ namespace ProlexNetSetup
 
         private void ChangePages(int count)
         {
+            // Navega pelas páginas do instalador
             switch (count)
             {
                 case 0:
@@ -143,6 +147,7 @@ namespace ProlexNetSetup
 
         public void UpdateDownloadProgress(DownloadProgressChangedEventArgs args)
         {
+            // Progress bar dos downloads
             Dispatcher.Invoke(() =>
             {
                 ProgressBar.Maximum = args.TotalBytesToReceive;
@@ -157,6 +162,7 @@ namespace ProlexNetSetup
 
         private void ButtonBack_Click(object sender, RoutedEventArgs e)
         {
+            // Ação do botão 'voltar'
             CountPages = CountPages - 1;
             if (CountPages < 0)
                 CountPages = 0;
@@ -165,6 +171,7 @@ namespace ProlexNetSetup
 
         private void ButtonAdvance_Click(object sender, RoutedEventArgs e)
         {
+            // Ação do botão 'avançar'
             CountPages = CountPages + 1;
             if (CountPages > 5)
                 CountPages = 5;
@@ -173,6 +180,7 @@ namespace ProlexNetSetup
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
+            // Ação do botão 'cancelar'
             if (CountPages < 5)
             {
                 var close = MessageBox.Show("Você tem certeza que deseja sair do Instalador do ProlexNet?", "Instalação do ProlexNet", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
@@ -188,7 +196,7 @@ namespace ProlexNetSetup
             {
                 if (folderBrowserDialog.ShowDialog() == Forms.DialogResult.OK)
                 {
-                    InstallationPath = System.IO.Path.GetFullPath(folderBrowserDialog.SelectedPath);
+                    InstallationPath = Path.GetFullPath(folderBrowserDialog.SelectedPath);
                     InstallationPathField.Content = InstallationPath;
                 }
             }
@@ -196,16 +204,14 @@ namespace ProlexNetSetup
 
         private void BeforeInstallation(object sender, RoutedEventArgs e)
         {
-            var systemVersion = "x86";
-            if (Environment.Is64BitOperatingSystem)
-                systemVersion = "x64";
+            var systemVersion = DetectOSVersion.Is64Bits();
 
             ComponentsToBeInstalled.Text = "";
 
             if (InstallationDetect.VCRedist_X86())
                 ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x86" + Environment.NewLine;
 
-            if (DetectOSVersion.Is64Bits())
+            if (Environment.Is64BitOperatingSystem)
             {
                 if (InstallationDetect.VCRedist_X64())
                     ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x64" + Environment.NewLine;
@@ -233,9 +239,7 @@ namespace ProlexNetSetup
             var serverPort = ServerPortOverNetrork.Text;
             var silentInstallation = CheckBoxFirebirdSilentInstallation.IsChecked == true;
 
-            var systemVersion = "x86";
-            if (Environment.Is64BitOperatingSystem)
-                systemVersion = "x64";
+            var systemVersion = DetectOSVersion.Is64Bits();
 
             if (!Directory.Exists(InstallationPath))
                 Directory.CreateDirectory(InstallationPath);
@@ -260,7 +264,7 @@ namespace ProlexNetSetup
                 }
 
                 // Chama a classe que verifica se há necessidade de fazer o download e instalar o VC++ Redist 2013 x64.
-                if (DetectOSVersion.Is64Bits())
+                if (Environment.Is64BitOperatingSystem)
                 {
                     if (InstallationDetect.VCRedist_X64())
                     {
@@ -350,7 +354,8 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "ProlexNet Server... ";
-                        await Download.ProlexNetServerAsync(ServicePath, InstallationPath);
+                        await Download.ProlexNetServerAsync(ServicePath, InstallationPath, ServerApplicationGuid, WindowsUninstallPath);
+                        await Download.ProlexNetUpdaterAsync(ServicePath, InstallationPath);
                         await ProlexNetConfiguration.Server(InstallationPath, serverName, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
@@ -380,7 +385,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "ProlexNet Client... ";
-                        await Download.ProlexNetClientAsync(ServicePath, InstallationPath, ApplicationGuid, WindowsUninstallPath);
+                        await Download.ProlexNetClientAsync(ServicePath, InstallationPath, ClientApplicationGuid, WindowsUninstallPath);
                         await ProlexNetConfiguration.Client(InstallationPath, serverName, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }

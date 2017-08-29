@@ -29,7 +29,7 @@ namespace ProlexNetSetup.Class.Common
         {
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
             var webConfigFile = Path.Combine(installationSubFolder, "Web.config");
-            var appConfigFile = Path.Combine(installationSubFolder, "Scripts", "app.config.js");
+            var appConfigFile = Path.Combine(installationSubFolder, "scripts", "app.config.js");
 
             var oldString = "\"urlServer\": 'http://(.*?)',";
             var newString = $"\"urlServer\": 'http://{serverName}:{serverPort}',";

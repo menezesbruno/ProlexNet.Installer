@@ -119,6 +119,7 @@
     <Compile Include="Class\Common\FolderBackup.cs" />
     <Compile Include="Class\Common\HashChecker.cs" />
     <Compile Include="Class\Common\IISConfiguration.cs" />
+    <Compile Include="Class\Common\IISManipulationClass.cs" />
     <Compile Include="Class\Common\ProlexNetConfiguration.cs" />
     <Compile Include="Class\Common\RegistryEntry.cs" />
     <Compile Include="Class\Common\ShortcutCreation.cs" />

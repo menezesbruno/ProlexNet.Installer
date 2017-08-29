@@ -19,12 +19,12 @@ namespace ProlexNetSetup.Class.Common
                 return false;
         }
 
-        public static bool Is64Bits()
+        public static string Is64Bits()
         {
             if (Environment.Is64BitOperatingSystem)
-                return true;
+                return "x64";
             else
-                return false;
+                return "x86";
         }
     }
 }
