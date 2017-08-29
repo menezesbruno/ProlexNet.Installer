@@ -43,6 +43,7 @@ namespace ProlexNetSetup.Class.Download
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
+
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
             var installationRootFolder = Path.Combine(installationPath, "ProlexNet Server");
             if (Directory.Exists(installationSubFolder))
@@ -65,6 +66,7 @@ namespace ProlexNetSetup.Class.Download
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
+
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "updater");
             var installationRootFolder = Path.Combine(installationPath, "ProlexNet Server");
             if (Directory.Exists(installationSubFolder))
@@ -166,6 +168,7 @@ namespace ProlexNetSetup.Class.Download
                 {
                     MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}. Uma nova tentativa de download será feita em seguida.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                     await DownloadFileInBackgroundAsync(url, file, hash);
+                    return;
                 }
             };
 

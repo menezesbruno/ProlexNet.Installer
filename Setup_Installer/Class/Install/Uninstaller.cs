@@ -95,8 +95,9 @@ namespace ProlexNetSetup.Class.Install
                                         child.Close();
                                         try
                                         {
-                                            Common.IISManipulationClass.StopIIS("prolexnet");
-                                            Common.IISManipulationClass.StopIIS("prolexnet_updater");
+                                            Common.IISManipulationClass.RemoveSite("prolexnet");
+                                            Common.IISManipulationClass.RemoveSite("prolexnet_updater");
+                                            Common.IISManipulationClass.RemovePool("prolexnet");
                                             Directory.Delete(rootPath.ToString(), true);
                                             key.DeleteSubKey(applicationGuid, false);
 

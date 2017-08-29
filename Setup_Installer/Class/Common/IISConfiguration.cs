@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Web.Administration;
+using ProlexNetSetup.Class.Common;
 
 namespace ProlexNetSetup.Class.Common
 {
@@ -10,7 +11,9 @@ namespace ProlexNetSetup.Class.Common
     {
         public static async Task ProlexNetSettings(string installationPath, string serverPort)
         {
-            Process process = new Process();
+            var installationSitePath = Path.Combine(installationPath, "ProlexNet Server");
+            int sitePort = Convert.ToInt32(serverPort);
+            
             // Chama o aspnet_regiis para informar o IIS sobre a versão do DotNet
             try
             {
@@ -18,6 +21,7 @@ namespace ProlexNetSetup.Class.Common
                 if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
                     regiisVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "Microsoft.NET", "Framework64", "v4.0.30319", "aspnet_regiis.exe");
 
+                Process process = new Process();
                 var regiisArgs = "-i";
                 process.StartInfo.FileName = regiisVersion;
                 process.StartInfo.Arguments = regiisArgs;
@@ -29,129 +33,24 @@ namespace ProlexNetSetup.Class.Common
             {
                 Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
             }
+
+            // Remove os Sites "prolexnet" e "prolexnet_updater" do IIS.
+            IISManipulationClass.RemoveSite("prolexnet");
+            IISManipulationClass.RemoveSite("prolexnet_updater");
+
+            // Remove o Pool de aplicativo "prolexnet".
+            IISManipulationClass.RemovePool("prolexnet");
             
-            // Remove, se houver, uma configuração já existente do Site "prolexnet" no IIS.
-            try
-            {
-                ServerManager iisManager = new ServerManager();
-                Site site = iisManager.Sites[@"prolexnet"];
-                iisManager.Sites.Remove(site);
-                iisManager.CommitChanges();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
-            }
+            // Adiciona os Sites "prolexnet" e "prolexnet_updater" ao IIS.
+            IISManipulationClass.AddSite("prolexnet", sitePort, installationSitePath, "www");
+            IISManipulationClass.AddSite("prolexnet_updater", sitePort+1, installationSitePath, "updater");
 
-            // Remove, se houver, uma configuração já existente do Site "prolexnet_updater" no IIS.
-            try
-            {
-                ServerManager iisManager = new ServerManager();
-                Site site = iisManager.Sites[@"prolexnet_updater"];
-                iisManager.Sites.Remove(site);
-                iisManager.CommitChanges();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
-            }
+            // Adiciona o Pool de aplicativo .Net 4.0 ao IIS chamado "prolexnet".
+            IISManipulationClass.AddPool("prolexnet");
 
-            // Adiciona uma nova configuração do Site "prolexnet" ao IIS.
-            try
-            {
-                var site = "prolexnet";
-                var protocol = "http";
-                var port = $"*:{serverPort}:";
-                var installationSiteFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
-                ServerManager iisManager = new ServerManager();
-                iisManager.Sites.Add(site, protocol, port, installationSiteFolder);
-                iisManager.CommitChanges();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
-            }
-
-            // Adiciona uma nova configuração do Site "prolexnet_updater" ao IIS.
-            try
-            {
-                var updaterPort = (Convert.ToInt32(serverPort) + 1);
-                var site = "prolexnet_updater";
-                var protocol = "http";
-                var port = $"*:{updaterPort}:";
-                var installationSiteFolder = Path.Combine(installationPath, "ProlexNet Server", "updater");
-                ServerManager iisManager = new ServerManager();
-                iisManager.Sites.Add(site, protocol, port, installationSiteFolder);
-                iisManager.CommitChanges();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
-            }
-            
-            // Detecta qual a versão correta do AppCMD deverá ser executada de acordo com a versão do Windows e redireciona ao processo.
-            string appcmd = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "inetsrv", "appcmd.exe");
-
-            // Remove, se houver, uma configuração já existente do Pool de aplicativo "prolexnet".
-            try
-            {
-                var appcmdArgs = "delete apppool /name:prolexnet";
-                process.StartInfo.FileName = appcmd;
-                process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
-                process.Start();
-                process.WaitForExit();
-
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
-            }
-
-            // Adiciona um novo Pool de aplicativo .Net 4.0 ao IIS chamado "prolexnet".
-            try
-            {
-                var appcmdArgs = "add apppool /name:prolexnet /managedRuntimeVersion:v4.0 -processModel.identityType:LocalSystem /enable32BitAppOnWin64:true";
-                process.StartInfo.FileName = appcmd;
-                process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
-                process.Start();
-                process.WaitForExit();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
-            }
-
-            // Registra o Site "prolexnet" para utilizar Pool "prolexnet" anteriormente criado.
-            try
-            {
-                var appcmdArgs = $"set site /site.name:prolexnet /[path='/'].applicationPool:prolexnet";
-                process.StartInfo.FileName = appcmd;
-                process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
-                process.Start();
-                process.WaitForExit();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
-            }
-
-            // Registra o Site "prolexnet_updater" para utilizar Pool "prolexnet" anteriormente criado.
-            try
-            {
-                var appcmdArgs = $"set site /site.name:prolexnet_updater /[path='/'].applicationPool:prolexnet";
-                process.StartInfo.FileName = appcmd;
-                process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
-                process.Start();
-                process.WaitForExit();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
-            }
+            // Registra o Site "prolexnet" e "prolexnet_updater" para utilizar Pool "prolexnet" anteriormente criado.
+            IISManipulationClass.ConfigurePool("prolexnet", "prolexnet");
+            IISManipulationClass.ConfigurePool("prolexnet_updater", "prolexnet");
 
             return;
         }
