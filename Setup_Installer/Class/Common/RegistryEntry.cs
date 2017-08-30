@@ -112,13 +112,16 @@ namespace ProlexNetSetup.Class.Common
                         var updaterPath = Path.Combine(installationPath, "ProlexNet Server", "updater");
                         var rootPath = Path.Combine(installationPath, "ProlexNet Server");
                         var iconPath = Path.Combine(installedPath, "favicon.ico");
+                        var version = "1.0.0.0";
 
                         key.SetValue("DisplayName", "ProlexNet Server");
+                        key.SetValue("ApplicationVersion", version);
                         key.SetValue("Publisher", "Automatiza Tecnologia e Automação Ltda.");
                         key.SetValue("DisplayIcon", iconPath);
                         key.SetValue("InstallLocation", installedPath);
                         key.SetValue("UpdaterLocation", updaterPath);
                         key.SetValue("RootLocation", rootPath);
+                        key.SetValue("DisplayVersion", version);
                         key.SetValue("URLInfoAbout", "http://www.automatizatec.com.br/");
                         key.SetValue("Contact", "automatiza@automatizatec.com.br");
                         key.SetValue("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
