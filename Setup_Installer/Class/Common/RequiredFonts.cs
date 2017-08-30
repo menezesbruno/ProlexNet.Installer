@@ -15,7 +15,7 @@ namespace ProlexNetSetup.Class.Common
             {
                 Shell32.Shell shell = new Shell32.Shell();
                 Shell32.Folder fontFolder = shell.NameSpace(0x14);
-                fontFolder.CopyHere(@"\Resources\MAGNETOB.ttf");
+                fontFolder.CopyHere(@"Resources\MAGNETOB.ttf");
             }
             catch (Exception ex)
             {
