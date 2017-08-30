@@ -122,6 +122,7 @@
     <Compile Include="Class\Common\IISManipulationClass.cs" />
     <Compile Include="Class\Common\ProlexNetConfiguration.cs" />
     <Compile Include="Class\Common\RegistryEntry.cs" />
+    <Compile Include="Class\Common\RequiredFonts.cs" />
     <Compile Include="Class\Common\ShortcutCreation.cs" />
     <Compile Include="Class\Common\ZipManipulation.cs" />
     <Compile Include="Class\Download\Download.cs" />
@@ -159,6 +160,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\MAGNETOB.TTF" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -189,6 +191,15 @@
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
       <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
