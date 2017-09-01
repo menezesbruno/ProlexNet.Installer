@@ -93,7 +93,6 @@ namespace ProlexNetSetup.Class.Download
             await ZipExtractor.Extract(file, installationSubFolder);
             ShortcutCreation.ProlexNetClient(installationSubFolder);
             RegistryEntry.CreateProlexNetClientUninstaller(servicePath, installationPath, applicationGuid, windowsUninstallPath);
-            RequiredFonts.Magneto();
 
             return;
         }

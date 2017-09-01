@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace ProlexNetSetup.Class.Common
 {
@@ -13,9 +9,17 @@ namespace ProlexNetSetup.Class.Common
         {
             try
             {
-                Shell32.Shell shell = new Shell32.Shell();
-                Shell32.Folder fontFolder = shell.NameSpace(0x14);
-                fontFolder.CopyHere(@"Resources\MAGNETOB.ttf");
+                var font = @"Resources\MAGNETOB.ttf";
+                var fontName = Path.GetFileName(font);
+                var fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), fontName);
+                if (File.Exists(fontPath))
+                {
+                    File.Copy(font, fontPath, true);
+
+                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts");
+                    key.SetValue("Magneto Bold (TrueType)", fontName);
+                    key.Close();
+                }
             }
             catch (Exception ex)
             {
