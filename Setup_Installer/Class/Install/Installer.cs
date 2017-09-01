@@ -10,7 +10,7 @@ namespace ProlexNetSetup.Class.Install
 {
     public class Installer
     {
-        public static void Firebird(string file, bool silentInstallation, string installationPath)
+        public static void Firebird(string file, string installationPath)
         {
             // Argumentos para a correta instalação do Firebird 3.
             try
@@ -25,8 +25,7 @@ namespace ProlexNetSetup.Class.Install
                 process.StartInfo.Arguments = installargsComponents;
                 process.StartInfo.Arguments += installargsTasks;
                 process.StartInfo.Arguments += installargsSecurity;
-                if (silentInstallation)
-                    process.StartInfo.Arguments += installargsSilent;
+                process.StartInfo.Arguments += installargsSilent;
                 process.Start();
                 process.WaitForExit();
 

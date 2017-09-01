@@ -12,7 +12,7 @@ namespace ProlexNetSetup.Class.Download
 {
     public class Download
     {
-        public static async Task FirebirdAsync(string servicePath, bool silentInstallation, string installationPath)
+        public static async Task FirebirdAsync(string servicePath, string installationPath)
         {
             var firebird_Url_X86 = DownloadParameters.Instance.Firebird_X86_Url;
             var firebird_Hash_X86 = DownloadParameters.Instance.Firebird_X86_Hash;
@@ -32,7 +32,7 @@ namespace ProlexNetSetup.Class.Download
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            Installer.Firebird(file, silentInstallation, installationPath);
+            Installer.Firebird(file, installationPath);
         }
       
         public static async Task ProlexNetServerAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)

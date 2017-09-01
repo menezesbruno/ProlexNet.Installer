@@ -81,13 +81,13 @@ namespace ProlexNetSetup
 
                     if (checkbox_ProlexNetServer.IsChecked == true)
                     {
-                        CheckBoxFirebirdSilentInstallation.IsEnabled = true;
+                        CheckBoxFirebirdInstallation.IsEnabled = true;
                         CheckBoxLINQPadInstallation.IsEnabled = true;
                         ServerNameOverNetwork.Text = Environment.GetEnvironmentVariable("COMPUTERNAME");
                     }
                     if (checkbox_ProlexNetServer.IsChecked == false)
                     {
-                        CheckBoxFirebirdSilentInstallation.IsEnabled = false;
+                        CheckBoxFirebirdInstallation.IsEnabled = false;
                         CheckBoxLINQPadInstallation.IsEnabled = false;
                     }
 
@@ -223,8 +223,9 @@ namespace ProlexNetSetup
             if (checkbox_ProlexNetServer.IsChecked == true)
             {
                 ComponentsToBeInstalled.Text += "Serviços de Informações da Internet - IIS" + Environment.NewLine;
-                ComponentsToBeInstalled.Text += $"Firebird 3 {systemVersion}" + Environment.NewLine;
-                if(CheckBoxLINQPadInstallation.IsChecked == true)
+                if (CheckBoxFirebirdInstallation.IsChecked == true)
+                    ComponentsToBeInstalled.Text += $"Firebird 3 {systemVersion}" + Environment.NewLine;
+                if (CheckBoxLINQPadInstallation.IsChecked == true)
                     ComponentsToBeInstalled.Text += "LINQPad 5" + Environment.NewLine;
                 ComponentsToBeInstalled.Text += "ProlexNet Server" + Environment.NewLine;
             }
@@ -237,7 +238,6 @@ namespace ProlexNetSetup
         {
             var serverName = ServerNameOverNetwork.Text;
             var serverPort = ServerPortOverNetrork.Text;
-            var silentInstallation = CheckBoxFirebirdSilentInstallation.IsChecked == true;
 
             var systemVersion = DetectOSVersion.Is64Bits();
 
@@ -315,23 +315,26 @@ namespace ProlexNetSetup
                     }
 
                     // Chama a classe que faz o download e instala o Firebird 3 baseado na versão do Sistema Operacional.
-                    try
+                    if (CheckBoxFirebirdInstallation.IsChecked == true)
                     {
-                        if (InstallationDetect.Firebird())
+                        try
                         {
-                            var fbInstall = MessageBox.Show("O Firebird já está instalado no computador. Deseja desinstalar a versão atual?", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                            if (fbInstall == MessageBoxResult.Yes)
-                                Uninstaller.Firebird();
-                        }
+                            if (InstallationDetect.Firebird())
+                            {
+                                var fbInstall = MessageBox.Show("O Firebird já está instalado no computador. Deseja desinstalar a versão atual?", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                                if (fbInstall == MessageBoxResult.Yes)
+                                    Uninstaller.Firebird();
+                            }
 
-                        InstallationStatus.Text += $"Firebird 3 {systemVersion}... ";
-                        await Download.FirebirdAsync(ServicePath, silentInstallation, InstallationPath);
-                        InstallationStatus.Text += "OK" + Environment.NewLine;
-                    }
-                    catch (Exception ex)
-                    {
-                        InstallationStatus.Text += "Erro" + Environment.NewLine;
-                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                            InstallationStatus.Text += $"Firebird 3 {systemVersion}... ";
+                            await Download.FirebirdAsync(ServicePath, InstallationPath);
+                            InstallationStatus.Text += "OK" + Environment.NewLine;
+                        }
+                        catch (Exception ex)
+                        {
+                            InstallationStatus.Text += "Erro" + Environment.NewLine;
+                            MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
 
                     // Chama a classe que faz o download e instala o LINQPad 5.

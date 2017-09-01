@@ -279,22 +279,23 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Label
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Padding="10"
                                         Content="Outros parâmetros da instalação:" />
-                                    <CheckBox
-                                        x:Name="CheckBoxFirebirdSilentInstallation"
+                                    <CheckBox 
+                                        x:Name="CheckBoxFirebirdInstallation"
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content="Instalar o Firebird automaticamente"
+                                        Content="Instalar o Firebird 3"
                                         IsChecked="True" />
                                     <CheckBox
                                         x:Name="CheckBoxLINQPadInstallation"
-                                        Grid.Row="2"
+                                        Grid.Row="3"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
                                         Content="Instalar o LINQPad 5"
