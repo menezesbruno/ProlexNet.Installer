@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using ProlexNetSetup.Class.Download;
+using System.Windows;
 
 namespace ProlexNetSetup.Class.Common
 {
@@ -75,7 +76,14 @@ namespace ProlexNetSetup.Class.Common
             var hash = DownloadParameters.Instance.ProlexNet_Database_Hash;
 
             await Download.Download.DownloadFileInBackgroundAsync(url, file, hash);
-            await ZipExtractor.Extract(file, databaseFolder);
+            if (File.Exists(Path.Combine(databaseFolder, file)))
+            {
+                var overwrite = MessageBox.Show("Aviso!", $"O arquivo {file} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (overwrite == MessageBoxResult.Yes)
+                {
+                    await ZipExtractor.Extract(file, databaseFolder);
+                }
+            }
         }
     }
 }

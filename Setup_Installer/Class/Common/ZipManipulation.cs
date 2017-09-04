@@ -8,13 +8,13 @@ namespace ProlexNetSetup.Class.Common
 {
     public class ZipExtractor
     {
-        public static async Task Extract(string file, string installationSubFolder)
+        public static async Task Extract(string file, string folder)
         {
             try
             {
-                if (Directory.Exists(installationSubFolder))
-                    Directory.Delete(installationSubFolder);
-                ZipFile.ExtractToDirectory(file, installationSubFolder);
+                if (Directory.Exists(folder))
+                    Directory.Delete(folder);
+                ZipFile.ExtractToDirectory(file, folder);
             }
             catch (Exception ex)
             {
