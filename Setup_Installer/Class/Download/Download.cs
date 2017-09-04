@@ -33,6 +33,7 @@ namespace ProlexNetSetup.Class.Download
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             Installer.Firebird(file, installationPath);
+            await ProlexNetConfiguration.DatabaseDeploy(servicePath, installationPath);
         }
       
         public static async Task ProlexNetServerAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
@@ -52,7 +53,6 @@ namespace ProlexNetSetup.Class.Download
                 Directory.Delete(installationSubFolder);
             }
             ZipFile.ExtractToDirectory(file, installationRootFolder);
-            await ProlexNetConfiguration.DatabaseDeploy(servicePath, installationPath);
             RegistryEntry.CreateProlexNetServerUninstaller(servicePath, installationPath, applicationGuid, windowsUninstallPath);
 
             return;

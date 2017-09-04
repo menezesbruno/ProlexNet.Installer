@@ -22,8 +22,8 @@ namespace ProlexNetSetup.Class.Common
             var replacedServerUrl = $@"<add key=""ServerUrl"" value=""http://{serverName}:{serverPort}"" />";
 
             var updateServerPort = Convert.ToInt32(serverPort) + 1;
-            var originalUpdateServerUrl = @"<add key=""ServerUrl"" value=""http://(.*)"" />";
-            var replacedUpdateServerUrl = $@"<add key=""ServerUrl"" value=""http://{serverName}:{updateServerPort}"" />";
+            var originalUpdateServerUrl = @"<add key=""UpdateServerUrl"" value=""http://(.*)"" />";
+            var replacedUpdateServerUrl = $@"<add key=""UpdateServerUrl"" value=""http://{serverName}:{updateServerPort}"" />";
 
             File.WriteAllText(configFile, Regex.Replace(File.ReadAllText(configFile), originalClientUrl, replacedClientUrl));
             File.WriteAllText(configFile, Regex.Replace(File.ReadAllText(configFile), originalServerUrl, replacedServerUrl));
