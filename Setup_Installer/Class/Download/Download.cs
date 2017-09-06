@@ -106,9 +106,9 @@ namespace ProlexNetSetup.Class.Download
             var file = Path.Combine(servicePath, downloadFileName);
             var hash = DownloadParameters.Instance.ProlexNet_Database_Hash;
 
-            var databaseDeployed = Path.Combine(databaseFolder, downloadFileName);
+            var databaseDeployed = Path.Combine(databaseFolder, "ProlexNet.prolex");
 
-            await Download.DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash);
             if (File.Exists(databaseDeployed))
             {
                 var overwrite = MessageBox.Show("Aviso!", $"O arquivo {downloadFileName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", MessageBoxButton.YesNo, MessageBoxImage.Question);
