@@ -33,7 +33,6 @@ namespace ProlexNetSetup.Class.Download
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             Installer.Firebird(file, installationPath);
-            await Download.ProlexNetDatabaseAsync(servicePath, installationPath);
         }
       
         public static async Task ProlexNetServerAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
@@ -116,11 +115,19 @@ namespace ProlexNetSetup.Class.Download
                 if (overwrite == MessageBoxResult.Yes)
                 {
                     await ZipExtractor.Extract(file, databaseFolder);
+
+                    return;
+                }
+                else
+                {
+                    return;
                 }
             }
             else
             {
                 await ZipExtractor.Extract(file, databaseFolder);
+
+                return; 
             }
         }
 

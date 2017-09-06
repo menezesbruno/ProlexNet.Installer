@@ -225,6 +225,8 @@ namespace ProlexNetSetup
                 ComponentsToBeInstalled.Text += "Serviços de Informações da Internet - IIS" + Environment.NewLine;
                 if (CheckBoxFirebirdInstallation.IsChecked == true)
                     ComponentsToBeInstalled.Text += $"Firebird 3 {systemVersion}" + Environment.NewLine;
+                if (CheckBoxDatabaseDeploy.IsChecked == true)
+                    ComponentsToBeInstalled.Text += $"Banco de dados" + Environment.NewLine;
                 if (CheckBoxLINQPadInstallation.IsChecked == true)
                     ComponentsToBeInstalled.Text += "LINQPad 5" + Environment.NewLine;
                 ComponentsToBeInstalled.Text += "ProlexNet Server" + Environment.NewLine;
@@ -328,6 +330,22 @@ namespace ProlexNetSetup
 
                             InstallationStatus.Text += $"Firebird 3 {systemVersion}... ";
                             await Download.FirebirdAsync(ServicePath, InstallationPath);
+                            InstallationStatus.Text += "OK" + Environment.NewLine;
+                        }
+                        catch (Exception ex)
+                        {
+                            InstallationStatus.Text += "Erro" + Environment.NewLine;
+                            MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+
+                    // Chama a classe que faz o download e extrai o Banco de dados do ProlexNet.
+                    if (CheckBoxDatabaseDeploy.IsChecked == true)
+                    {
+                        try
+                        {
+                            InstallationStatus.Text += $"Banco de dados... ";
+                            await Download.ProlexNetDatabaseAsync(ServicePath, InstallationPath);
                             InstallationStatus.Text += "OK" + Environment.NewLine;
                         }
                         catch (Exception ex)

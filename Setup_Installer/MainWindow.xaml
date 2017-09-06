@@ -286,9 +286,16 @@
                                         Grid.Column="0"
                                         Padding="10"
                                         Content="Outros parâmetros da instalação:" />
+                                    <CheckBox
+                                        x:Name="CheckBoxDatabaseDeploy"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content="Banco de dados"
+                                        IsChecked="True" />
                                     <CheckBox 
                                         x:Name="CheckBoxFirebirdInstallation"
-                                        Grid.Row="1"
+                                        Grid.Row="2"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
                                         Content="Instalar o Firebird 3"
