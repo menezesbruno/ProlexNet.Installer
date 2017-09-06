@@ -81,12 +81,14 @@ namespace ProlexNetSetup
 
                     if (checkbox_ProlexNetServer.IsChecked == true)
                     {
+                        CheckBoxDatabaseDeploy.IsEnabled = true;
                         CheckBoxFirebirdInstallation.IsEnabled = true;
                         CheckBoxLINQPadInstallation.IsEnabled = true;
                         ServerNameOverNetwork.Text = Environment.GetEnvironmentVariable("COMPUTERNAME");
                     }
                     if (checkbox_ProlexNetServer.IsChecked == false)
                     {
+                        CheckBoxDatabaseDeploy.IsEnabled = false;
                         CheckBoxFirebirdInstallation.IsEnabled = false;
                         CheckBoxLINQPadInstallation.IsEnabled = false;
                     }
