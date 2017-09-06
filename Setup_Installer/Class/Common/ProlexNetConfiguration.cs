@@ -75,14 +75,20 @@ namespace ProlexNetSetup.Class.Common
             var file = Path.Combine(servicePath, downloadFileName);
             var hash = DownloadParameters.Instance.ProlexNet_Database_Hash;
 
+            var databaseDeployed = Path.Combine(databaseFolder, downloadFileName);
+
             await Download.Download.DownloadFileInBackgroundAsync(url, file, hash);
-            if (File.Exists(Path.Combine(databaseFolder, file)))
+            if (File.Exists(databaseDeployed))
             {
-                var overwrite = MessageBox.Show("Aviso!", $"O arquivo {file} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var overwrite = MessageBox.Show("Aviso!", $"O arquivo {downloadFileName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (overwrite == MessageBoxResult.Yes)
                 {
                     await ZipExtractor.Extract(file, databaseFolder);
                 }
+            }
+            else
+            {
+                await ZipExtractor.Extract(file, databaseFolder);
             }
         }
     }
