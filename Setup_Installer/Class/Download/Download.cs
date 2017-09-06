@@ -33,7 +33,7 @@ namespace ProlexNetSetup.Class.Download
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             Installer.Firebird(file, installationPath);
-            await ProlexNetConfiguration.DatabaseDeploy(servicePath, installationPath);
+            await Download.ProlexNetDatabaseAsync(servicePath, installationPath);
         }
       
         public static async Task ProlexNetServerAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
@@ -95,6 +95,33 @@ namespace ProlexNetSetup.Class.Download
             RegistryEntry.CreateProlexNetClientUninstaller(servicePath, installationPath, applicationGuid, windowsUninstallPath);
 
             return;
+        }
+
+        public static async Task ProlexNetDatabaseAsync(string servicePath, string installationPath)
+        {
+            var databaseFolder = Path.Combine(installationPath, "Database");
+            Directory.CreateDirectory(databaseFolder);
+
+            var url = DownloadParameters.Instance.ProlexNet_Database_Url;
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+            var hash = DownloadParameters.Instance.ProlexNet_Database_Hash;
+
+            var databaseDeployed = Path.Combine(databaseFolder, downloadFileName);
+
+            await Download.DownloadFileInBackgroundAsync(url, file, hash);
+            if (File.Exists(databaseDeployed))
+            {
+                var overwrite = MessageBox.Show("Aviso!", $"O arquivo {downloadFileName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (overwrite == MessageBoxResult.Yes)
+                {
+                    await ZipExtractor.Extract(file, databaseFolder);
+                }
+            }
+            else
+            {
+                await ZipExtractor.Extract(file, databaseFolder);
+            }
         }
 
         public static async Task VisualCAsync (string servicePath, string systemType)
