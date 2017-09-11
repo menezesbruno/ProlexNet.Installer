@@ -98,6 +98,7 @@ namespace ProlexNetSetup.Class.Install
                                             Common.IISManipulationClass.RemoveSite("prolexnet");
                                             Common.IISManipulationClass.RemoveSite("prolexnet_updater");
                                             Common.IISManipulationClass.RemovePool("prolexnet");
+                                            Common.FirewallConfiguration.RemoveRules();
                                             Directory.Delete(rootPath.ToString(), true);
                                             key.DeleteSubKey(applicationGuid, false);
 
