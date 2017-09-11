@@ -116,6 +116,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Class\Common\FirewallConfiguration.cs" />
     <Compile Include="Class\Common\FolderBackup.cs" />
     <Compile Include="Class\Common\HashChecker.cs" />
     <Compile Include="Class\Common\IISConfiguration.cs" />

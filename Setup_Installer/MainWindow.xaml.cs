@@ -380,6 +380,7 @@ namespace ProlexNetSetup
                         await Download.ProlexNetServerAsync(ServicePath, InstallationPath, ServerApplicationGuid, WindowsUninstallPath);
                         await Download.ProlexNetUpdaterAsync(ServicePath, InstallationPath);
                         await ProlexNetConfiguration.Server(InstallationPath, serverName, serverPort);
+                        FirewallConfiguration.AddRules(serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
