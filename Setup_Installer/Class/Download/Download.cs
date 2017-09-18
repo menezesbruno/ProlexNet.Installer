@@ -111,7 +111,7 @@ namespace ProlexNetSetup.Class.Download
             await DownloadFileInBackgroundAsync(url, file, hash);
             if (File.Exists(databaseDeployed))
             {
-                var overwrite = MessageBox.Show("Aviso!", $"O arquivo {downloadFileName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var overwrite = MessageBox.Show($"O arquivo {downloadFileName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (overwrite == MessageBoxResult.Yes)
                 {
                     await ZipExtractor.Extract(file, databaseFolder);
