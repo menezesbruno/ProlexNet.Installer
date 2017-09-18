@@ -68,10 +68,11 @@ namespace ProlexNetSetup.Class.Common
         public static async Task Updater(string installationPath)
         {
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "updater");
+            var prolexPath = Path.Combine(installationPath, "ProlexNet Server", "www");
             var webConfigFile = Path.Combine(installationSubFolder, "Web.config");
 
             var originalProlexPath = @"<add key=""ProlexPath"" value=""(.*)"" />";
-            var replacedProlexPath = $@"<add key=""ProlexPath"" value=""{installationSubFolder}"" />";
+            var replacedProlexPath = $@"<add key=""ProlexPath"" value=""{prolexPath}"" />";
 
             File.WriteAllText(webConfigFile, Regex.Replace(File.ReadAllText(webConfigFile), originalProlexPath, replacedProlexPath));
         }
