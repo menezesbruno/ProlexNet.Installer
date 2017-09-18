@@ -379,7 +379,8 @@ namespace ProlexNetSetup
                         InstallationStatus.Text += "ProlexNet Server... ";
                         await Download.ProlexNetServerAsync(ServicePath, InstallationPath, ServerApplicationGuid, WindowsUninstallPath);
                         await Download.ProlexNetUpdaterAsync(ServicePath, InstallationPath);
-                        await ProlexNetConfiguration.Server(InstallationPath, serverName, serverPort);
+                        ProlexNetConfiguration.Server(InstallationPath, serverName, serverPort);
+                        ProlexNetConfiguration.Updater(InstallationPath);
                         FirewallConfiguration.AddRules(serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
@@ -410,7 +411,7 @@ namespace ProlexNetSetup
                     {
                         InstallationStatus.Text += "ProlexNet Client... ";
                         await Download.ProlexNetClientAsync(ServicePath, InstallationPath, ClientApplicationGuid, WindowsUninstallPath);
-                        await ProlexNetConfiguration.Client(InstallationPath, serverName, serverPort);
+                        ProlexNetConfiguration.Client(InstallationPath, serverName, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)

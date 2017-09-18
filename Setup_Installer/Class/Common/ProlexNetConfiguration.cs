@@ -11,7 +11,7 @@ namespace ProlexNetSetup.Class.Common
 {
     class ProlexNetConfiguration
     {
-        public static async Task Client(string installationPath, string serverName, string serverPort)
+        public static void Client(string installationPath, string serverName, string serverPort)
         {
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Client", "bin");
             var configFile = Path.Combine(installationSubFolder, "ProlexNet.ExtHost.exe.config");
@@ -31,7 +31,7 @@ namespace ProlexNetSetup.Class.Common
             File.WriteAllText(configFile, Regex.Replace(File.ReadAllText(configFile), originalUpdateServerUrl, replacedUpdateServerUrl));
         }
 
-        public static async Task Server(string installationPath, string serverName, string serverPort)
+        public static void Server(string installationPath, string serverName, string serverPort)
         {
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
             var webConfigFile = Path.Combine(installationSubFolder, "Web.config");
@@ -63,6 +63,17 @@ namespace ProlexNetSetup.Class.Common
             connectionStringsElement.RemoveAll();
             connectionStringsElement.Add(firstConnectionString);
             doc.Save(webConfigFile);
+        }
+
+        public static async Task Updater(string installationPath)
+        {
+            var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "updater");
+            var webConfigFile = Path.Combine(installationSubFolder, "Web.config");
+
+            var originalProlexPath = @"<add key=""ProlexPath"" value=""(.*)"" />";
+            var replacedProlexPath = $@"<add key=""ProlexPath"" value=""{installationSubFolder}"" />";
+
+            File.WriteAllText(webConfigFile, Regex.Replace(File.ReadAllText(webConfigFile), originalProlexPath, replacedProlexPath));
         }
     }
 }
