@@ -201,55 +201,13 @@ namespace ProlexNetSetup.Class.Download
                 }
                 else
                 {
-                    MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}. Uma nova tentativa de download será feita em seguida.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    await DownloadFileInBackgroundAsync(url, file, hash);
-                    return;
+                    MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}. Uma nova tentativa de download será feita. Caso o download/erro entre em loop, feche o instalador e comunique o setor de desenvolvimento", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    DownloadFileInBackgroundAsync(url, file, hash);
                 }
             };
 
             await client.DownloadFileTaskAsync(url, file);
             return;
-        }
-
-        public async static Task DownloadFileAsync(string url, string file)
-        {
-            long iFileSize = 0;
-            int iBufferSize = 1024;
-            iBufferSize *= 1000;
-            long iExistLen = 0;
-            System.IO.FileStream saveFileStream;
-            if (System.IO.File.Exists(file))
-            {
-                System.IO.FileInfo fINfo =
-                   new System.IO.FileInfo(file);
-                iExistLen = fINfo.Length;
-            }
-            if (iExistLen > 0)
-                saveFileStream = new System.IO.FileStream(file,
-                  System.IO.FileMode.Append, System.IO.FileAccess.Write,
-                  System.IO.FileShare.ReadWrite);
-            else
-                saveFileStream = new System.IO.FileStream(file,
-                  System.IO.FileMode.Create, System.IO.FileAccess.Write,
-                  System.IO.FileShare.ReadWrite);
-
-            System.Net.HttpWebRequest hwRq;
-            System.Net.HttpWebResponse hwRes;
-            hwRq = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(url);
-            hwRq.AddRange((int)iExistLen);
-            System.IO.Stream smRespStream;
-            hwRes = (System.Net.HttpWebResponse)hwRq.GetResponse();
-            smRespStream = hwRes.GetResponseStream();
-
-            iFileSize = hwRes.ContentLength;
-
-            int iByteSize;
-            byte[] downBuffer = new byte[iBufferSize];
-
-            while ((iByteSize = smRespStream.Read(downBuffer, 0, downBuffer.Length)) > 0)
-            {
-                saveFileStream.Write(downBuffer, 0, iByteSize);
-            }
         }
     }
 }

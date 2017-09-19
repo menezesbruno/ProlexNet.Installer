@@ -25,7 +25,7 @@ namespace ProlexNetSetup.Class.Common
                 var regiisArgs = "-i";
                 process.StartInfo.FileName = regiisVersion;
                 process.StartInfo.Arguments = regiisArgs;
-                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.Start();
                 process.WaitForExit();
             }

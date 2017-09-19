@@ -21,7 +21,7 @@ namespace ProlexNetSetup.Class.Common
                 var appcmdArgs = $"stop site /site.name:{site}";
                 process.StartInfo.FileName = appcmd;
                 process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.Start();
                 process.WaitForExit();
 
@@ -48,7 +48,7 @@ namespace ProlexNetSetup.Class.Common
                 var appcmdArgs = $"delete apppool /apppool.name:{pool}";
                 process.StartInfo.FileName = appcmd;
                 process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.Start();
                 process.WaitForExit();
 
@@ -87,7 +87,7 @@ namespace ProlexNetSetup.Class.Common
                 var appcmdArgs = "add apppool /name:prolexnet /managedRuntimeVersion:v4.0 -processModel.identityType:LocalSystem /enable32BitAppOnWin64:true";
                 process.StartInfo.FileName = appcmd;
                 process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.Start();
                 process.WaitForExit();
             }
@@ -107,7 +107,7 @@ namespace ProlexNetSetup.Class.Common
                 var appcmdArgs = $"set site /site.name:{site} /[path='/'].applicationPool:{pool}";
                 process.StartInfo.FileName = appcmd;
                 process.StartInfo.Arguments = appcmdArgs;
-                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.Start();
                 process.WaitForExit();
             }

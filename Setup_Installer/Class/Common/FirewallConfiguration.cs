@@ -35,7 +35,7 @@ namespace ProlexNetSetup.Class.Common
                 var netshArgs = $"netsh advfirewall firewall delete rule name={name}";
                 process.StartInfo.FileName = "netsh";
                 process.StartInfo.Arguments = netshArgs;
-                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.Start();
                 process.WaitForExit();
             }
@@ -53,7 +53,7 @@ namespace ProlexNetSetup.Class.Common
                 var netshArgs = $"advfirewall firewall add rule name=\"{name}\" dir={direction} action=allow protocol=TCP localport={port}";
                 process.StartInfo.FileName = "netsh";
                 process.StartInfo.Arguments = netshArgs;
-                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.Start();
                 process.WaitForExit();
             }

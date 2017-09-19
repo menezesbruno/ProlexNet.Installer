@@ -96,7 +96,7 @@ namespace ProlexNetSetup.Class.Install
                 process.StartInfo.Arguments = dismArgs;
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.CreateNoWindow = false;
                 process.Start();
 
                 var output = process.StandardOutput.ReadToEnd();
