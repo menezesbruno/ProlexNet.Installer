@@ -309,7 +309,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "Serviços de Informações da Internet - IIS... ";
-                        await Installer.IISAvailablePackages(ServicePath);
+                        Installer.IISAvailablePackages(ServicePath);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
