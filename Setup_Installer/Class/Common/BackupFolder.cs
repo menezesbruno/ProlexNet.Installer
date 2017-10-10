@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ProlexNetSetup.Class.Common
 {
-    public class FolderBackup
+    public class BackupFolder
     {
         public static void Backup(string servicePath, string folderToBackup)
         {
@@ -20,10 +20,8 @@ namespace ProlexNetSetup.Class.Common
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("FolderBackup:Backup:" + ex.Message);
+                Trace.WriteLine("BackupFolder:Backup:" + ex.Message);
             }
-
-            return;
         }
     }
 }

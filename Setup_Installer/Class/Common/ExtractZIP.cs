@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProlexNetSetup.Class.Common
 {
-    public class ZipExtractor
+    public class ExtractZIP
     {
         public static async Task Extract(string file, string folder)
         {
@@ -18,10 +18,8 @@ namespace ProlexNetSetup.Class.Common
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("ZipExtractor:Extract:" + ex.Message);
-            }
-            
-            return;
+                Trace.WriteLine("ExtractZIP:Extract:" + ex.Message);
+            }          
         }
     }
 }

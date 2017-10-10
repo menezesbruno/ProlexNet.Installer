@@ -116,21 +116,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Class\Common\FirewallConfiguration.cs" />
-    <Compile Include="Class\Common\FolderBackup.cs" />
-    <Compile Include="Class\Common\HashChecker.cs" />
-    <Compile Include="Class\Common\IISConfiguration.cs" />
-    <Compile Include="Class\Common\IISManipulationClass.cs" />
-    <Compile Include="Class\Common\ProlexNetConfiguration.cs" />
-    <Compile Include="Class\Common\RegistryEntry.cs" />
-    <Compile Include="Class\Common\ShortcutCreation.cs" />
-    <Compile Include="Class\Common\ZipManipulation.cs" />
+    <Compile Include="Class\Common\ConfigFirewall.cs" />
+    <Compile Include="Class\Common\BackupFolder.cs" />
+    <Compile Include="Class\Common\CheckHash.cs" />
+    <Compile Include="Class\Common\ConfigIIS.cs" />
+    <Compile Include="Class\Common\ConfigIISServer.cs" />
+    <Compile Include="Class\Common\ConfigProlexNet.cs" />
+    <Compile Include="Class\Common\CreateRegistryEntry.cs" />
+    <Compile Include="Class\Common\CreateShortcut.cs" />
+    <Compile Include="Class\Common\ExtractZIP.cs" />
     <Compile Include="Class\Download\Download.cs" />
     <Compile Include="Class\Download\DownloadParameter.cs" />
     <Compile Include="Class\Install\Requirements.cs" />
     <Compile Include="Class\Install\Installer.cs" />
     <Compile Include="Class\Install\Uninstaller.cs" />
-    <Compile Include="Class\Common\DetectOSVersion.cs" />
+    <Compile Include="Class\Common\DetectOS.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

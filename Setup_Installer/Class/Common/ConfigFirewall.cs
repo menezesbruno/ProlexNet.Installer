@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProlexNetSetup.Class.Common
 {
-    public class FirewallConfiguration
+    public class ConfigFirewall
     {
         public static void AddRules(string serverPort)
         {

@@ -16,7 +16,6 @@ namespace ProlexNetSetup.Class.Install
             try
             {
                 var firebird = Directory.GetFiles(@"C:\Program Files\Firebird", "unins*.exe", SearchOption.AllDirectories).FirstOrDefault();
-
                 if (firebird == null)
                 {
                     firebird = Directory.GetFiles(@"C:\Program Files (x86)\Firebird", "unins*.exe", SearchOption.AllDirectories).FirstOrDefault();

@@ -5,7 +5,7 @@ using Microsoft.Win32;
 
 namespace ProlexNetSetup.Class.Common
 {
-    public class RegistryEntry
+    public class CreateRegistryEntry
     {
         public static void CreateProlexNetClientUninstaller(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
         {

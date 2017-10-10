@@ -2,7 +2,7 @@
 
 namespace ProlexNetSetup.Class.Common
 {
-    public class DetectOSVersion
+    public class DetectOS
     {
         public static bool Windows()
         {
@@ -11,10 +11,8 @@ namespace ProlexNetSetup.Class.Common
 
             if (majorVersion >= 6 && minorVersion >=1 )
                 return true;
-
             else if (majorVersion == 10)
                 return true;
-
             else
                 return false;
         }

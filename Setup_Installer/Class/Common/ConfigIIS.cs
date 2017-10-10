@@ -7,7 +7,7 @@ using ProlexNetSetup.Class.Common;
 
 namespace ProlexNetSetup.Class.Common
 {
-    public class IISConfiguration
+    public class ConfigIIS
     {
         public static async Task ProlexNetSettings(string installationPath, string serverPort)
         {
@@ -31,28 +31,26 @@ namespace ProlexNetSetup.Class.Common
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("IISConfiguration:ProlexNetSettings:" + ex.Message);
+                Trace.WriteLine("ConfigIIS:ProlexNetSettings:" + ex.Message);
             }
 
             // Remove os Sites "prolexnet" e "prolexnet_updater" do IIS.
-            IISManipulationClass.RemoveSite("prolexnet");
-            IISManipulationClass.RemoveSite("prolexnet_updater");
+            ConfigIISServer.RemoveSite("prolexnet");
+            ConfigIISServer.RemoveSite("prolexnet_updater");
 
             // Remove o Pool de aplicativo "prolexnet".
-            IISManipulationClass.RemovePool("prolexnet");
+            ConfigIISServer.RemovePool("prolexnet");
             
             // Adiciona os Sites "prolexnet" e "prolexnet_updater" ao IIS.
-            IISManipulationClass.AddSite("prolexnet", sitePort, installationSitePath, "www");
-            IISManipulationClass.AddSite("prolexnet_updater", sitePort+1, installationSitePath, "updater");
+            ConfigIISServer.AddSite("prolexnet", sitePort, installationSitePath, "www");
+            ConfigIISServer.AddSite("prolexnet_updater", sitePort+1, installationSitePath, "updater");
 
             // Adiciona o Pool de aplicativo .Net 4.0 ao IIS chamado "prolexnet".
-            IISManipulationClass.AddPool("prolexnet");
+            ConfigIISServer.AddPool("prolexnet");
 
             // Registra o Site "prolexnet" e "prolexnet_updater" para utilizar Pool "prolexnet" anteriormente criado.
-            IISManipulationClass.ConfigurePool("prolexnet", "prolexnet");
-            IISManipulationClass.ConfigurePool("prolexnet_updater", "prolexnet");
-
-            return;
+            ConfigIISServer.ConfigurePool("prolexnet", "prolexnet");
+            ConfigIISServer.ConfigurePool("prolexnet_updater", "prolexnet");
         }
     }
 }

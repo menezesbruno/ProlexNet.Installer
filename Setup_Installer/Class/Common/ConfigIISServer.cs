@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProlexNetSetup.Class.Common
 {
-    public class IISManipulationClass
+    public class ConfigIISServer
     {
         public static void RemoveSite(string site)
         {
@@ -34,7 +34,7 @@ namespace ProlexNetSetup.Class.Common
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("IISManipulationClass:RemoveSite" + ex.Message);
+                Trace.WriteLine("ConfigIISServer:RemoveSite" + ex.Message);
             }
         }
 
@@ -56,7 +56,7 @@ namespace ProlexNetSetup.Class.Common
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("IISManipulationClass:RemovePool" + ex.Message);
+                Trace.WriteLine("ConfigIISServer:RemovePool" + ex.Message);
             }
         }
 
@@ -73,7 +73,7 @@ namespace ProlexNetSetup.Class.Common
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("IISManipulationClass:AddSite" + ex.Message);
+                Trace.WriteLine("ConfigIISServer:AddSite" + ex.Message);
             }
         }
 
@@ -93,7 +93,7 @@ namespace ProlexNetSetup.Class.Common
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("IISManipulationClass:AddPool" + ex.Message);
+                Trace.WriteLine("ConfigIISServer:AddPool" + ex.Message);
             }
         }
 
@@ -113,7 +113,7 @@ namespace ProlexNetSetup.Class.Common
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("IISManipulationClass:ConfigurePool" + ex.Message);
+                Trace.WriteLine("ConfigIISServer:ConfigurePool" + ex.Message);
             }
         }
     }

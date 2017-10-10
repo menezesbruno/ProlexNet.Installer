@@ -56,9 +56,7 @@ namespace ProlexNetSetup.Class.Install
                                         }
                                     }
                                     else
-                                    {
                                         Environment.Exit(1);
-                                    }
                                 }
                             }
                             catch (Exception ex)
@@ -95,10 +93,10 @@ namespace ProlexNetSetup.Class.Install
                                         child.Close();
                                         try
                                         {
-                                            Common.IISManipulationClass.RemoveSite("prolexnet");
-                                            Common.IISManipulationClass.RemoveSite("prolexnet_updater");
-                                            Common.IISManipulationClass.RemovePool("prolexnet");
-                                            Common.FirewallConfiguration.RemoveRules();
+                                            Common.ConfigIISServer.RemoveSite("prolexnet");
+                                            Common.ConfigIISServer.RemoveSite("prolexnet_updater");
+                                            Common.ConfigIISServer.RemovePool("prolexnet");
+                                            Common.ConfigFirewall.RemoveRules();
                                             Directory.Delete(rootPath.ToString(), true);
                                             key.DeleteSubKey(applicationGuid, false);
 
@@ -112,9 +110,7 @@ namespace ProlexNetSetup.Class.Install
                                         }
                                     }
                                     else
-                                    {
                                         Environment.Exit(1);
-                                    }
                                 }
                             }
                             catch (Exception ex)

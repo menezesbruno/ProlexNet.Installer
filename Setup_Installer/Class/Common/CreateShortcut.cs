@@ -4,7 +4,7 @@ using IWshRuntimeLibrary;
 
 namespace ProlexNetSetup.Setup.Class.Common
 {
-    public static class ShortcutCreation
+    public static class CreateShortcut
     {
         public static void ProlexNetClient(string installationSubFolder)
         {
@@ -18,8 +18,6 @@ namespace ProlexNetSetup.Setup.Class.Common
             windowsApplicationShortcut.WorkingDirectory = startupPath;
             windowsApplicationShortcut.TargetPath = executablePath;
             windowsApplicationShortcut.Save();
-
-            return;
         }
     }
 }

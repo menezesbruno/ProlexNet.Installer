@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProlexNetSetup.Class.Common
 {
-    public class HashCheck
+    public class CheckHash
     {
         public static bool Check(string downloadedFile, string originalHash)
         {

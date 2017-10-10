@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace ProlexNetSetup.Class.Common
 {
-    class ProlexNetConfiguration
+    class ConfigProlexNet
     {
         public static void Client(string installationPath, string serverName, string serverPort)
         {
