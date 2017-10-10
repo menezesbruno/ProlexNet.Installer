@@ -394,7 +394,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "Configurando o IIS... ";
-                        await ConfigIIS.ProlexNetSettings(InstallationPath, serverPort);
+                        ConfigIIS.ProlexNetSettings(InstallationPath, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)

@@ -9,7 +9,7 @@ namespace ProlexNetSetup.Class.Common
 {
     public class ConfigIIS
     {
-        public static async Task ProlexNetSettings(string installationPath, string serverPort)
+        public static void ProlexNetSettings(string installationPath, string serverPort)
         {
             var installationSitePath = Path.Combine(installationPath, "ProlexNet Server");
             int sitePort = Convert.ToInt32(serverPort);
