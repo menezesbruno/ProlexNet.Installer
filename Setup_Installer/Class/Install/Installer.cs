@@ -12,20 +12,20 @@ namespace ProlexNetSetup.Class.Install
     {
         public static void Firebird(string file, string installationPath)
         {
-            // Argumentos para a correta instalação do Firebird 3.
+            // Argumentos para a instalação do Firebird 3.
             try
             {
-                var installargsComponents = "/COMPONENTS=" + "\"ServerComponent,DevAdminComponent,ClientComponent\"";
-                var installargsTasks = " /TASKS=" + "\"UseSuperServerTask,UseServiceTask,AutoStartTask,MenuGroupTask,CopyFbClientToSysTask,CopyFbClientAsGds32Task,EnableLegacyClientAuth\"";
-                var installargsSecurity = " /SYSDBAPASSWORD=masterkey";
-                var installargsSilent = " /FORCE /SILENT /SP-";
+                var installArgsComponents = "/COMPONENTS=" + "\"ServerComponent,DevAdminComponent,ClientComponent\"";
+                var installArgsTasks = " /TASKS=" + "\"UseSuperServerTask,UseServiceTask,AutoStartTask,MenuGroupTask,CopyFbClientToSysTask,CopyFbClientAsGds32Task,EnableLegacyClientAuth\"";
+                var installArgsSecurity = " /SYSDBAPASSWORD=masterkey";
+                var installArgsSilent = " /FORCE /SILENT /SP-";
 
                 Process process = new Process();
                 process.StartInfo.FileName = file;
-                process.StartInfo.Arguments = installargsComponents;
-                process.StartInfo.Arguments += installargsTasks;
-                process.StartInfo.Arguments += installargsSecurity;
-                process.StartInfo.Arguments += installargsSilent;
+                process.StartInfo.Arguments = installArgsComponents;
+                process.StartInfo.Arguments += installArgsTasks;
+                process.StartInfo.Arguments += installArgsSecurity;
+                process.StartInfo.Arguments += installArgsSilent;
                 process.Start();
                 process.WaitForExit();
 
@@ -75,11 +75,9 @@ namespace ProlexNetSetup.Class.Install
             {
                 Trace.WriteLine("Installer:FirebirdAsync:" + ex.Message);
             }
-
-            return;
         }
 
-        public static async Task IISAsync(string servicePath)
+        public static void IISAvailablePackages(string servicePath)
         {
             // Carrega o DISM e lista os pacotes disponíveis para a instalaçao do IIS no Sistema Operacional.
             try
@@ -103,26 +101,21 @@ namespace ProlexNetSetup.Class.Install
                 process.WaitForExit();
 
                 File.WriteAllText(dismOutputFile, output, Encoding.UTF8);
-                IISDismService(servicePath, dismOutputFile);
+
+                IISEnablePackages(servicePath, dismOutputFile, dismVersion);
             }
             catch (Exception ex)
             {
                 Trace.WriteLine("Installer:IISAsync:" + ex.Message);
             }
-
-            return;
         }
 
-        public static void IISDismService(string servicePath, string dismOutputFile)
+        public static void IISEnablePackages(string servicePath, string dismOutputFile, string dismVersion)
         {
             // Carrega o DISM e instala os pacotes do IIS.
             try
             {
                 List<string> packagesToInstall = new List<string>();
-
-                string dismVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "dism.exe");
-                if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-                    dismVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "sysnative", "dism.exe");
 
                 var packagesList = File.ReadAllLines(dismOutputFile);
                 foreach (string line in packagesList)
@@ -130,13 +123,9 @@ namespace ProlexNetSetup.Class.Install
                     if (line.StartsWith("IIS"))
                     {
                         if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 1)
-                        {
                             packagesToInstall.Add($"/FeatureName:{line.Split(' ').FirstOrDefault()}");
-                        }
                         else
-                        {
                             packagesToInstall.Add($"/FeatureName:{line.Split(' ').FirstOrDefault()} /All");
-                        }
                     }
                 }
 
@@ -157,6 +146,7 @@ namespace ProlexNetSetup.Class.Install
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.CreateNoWindow = true;
                 process.Start();
+
                 var output = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
 
@@ -166,8 +156,6 @@ namespace ProlexNetSetup.Class.Install
             {
                 Trace.WriteLine("Installer:IISDismService:" + ex.Message);
             }
-
-            return;
         }
 
         public static void DotNet(string file)
@@ -181,18 +169,15 @@ namespace ProlexNetSetup.Class.Install
                 process.StartInfo.FileName = file;
                 process.StartInfo.Arguments = installArgs;
                 process.Start();
-                while (!process.HasExited)
+                while (!process.HasExited) // Truque para evitar congelamento do instalador no Windows 8.1
                 {
 
                 }
-                return;
             }
             catch (Exception ex)
             {
                 Trace.WriteLine("Installer:DotNet:" + ex.Message);
             }
-
-            return;
         }
 
         public static void VCRedist(string file)
@@ -212,8 +197,6 @@ namespace ProlexNetSetup.Class.Install
             {
                 Trace.WriteLine("Installer:VCRedist:" + ex.Message);
             }
-
-            return;
         }
 
         public static void LINQPad(string file)
@@ -233,8 +216,6 @@ namespace ProlexNetSetup.Class.Install
             {
                 Trace.WriteLine("Installer:LINQPad:" + ex.Message);
             }
-
-            return;
         }
     }
 }

@@ -130,7 +130,6 @@ namespace ProlexNetSetup.Class.Install
 
         public static void Firebird()
         {
-            // Desinstala o Firebird
             try
             {
                 var firebirdUninstaller = Directory.GetFiles(@"C:\Program Files\Firebird", "unins*.exe", SearchOption.AllDirectories).FirstOrDefault();

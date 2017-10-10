@@ -210,16 +210,16 @@ namespace ProlexNetSetup
 
             ComponentsToBeInstalled.Text = "";
 
-            if (InstallationDetect.VCRedist_X86())
+            if (Requirements.VCRedist_X86())
                 ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x86" + Environment.NewLine;
 
             if (Environment.Is64BitOperatingSystem)
             {
-                if (InstallationDetect.VCRedist_X64())
+                if (Requirements.VCRedist_X64())
                     ComponentsToBeInstalled.Text += $"Microsoft Visual C++ 2013 x64" + Environment.NewLine;
             }
 
-            if (InstallationDetect.DotNet())
+            if (Requirements.DotNet())
                 ComponentsToBeInstalled.Text += $"Microsoft .NET Framework 4.6" + Environment.NewLine;
 
             if (checkbox_ProlexNetServer.IsChecked == true)
@@ -252,7 +252,7 @@ namespace ProlexNetSetup
             try
             {
                 // Chama a classe que verifica se há necessidade de fazer o download e instalar o VC++ Redist 2013 x86.
-                if (InstallationDetect.VCRedist_X86())
+                if (Requirements.VCRedist_X86())
                 {
                     try
                     {
@@ -270,7 +270,7 @@ namespace ProlexNetSetup
                 // Chama a classe que verifica se há necessidade de fazer o download e instalar o VC++ Redist 2013 x64.
                 if (Environment.Is64BitOperatingSystem)
                 {
-                    if (InstallationDetect.VCRedist_X64())
+                    if (Requirements.VCRedist_X64())
                     {
                         try
                         {
@@ -288,7 +288,7 @@ namespace ProlexNetSetup
                 }
 
                 // Chama a classe que verifica se há necessidade de fazer o download e instalar o DotNet 4.6
-                if (InstallationDetect.DotNet())
+                if (Requirements.DotNet())
                 {
                     try
                     {
@@ -309,7 +309,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "Serviços de Informações da Internet - IIS... ";
-                        await Installer.IISAsync(ServicePath);
+                        await Installer.IISAvailablePackages(ServicePath);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }
                     catch (Exception ex)
@@ -323,7 +323,7 @@ namespace ProlexNetSetup
                     {
                         try
                         {
-                            if (InstallationDetect.Firebird())
+                            if (Requirements.Firebird())
                             {
                                 var fbInstall = MessageBox.Show("O Firebird já está instalado no computador. Deseja desinstalar a versão atual?", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
                                 if (fbInstall == MessageBoxResult.Yes)
