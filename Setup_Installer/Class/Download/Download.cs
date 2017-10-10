@@ -53,8 +53,6 @@ namespace ProlexNetSetup.Class.Download
             }
             ZipFile.ExtractToDirectory(file, installationRootFolder);
             RegistryEntry.CreateProlexNetServerUninstaller(servicePath, installationPath, applicationGuid, windowsUninstallPath);
-
-            return;
         }
 
         public static async Task ProlexNetUpdaterAsync(string servicePath, string installationPath)
@@ -74,8 +72,6 @@ namespace ProlexNetSetup.Class.Download
                 Directory.Delete(installationSubFolder);
             }
             ZipFile.ExtractToDirectory(file, installationRootFolder);
-
-            return;
         }
 
         public static async Task ProlexNetClientAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
@@ -92,8 +88,6 @@ namespace ProlexNetSetup.Class.Download
             await ZipExtractor.Extract(file, installationSubFolder);
             ShortcutCreation.ProlexNetClient(installationSubFolder);
             RegistryEntry.CreateProlexNetClientUninstaller(servicePath, installationPath, applicationGuid, windowsUninstallPath);
-
-            return;
         }
 
         public static async Task ProlexNetDatabaseAsync(string servicePath, string installationPath)
@@ -116,20 +110,13 @@ namespace ProlexNetSetup.Class.Download
                 if (overwrite == MessageBoxResult.Yes)
                 {
                     await ZipExtractor.Extract(file, databaseFolder);
-
                     return;
                 }
                 else
-                {
                     return;
-                }
             }
             else
-            {
                 await ZipExtractor.Extract(file, databaseFolder);
-
-                return; 
-            }
         }
 
         public static async Task VisualCAsync (string servicePath, string systemType)
@@ -148,8 +135,6 @@ namespace ProlexNetSetup.Class.Download
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             Installer.VCRedist(file);
-
-            return;
         }
 
         public static async Task DotNetAsync(string servicePath)
@@ -162,8 +147,6 @@ namespace ProlexNetSetup.Class.Download
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             Installer.DotNet(file);
-
-            return;
         }
 
         public static async Task LINQPad5Async(string servicePath)
@@ -176,8 +159,6 @@ namespace ProlexNetSetup.Class.Download
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             Installer.LINQPad(file);
-
-            return;
         }
 
         public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash)
@@ -196,18 +177,15 @@ namespace ProlexNetSetup.Class.Download
             {
                 var downloadFileName = Path.GetFileName(url);
                 if (HashCheck.Check(file, hash))
-                {
                     return;
-                }
                 else
                 {
-                    MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}. Uma nova tentativa de download será feita. Caso o download/erro entre em loop, feche o instalador e comunique o setor de desenvolvimento", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                     DownloadFileInBackgroundAsync(url, file, hash);
                 }
             };
 
             await client.DownloadFileTaskAsync(url, file);
-            return;
         }
     }
 }
