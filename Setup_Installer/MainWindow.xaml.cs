@@ -44,6 +44,7 @@ namespace ProlexNetSetup
             InstallationPathField.Content = InstallationPath;
         }
 
+        #region Navegação
         private void ChangePages(int count)
         {
             // Navega pelas páginas do instalador
@@ -86,7 +87,7 @@ namespace ProlexNetSetup
                         CheckBoxLINQPadInstallation.IsEnabled = true;
                         ServerNameOverNetwork.Text = Environment.GetEnvironmentVariable("COMPUTERNAME");
                     }
-                    if (checkbox_ProlexNetServer.IsChecked == false)
+                    else
                     {
                         CheckBoxDatabaseDeploy.IsEnabled = false;
                         CheckBoxFirebirdInstallation.IsEnabled = false;
@@ -147,22 +148,7 @@ namespace ProlexNetSetup
                     break;
             }
         }
-
-        public void UpdateDownloadProgress(DownloadProgressChangedEventArgs args)
-        {
-            // Progressbar dos downloads
-            Dispatcher.Invoke(() =>
-            {
-                ProgressBar.Maximum = args.TotalBytesToReceive;
-                ProgressBar.Value = args.BytesReceived;
-                ProgressBarValue.Content = args.ProgressPercentage + "%";
-
-                decimal total = args.TotalBytesToReceive;
-                decimal received = args.BytesReceived;
-                ProgressBarSpeed.Content = $"{(received / 1048576):n3} MB / {(total / 1048576):n3} MB";
-            });
-        }
-
+        #region Botões de Navegação
         private void ButtonBack_Click(object sender, RoutedEventArgs e)
         {
             // Ação do botão voltar
@@ -192,7 +178,27 @@ namespace ProlexNetSetup
             }
             Environment.Exit(1);
         }
+        #endregion
+        #endregion
 
+        #region Progressbar
+        public void UpdateDownloadProgress(DownloadProgressChangedEventArgs args)
+        {
+            // Progressbar dos downloads
+            Dispatcher.Invoke(() =>
+            {
+                ProgressBar.Maximum = args.TotalBytesToReceive;
+                ProgressBar.Value = args.BytesReceived;
+                ProgressBarValue.Content = args.ProgressPercentage + "%";
+
+                decimal total = args.TotalBytesToReceive;
+                decimal received = args.BytesReceived;
+                ProgressBarSpeed.Content = $"{(received / 1048576):n3} MB / {(total / 1048576):n3} MB";
+            });
+        }
+        #endregion
+
+        #region Local de Instalação
         private void ButtonChangeInstallPath_Click(object sender, RoutedEventArgs e)
         {
             // Ação para alterar a pasta de instalação
@@ -205,7 +211,9 @@ namespace ProlexNetSetup
                 }
             }
         }
+        #endregion
 
+        #region Checklist da Instalação
         private void BeforeInstallation(object sender, RoutedEventArgs e)
         {
             var systemVersion = DetectOS.Is64Bits();
@@ -246,7 +254,9 @@ namespace ProlexNetSetup
                 ComponentsToBeInstalled.Text += "ProlexNet Client";
             #endregion
         }
+        #endregion
 
+        #region Instalação 
         private async void StartInstallationAsync(object sender, RoutedEventArgs e)
         {
             var serverName = ServerNameOverNetwork.Text;
@@ -256,7 +266,6 @@ namespace ProlexNetSetup
             if (!Directory.Exists(InstallationPath))
                 Directory.CreateDirectory(InstallationPath);
 
-            #region Instalação 
             // Download e instalação acontece aqui.
             try
             {
@@ -441,9 +450,9 @@ namespace ProlexNetSetup
             {
                 LabelInstallationResult.Content = "Houve um ou mais erros durante a instalação. Reinicie o computador e tente instalar novamente.";
             }
-            #endregion
 
             ButtonAdvance_Click(null, null);
         }
+        #endregion
     }
 }
