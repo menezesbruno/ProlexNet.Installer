@@ -56,9 +56,7 @@
                                     <Image
                                         Grid.Row="0"
                                         Grid.Column="0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Source="Resources\installer-introduction.png" />
+                                        Source="Resources/installer-introduction.png" />
                                 </Grid>
                                 <Grid Grid.Row="0" Grid.Column="1">
                                     <Grid.ColumnDefinitions>
@@ -469,7 +467,7 @@
                 Click="ButtonBack_Click"
                 Content="&lt; Voltar"
                 Focusable="False"
-                Visibility="Hidden" />
+                Visibility="Hidden" FontWeight="Bold" />
             <Button
                 x:Name="ButtonAdvance"
                 Grid.Row="0"
@@ -482,7 +480,7 @@
                 VerticalContentAlignment="Center"
                 Click="ButtonAdvance_Click"
                 Content="Próximo &gt;"
-                Focusable="False" IsDefault="True" />
+                Focusable="False" IsDefault="True" FontWeight="Bold" />
             <Button
                 x:Name="ButtonCancel"
                 Grid.Row="0"
@@ -495,7 +493,7 @@
                 VerticalContentAlignment="Center"
                 Click="ButtonCancel_Click"
                 Content="Cancelar"
-                Focusable="False" IsCancel="True" />
+                Focusable="False" IsCancel="True" FontWeight="Bold" />
         </Grid>
     </Grid>
 </Window>
