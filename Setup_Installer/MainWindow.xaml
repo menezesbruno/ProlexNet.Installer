@@ -482,7 +482,7 @@
                 VerticalContentAlignment="Center"
                 Click="ButtonAdvance_Click"
                 Content="Próximo &gt;"
-                Focusable="False" />
+                Focusable="False" IsDefault="True" />
             <Button
                 x:Name="ButtonCancel"
                 Grid.Row="0"
@@ -495,7 +495,7 @@
                 VerticalContentAlignment="Center"
                 Click="ButtonCancel_Click"
                 Content="Cancelar"
-                Focusable="False" />
+                Focusable="False" IsCancel="True" />
         </Grid>
     </Grid>
 </Window>
