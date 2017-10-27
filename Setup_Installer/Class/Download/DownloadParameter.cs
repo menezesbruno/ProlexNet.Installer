@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Windows;
+using System;
 
 namespace ProlexNetSetup.Class.Download
 {
@@ -41,12 +43,17 @@ namespace ProlexNetSetup.Class.Download
         {
             WebClient client = new WebClient();
 
-            var json = await client.DownloadStringTaskAsync(AplicationsUrl);
-            Instance = DeserializeJson(json);
-            if (json != null)
+            try
+            {
+                var json = await client.DownloadStringTaskAsync(AplicationsUrl);
+                Instance = DeserializeJson(json);
                 return true;
-            else
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
+            }          
         }
 
         public static DownloadParameters DeserializeJson(string json)

@@ -34,7 +34,7 @@ namespace ProlexNetSetup.Class.Download
             await DownloadFileInBackgroundAsync(url, file, hash);
             Installer.Firebird(file, installationPath);
         }
-      
+
         public static async Task ProlexNetServerAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
         {
             var url = DownloadParameters.Instance.ProlexNet_Server_Url;
@@ -119,7 +119,7 @@ namespace ProlexNetSetup.Class.Download
                 await ExtractZIP.Extract(file, databaseFolder);
         }
 
-        public static async Task VisualCAsync (string servicePath, string systemType)
+        public static async Task VisualCAsync(string servicePath, string systemType)
         {
             var url = DownloadParameters.Instance.VisualC2103_X86_Url;
             var hash = DownloadParameters.Instance.VisualC2103_X86_Hash;
@@ -163,14 +163,14 @@ namespace ProlexNetSetup.Class.Download
 
         public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash)
         {
-            IProgress<DownloadProgressChangedEventArgs> Progress = 
+            IProgress<DownloadProgressChangedEventArgs> Progress =
                 new Progress<DownloadProgressChangedEventArgs>(((MainWindow)Application.Current.MainWindow).UpdateDownloadProgress);
 
             WebClient client = new WebClient();
 
             client.DownloadProgressChanged += (sender, args) =>
             {
-                Progress.Report(args); 
+                Progress.Report(args);
             };
 
             client.DownloadFileCompleted += async (sender, args) =>
@@ -180,12 +180,20 @@ namespace ProlexNetSetup.Class.Download
                     return;
                 else
                 {
-                    MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    DownloadFileInBackgroundAsync(url, file, hash);
+                    MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}. A instalação será finalizada. Informe ao setor de Desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Environment.Exit(1);
                 }
             };
 
-            await client.DownloadFileTaskAsync(url, file);
+            try
+            {
+                await client.DownloadFileTaskAsync(url, file);
+            }
+            catch
+            {
+                MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
+            }
         }
     }
 }
