@@ -19,7 +19,12 @@ namespace ProlexNetSetup
             }
 
             base.OnStartup(e);
-            await DownloadParameters.ApplicationListAsync();
+
+            if (!await DownloadParameters.ApplicationListAsync())
+            {
+                MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
+            }
         }
     }
 }

@@ -37,12 +37,16 @@ namespace ProlexNetSetup.Class.Download
 
         public const string AplicationsUrl = "https://automatizabox.azurewebsites.net/uploads/applicationlist.json";
 
-        public static async Task ApplicationListAsync()
+        public static async Task<bool> ApplicationListAsync()
         {
             WebClient client = new WebClient();
 
             var json = await client.DownloadStringTaskAsync(AplicationsUrl);
             Instance = DeserializeJson(json);
+            if (json != null)
+                return true;
+            else
+                return false;
         }
 
         public static DownloadParameters DeserializeJson(string json)
