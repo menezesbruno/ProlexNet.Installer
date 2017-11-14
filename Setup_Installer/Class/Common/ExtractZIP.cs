@@ -21,5 +21,19 @@ namespace ProlexNetSetup.Class.Common
                 Trace.WriteLine("ExtractZIP:Extract:" + ex.Message);
             }          
         }
+
+        public static async Task ExtractDatabase(string file, string folder, string databaseDeployed)
+        {
+            try
+            {
+                if (File.Exists(databaseDeployed))
+                    File.Delete(databaseDeployed);
+                ZipFile.ExtractToDirectory(file, folder);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("ExtractZIP:ExtractDatabase:" + ex.Message);
+            }
+        }
     }
 }

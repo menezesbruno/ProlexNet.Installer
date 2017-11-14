@@ -109,14 +109,14 @@ namespace ProlexNetSetup.Class.Download
                 var overwrite = MessageBox.Show($"O banco de dados {databaseName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (overwrite == MessageBoxResult.Yes)
                 {
-                    await ExtractZIP.Extract(file, databaseFolder);
+                    await ExtractZIP.ExtractDatabase(file, databaseFolder, databaseDeployed);
                     return;
                 }
                 else
                     return;
             }
             else
-                await ExtractZIP.Extract(file, databaseFolder);
+                await ExtractZIP.ExtractDatabase(file, databaseFolder, databaseDeployed);
         }
 
         public static async Task VisualCAsync(string servicePath, string systemType)
