@@ -9,8 +9,11 @@ namespace ProlexNetSetup.Class.Install
 {
     public class Uninstaller
     {
-        public static void ProlexNetClient(string applicationGuid, string windowsUninstallPath)
+        public static void ProlexNetClient()
         {
+            var applicationGuid = Constants.ClientApplicationGuid;
+            var windowsUninstallPath = Constants.WindowsUninstallPath;
+
             string[] args = Environment.GetCommandLineArgs();
             foreach (string arg in args)
             {
@@ -42,7 +45,6 @@ namespace ProlexNetSetup.Class.Install
                                             }
                                             catch
                                             {
-
                                             }
 
                                             var deleteShortcut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "ProlexNet.lnk");
@@ -56,7 +58,6 @@ namespace ProlexNetSetup.Class.Install
                                                 }
                                                 catch
                                                 {
-
                                                 }
                                             }
 
@@ -84,8 +85,11 @@ namespace ProlexNetSetup.Class.Install
             }
         }
 
-        public static void ProlexNetServer(string applicationGuid, string windowsUninstallPath)
+        public static void ProlexNetServer()
         {
+            var applicationGuid = Constants.ServerApplicationGuid;
+            var windowsUninstallPath = Constants.WindowsUninstallPath;
+
             string[] args = Environment.GetCommandLineArgs();
             foreach (string arg in args)
             {
@@ -151,7 +155,6 @@ namespace ProlexNetSetup.Class.Install
             }
             catch
             {
-
             }
 
             try
@@ -165,7 +168,6 @@ namespace ProlexNetSetup.Class.Install
             }
             catch
             {
-
             }
         }
     }

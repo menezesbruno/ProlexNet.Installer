@@ -13,36 +13,56 @@ namespace ProlexNetSetup.Class.Common
     {
         public static void Client(string installationPath, string serverName, string serverPort)
         {
-            var installationSubFolder = Path.Combine(installationPath, "ProlexNet Client", "bin");
-            var configFile = Path.Combine(installationSubFolder, "ProlexNet.ExtHost.exe.config");
-
-            var originalClientUrl = @"<add key=""ClientUrl"" value=""http://(.*)/#/"" />";
-            var replacedClientUrl = $@"<add key=""ClientUrl"" value=""http://{serverName}:{serverPort}/#/"" />";
-
-            var originalServerUrl = @"<add key=""ServerUrl"" value=""http://(.*)"" />";
-            var replacedServerUrl = $@"<add key=""ServerUrl"" value=""http://{serverName}:{serverPort}"" />";
-
             var updateServerPort = Convert.ToInt32(serverPort) + 1;
-            var originalUpdateServerUrl = @"<add key=""UpdateServerUrl"" value=""http://(.*)"" />";
-            var replacedUpdateServerUrl = $@"<add key=""UpdateServerUrl"" value=""http://{serverName}:{updateServerPort}"" />";
+            var applicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Automatiza", "ProlexNet");
+            Directory.CreateDirectory(applicationDataPath);
 
-            File.WriteAllText(configFile, Regex.Replace(File.ReadAllText(configFile), originalClientUrl, replacedClientUrl));
-            File.WriteAllText(configFile, Regex.Replace(File.ReadAllText(configFile), originalServerUrl, replacedServerUrl));
-            File.WriteAllText(configFile, Regex.Replace(File.ReadAllText(configFile), originalUpdateServerUrl, replacedUpdateServerUrl));
+            var settingsFile = Path.Combine(applicationDataPath, "prolexnet.settings");
+            if (!File.Exists(settingsFile))
+            {
+                using (StreamWriter writer = new StreamWriter(settingsFile, false))
+                {
+                    writer.WriteLine("{");
+                    writer.WriteLine(@"""StartAtLogon"": true,");
+                    writer.WriteLine(@"""StartMinimized"": false,");
+                    writer.WriteLine(@"""NetworkMode"": 0,");
+                    writer.WriteLine(@"""AcquireMode"": ""Automatiza.Image.Files.dll"",");
+                    writer.WriteLine($@"""ClientUrl"": ""http://{serverName}:{serverPort}/#/"",");
+                    writer.WriteLine($@"""ServerUrl"": ""http://{serverName}:{serverPort}"",");
+                    writer.WriteLine($@"""UpdateServerUrl"": ""http://{serverName}:{updateServerPort}"",");
+                    writer.WriteLine(@"""UpdateClientUrl"": ""https://automatizabox.azurewebsites.net/repository/prolexnet"",");
+                    writer.WriteLine(@"""UpdateFrequencyInHours"": 3");
+                    writer.WriteLine("}");
+                }
+            }
+            else
+            {
+                var originalClientUrl = @"""ClientUrl"": ""http://(.*)/#/"",";
+                var replacedClientUrl = $@"""ClientUrl"": ""http://{serverName}:{serverPort}/#/"",";
+
+                var originalServerUrl = @"""ServerUrl"": ""http://(.*)"",";
+                var replacedServerUrl = $@"""ServerUrl"": ""http://{serverName}:{serverPort}"",";
+
+                var originalUpdateServerUrl = @"""UpdateServerUrl"": ""http://(.*)"",";
+                var replacedUpdateServerUrl = $@"""UpdateServerUrl"": ""http://{serverName}:{updateServerPort}"",";
+
+                File.WriteAllText(settingsFile, Regex.Replace(File.ReadAllText(settingsFile), originalClientUrl, replacedClientUrl));
+                File.WriteAllText(settingsFile, Regex.Replace(File.ReadAllText(settingsFile), originalServerUrl, replacedServerUrl));
+                File.WriteAllText(settingsFile, Regex.Replace(File.ReadAllText(settingsFile), originalUpdateServerUrl, replacedUpdateServerUrl));
+            }
         }
 
         public static void Server(string installationPath, string serverName, string serverPort)
         {
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
             var webConfigFile = Path.Combine(installationSubFolder, "Web.config");
-            var appConfigFile = Path.Combine(installationSubFolder, "scripts", "app.config.js");
+            var appConfigFile = Path.Combine(installationSubFolder, "app.config.js");
 
             var oldString = "\"urlServer\": 'http://(.*?)',";
             var newString = $"\"urlServer\": 'http://{serverName}:{serverPort}',";
 
             File.WriteAllText(appConfigFile, Regex.Replace(File.ReadAllText(appConfigFile), oldString, newString));
 
-            //
             var database = "ProlexNet";
 
             var doc = XDocument.Load(webConfigFile);

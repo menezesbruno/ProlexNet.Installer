@@ -19,7 +19,6 @@ namespace ProlexNetSetup.Class.Common
             }
             catch
             {
-
             }
             using (RegistryKey parent = Registry.LocalMachine.OpenSubKey(windowsUninstallPath, true))
             {
@@ -41,7 +40,7 @@ namespace ProlexNetSetup.Class.Common
                         }
 
                         var uninstallerExe = Path.Combine(servicePath, "ProlexNet.Setup.exe");
-                        var exePath = Path.Combine(installationPath, "ProlexNet Client", "bin", "ProlexNet.ExtHost.exe");
+                        var exePath = Path.Combine(installationPath, "ProlexNet Client", "ProlexNet.ExtHost.exe");
                         var installedPath = Path.Combine(installationPath, "ProlexNet Client");
                         var versionInfo = FileVersionInfo.GetVersionInfo(exePath);
                         var version = versionInfo.ProductVersion;
@@ -86,7 +85,6 @@ namespace ProlexNetSetup.Class.Common
             }
             catch
             {
-
             }
             using (RegistryKey parent = Registry.LocalMachine.OpenSubKey(windowsUninstallPath, true))
             {
@@ -111,7 +109,7 @@ namespace ProlexNetSetup.Class.Common
                         var installedPath = Path.Combine(installationPath, "ProlexNet Server", "www");
                         var updaterPath = Path.Combine(installationPath, "ProlexNet Server", "updater");
                         var rootPath = Path.Combine(installationPath, "ProlexNet Server");
-                        var iconPath = Path.Combine(installedPath, "favicon.ico");
+                        var iconPath = Path.Combine(installedPath, "images", "favicon.ico");
                         var version = "1.0.0.0";
 
                         key.SetValue("DisplayName", "ProlexNet Server");

@@ -284,7 +284,7 @@
                                         Grid.Column="0"
                                         Padding="10"
                                         Content="Outros parâmetros da instalação:" />
-                                    <CheckBox 
+                                    <CheckBox
                                         x:Name="CheckBoxFirebirdInstallation"
                                         Grid.Row="1"
                                         Grid.Column="0"
@@ -467,7 +467,8 @@
                 Click="ButtonBack_Click"
                 Content="&lt; Voltar"
                 Focusable="False"
-                Visibility="Hidden" FontWeight="Bold" />
+                FontWeight="Bold"
+                Visibility="Hidden" />
             <Button
                 x:Name="ButtonAdvance"
                 Grid.Row="0"
@@ -480,7 +481,9 @@
                 VerticalContentAlignment="Center"
                 Click="ButtonAdvance_Click"
                 Content="Próximo &gt;"
-                Focusable="False" IsDefault="True" FontWeight="Bold" />
+                Focusable="False"
+                FontWeight="Bold"
+                IsDefault="True" />
             <Button
                 x:Name="ButtonCancel"
                 Grid.Row="0"
@@ -493,7 +496,9 @@
                 VerticalContentAlignment="Center"
                 Click="ButtonCancel_Click"
                 Content="Cancelar"
-                Focusable="False" IsCancel="True" FontWeight="Bold" />
+                Focusable="False"
+                FontWeight="Bold"
+                IsCancel="True" />
         </Grid>
     </Grid>
 </Window>

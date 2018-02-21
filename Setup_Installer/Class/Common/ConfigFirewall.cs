@@ -12,7 +12,12 @@ namespace ProlexNetSetup.Class.Common
         public static void AddRules(string serverPort)
         {
             var updaterPort = Convert.ToInt32(serverPort) + 1;
+            var firebirdPort = "3050";
+
             RemoveRules();
+
+            NetshAdd("ProlexNet_Firebird", "in", $"{firebirdPort}");
+            NetshAdd("ProlexNet_Firebird", "out", $"{firebirdPort}");
 
             NetshAdd("ProlexNet", "in", $"{serverPort}");
             NetshAdd("ProlexNet", "out", $"{serverPort}");
@@ -23,6 +28,7 @@ namespace ProlexNetSetup.Class.Common
 
         public static void RemoveRules()
         {
+            NetshRemove("ProlexNet_Firebird");
             NetshRemove("ProlexNet");
             NetshRemove("ProlexNet_Updater");
         }
@@ -41,7 +47,6 @@ namespace ProlexNetSetup.Class.Common
             }
             catch
             {
-
             }
         }
 
@@ -59,7 +64,6 @@ namespace ProlexNetSetup.Class.Common
             }
             catch
             {
-
             }
         }
     }

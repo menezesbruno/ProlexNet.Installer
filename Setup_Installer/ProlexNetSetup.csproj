@@ -125,6 +125,7 @@
     <Compile Include="Class\Common\CreateRegistryEntry.cs" />
     <Compile Include="Class\Common\CreateShortcut.cs" />
     <Compile Include="Class\Common\ExtractZIP.cs" />
+    <Compile Include="Class\Constants.cs" />
     <Compile Include="Class\Download\Download.cs" />
     <Compile Include="Class\Download\DownloadParameter.cs" />
     <Compile Include="Class\Install\Requirements.cs" />
@@ -153,6 +154,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="App.manifest" />
     <None Include="packages.config" />

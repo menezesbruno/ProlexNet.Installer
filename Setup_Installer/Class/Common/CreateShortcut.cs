@@ -12,10 +12,9 @@ namespace ProlexNetSetup.Setup.Class.Common
             var shell = new WshShell();
             var shortCutLinkFilePath = Path.Combine(startupFolderPath, "ProlexNet.lnk");
             var windowsApplicationShortcut = (IWshShortcut)shell.CreateShortcut(shortCutLinkFilePath);
-            var startupPath = Path.Combine(installationSubFolder, "bin");
-            var executablePath = Path.Combine(installationSubFolder, "bin", "ProlexNet.ExtHost.exe");
+            var executablePath = Path.Combine(installationSubFolder, "ProlexNet.ExtHost.exe");
             windowsApplicationShortcut.Description = "Executa o ProlexNet";
-            windowsApplicationShortcut.WorkingDirectory = startupPath;
+            windowsApplicationShortcut.WorkingDirectory = installationSubFolder;
             windowsApplicationShortcut.TargetPath = executablePath;
             windowsApplicationShortcut.Save();
         }

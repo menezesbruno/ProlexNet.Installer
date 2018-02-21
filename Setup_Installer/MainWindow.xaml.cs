@@ -8,28 +8,15 @@ using Microsoft.Win32;
 using ProlexNetSetup.Class.Download;
 using ProlexNetSetup.Class.Install;
 using ProlexNetSetup.Class.Common;
+using ProlexNetSetup.Class;
 
 namespace ProlexNetSetup
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-
     public partial class MainWindow : Window
     {
-        public int CountPages = 0;
-        public string ServicePath { get; set; }
         public string InstallationPath = @"C:\Automatiza";
-
-        // GUID usado para criar entrada de registro de desinstalação do Windows.
-        // Deve ser ÚNICO por aplicativo e deve também ser IMUTÁVEL durante toda a vida do aplicativo.
-        // Pode ser criado em: https://www.guidgenerator.com/online-guid-generator.aspx
-        // Opções a serem selecionadas: Braces + Hyphens
-        public static string ClientApplicationGuid = "{ee152ba9-9db3-47c5-ba10-b6d08cdb74f4}"; // Não alterar!
-        public static string ServerApplicationGuid = "{5f64652c-65c0-4e53-9f55-cd25f0afa39c}"; // Não alterar!
-
-        // Caminho padrão do Windows onde ficam salvos os registros de instalação
-        public static string WindowsUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+        public string ServicePath { get; set; }
+        public int CountPages = 0;
 
         public MainWindow()
         {
@@ -37,8 +24,8 @@ namespace ProlexNetSetup
             Directory.CreateDirectory(ServicePath);
 
             // Comandos de desinstalação
-            Uninstaller.ProlexNetClient(ClientApplicationGuid, WindowsUninstallPath);
-            Uninstaller.ProlexNetServer(ServerApplicationGuid, WindowsUninstallPath);
+            Uninstaller.ProlexNetClient();
+            Uninstaller.ProlexNetServer();
 
             InitializeComponent();
             InstallationPathField.Content = InstallationPath;
@@ -399,7 +386,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "ProlexNet Server... ";
-                        await Download.ProlexNetServerAsync(ServicePath, InstallationPath, ServerApplicationGuid, WindowsUninstallPath);
+                        await Download.ProlexNetServerAsync(ServicePath, InstallationPath);
                         await Download.ProlexNetUpdaterAsync(ServicePath, InstallationPath);
                         ConfigProlexNet.Server(InstallationPath, serverName, serverPort);
                         ConfigProlexNet.Updater(InstallationPath);
@@ -434,7 +421,7 @@ namespace ProlexNetSetup
                     try
                     {
                         InstallationStatus.Text += "ProlexNet Client... ";
-                        await Download.ProlexNetClientAsync(ServicePath, InstallationPath, ClientApplicationGuid, WindowsUninstallPath);
+                        await Download.ProlexNetClientAsync(ServicePath, InstallationPath);
                         ConfigProlexNet.Client(InstallationPath, serverName, serverPort);
                         InstallationStatus.Text += "OK" + Environment.NewLine;
                     }

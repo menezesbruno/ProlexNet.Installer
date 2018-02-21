@@ -35,8 +35,11 @@ namespace ProlexNetSetup.Class.Download
             Installer.Firebird(file, installationPath);
         }
 
-        public static async Task ProlexNetServerAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
+        public static async Task ProlexNetServerAsync(string servicePath, string installationPath)
         {
+            var applicationGuid = Constants.ServerApplicationGuid;
+            var windowsUninstallPath = Constants.WindowsUninstallPath;
+            
             var url = DownloadParameters.Instance.ProlexNet_Server_Url;
             var hash = DownloadParameters.Instance.ProlexNet_Server_Hash;
             var downloadFileName = Path.GetFileName(url);
@@ -74,8 +77,11 @@ namespace ProlexNetSetup.Class.Download
             ZipFile.ExtractToDirectory(file, installationRootFolder);
         }
 
-        public static async Task ProlexNetClientAsync(string servicePath, string installationPath, string applicationGuid, string windowsUninstallPath)
+        public static async Task ProlexNetClientAsync(string servicePath, string installationPath)
         {
+            var applicationGuid = Constants.ClientApplicationGuid;
+            var windowsUninstallPath = Constants.WindowsUninstallPath;
+
             var url = DownloadParameters.Instance.ProlexNet_Client_Url;
             var hash = DownloadParameters.Instance.ProlexNet_Client_Hash;
             var downloadFileName = Path.GetFileName(url);
