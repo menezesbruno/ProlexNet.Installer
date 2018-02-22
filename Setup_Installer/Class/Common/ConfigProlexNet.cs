@@ -13,43 +13,7 @@ namespace ProlexNetSetup.Class.Common
     {
         public static void Client(string installationPath, string serverName, string serverPort)
         {
-            var updateServerPort = Convert.ToInt32(serverPort) + 1;
-            var applicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Automatiza", "ProlexNet");
-            Directory.CreateDirectory(applicationDataPath);
-
-            var settingsFile = Path.Combine(applicationDataPath, "prolexnet.settings");
-            if (!File.Exists(settingsFile))
-            {
-                using (StreamWriter writer = new StreamWriter(settingsFile, false))
-                {
-                    writer.WriteLine("{");
-                    writer.WriteLine(@"""StartAtLogon"": true,");
-                    writer.WriteLine(@"""StartMinimized"": false,");
-                    writer.WriteLine(@"""NetworkMode"": 0,");
-                    writer.WriteLine(@"""AcquireMode"": ""Automatiza.Image.Files.dll"",");
-                    writer.WriteLine($@"""ClientUrl"": ""http://{serverName}:{serverPort}/#/"",");
-                    writer.WriteLine($@"""ServerUrl"": ""http://{serverName}:{serverPort}"",");
-                    writer.WriteLine($@"""UpdateServerUrl"": ""http://{serverName}:{updateServerPort}"",");
-                    writer.WriteLine(@"""UpdateClientUrl"": ""https://automatizabox.azurewebsites.net/repository/prolexnet"",");
-                    writer.WriteLine(@"""UpdateFrequencyInHours"": 3");
-                    writer.WriteLine("}");
-                }
-            }
-            else
-            {
-                var originalClientUrl = @"""ClientUrl"": ""http://(.*)/#/"",";
-                var replacedClientUrl = $@"""ClientUrl"": ""http://{serverName}:{serverPort}/#/"",";
-
-                var originalServerUrl = @"""ServerUrl"": ""http://(.*)"",";
-                var replacedServerUrl = $@"""ServerUrl"": ""http://{serverName}:{serverPort}"",";
-
-                var originalUpdateServerUrl = @"""UpdateServerUrl"": ""http://(.*)"",";
-                var replacedUpdateServerUrl = $@"""UpdateServerUrl"": ""http://{serverName}:{updateServerPort}"",";
-
-                File.WriteAllText(settingsFile, Regex.Replace(File.ReadAllText(settingsFile), originalClientUrl, replacedClientUrl));
-                File.WriteAllText(settingsFile, Regex.Replace(File.ReadAllText(settingsFile), originalServerUrl, replacedServerUrl));
-                File.WriteAllText(settingsFile, Regex.Replace(File.ReadAllText(settingsFile), originalUpdateServerUrl, replacedUpdateServerUrl));
-            }
+           
         }
 
         public static void Server(string installationPath, string serverName, string serverPort)
