@@ -1,14 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using Forms = System.Windows.Forms;
-using System.Windows.Controls;
-using System.Net;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
+using ProlexNetSetup.Class;
+using ProlexNetSetup.Class.Common;
 using ProlexNetSetup.Class.Download;
 using ProlexNetSetup.Class.Install;
-using ProlexNetSetup.Class.Common;
-using ProlexNetSetup.Class;
+using System;
+using System.IO;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using Forms = System.Windows.Forms;
 
 namespace ProlexNetSetup
 {
@@ -32,6 +32,7 @@ namespace ProlexNetSetup
         }
 
         #region Navegação
+
         private void ChangePages(int count)
         {
             // Navega pelas páginas do instalador
@@ -69,6 +70,7 @@ namespace ProlexNetSetup
 
                     if (checkbox_ProlexNetServer.IsChecked == true)
                     {
+                        ProlexNetServer_settings.IsEnabled = true;
                         CheckBoxDatabaseDeploy.IsEnabled = true;
                         CheckBoxFirebirdInstallation.IsEnabled = true;
                         CheckBoxLINQPadInstallation.IsEnabled = true;
@@ -76,6 +78,7 @@ namespace ProlexNetSetup
                     }
                     else
                     {
+                        ProlexNetServer_settings.IsEnabled = false;
                         CheckBoxDatabaseDeploy.IsEnabled = false;
                         CheckBoxFirebirdInstallation.IsEnabled = false;
                         CheckBoxLINQPadInstallation.IsEnabled = false;
@@ -135,7 +138,9 @@ namespace ProlexNetSetup
                     break;
             }
         }
+
         #region Botões de Navegação
+
         private void ButtonBack_Click(object sender, RoutedEventArgs e)
         {
             // Ação do botão voltar
@@ -165,10 +170,13 @@ namespace ProlexNetSetup
             }
             Environment.Exit(1);
         }
-        #endregion
-        #endregion
+
+        #endregion Botões de Navegação
+
+        #endregion Navegação
 
         #region Progressbar
+
         public void UpdateDownloadProgress(DownloadProgressChangedEventArgs args)
         {
             // Progressbar dos downloads
@@ -183,9 +191,11 @@ namespace ProlexNetSetup
                 ProgressBarSpeed.Content = $"{(received / 1048576):n3} MB / {(total / 1048576):n3} MB";
             });
         }
-        #endregion
+
+        #endregion Progressbar
 
         #region Local de Instalação
+
         private void ButtonChangeInstallPath_Click(object sender, RoutedEventArgs e)
         {
             // Ação para alterar a pasta de instalação
@@ -198,15 +208,18 @@ namespace ProlexNetSetup
                 }
             }
         }
-        #endregion
+
+        #endregion Local de Instalação
 
         #region Checklist da Instalação
+
         private void BeforeInstallation(object sender, RoutedEventArgs e)
         {
             var systemVersion = DetectOS.Is64Bits();
             ComponentsToBeInstalled.Text = "";
 
             #region VCRedist
+
             if (Requirements.VCRedist_X86())
                 ComponentsToBeInstalled.Text += "Microsoft Visual C++ 2013 x86" + Environment.NewLine;
 
@@ -215,14 +228,18 @@ namespace ProlexNetSetup
                 if (Requirements.VCRedist_X64())
                     ComponentsToBeInstalled.Text += "Microsoft Visual C++ 2013 x64" + Environment.NewLine;
             }
-            #endregion
+
+            #endregion VCRedist
 
             #region DotNet
+
             if (Requirements.DotNet())
                 ComponentsToBeInstalled.Text += "Microsoft .NET Framework 4.6" + Environment.NewLine;
-            #endregion
+
+            #endregion DotNet
 
             #region ProlexNet Server
+
             if (checkbox_ProlexNetServer.IsChecked == true)
             {
                 ComponentsToBeInstalled.Text += "Serviços de Informações da Internet - IIS" + Environment.NewLine;
@@ -234,16 +251,21 @@ namespace ProlexNetSetup
                     ComponentsToBeInstalled.Text += "LINQPad 5" + Environment.NewLine;
                 ComponentsToBeInstalled.Text += "ProlexNet Server" + Environment.NewLine;
             }
-            #endregion
+
+            #endregion ProlexNet Server
 
             #region ProlexNet Client
+
             if (checkbox_ProlexNetClient.IsChecked == true)
                 ComponentsToBeInstalled.Text += "ProlexNet Client";
-            #endregion
-        }
-        #endregion
 
-        #region Instalação 
+            #endregion ProlexNet Client
+        }
+
+        #endregion Checklist da Instalação
+
+        #region Instalação
+
         private async void StartInstallationAsync(object sender, RoutedEventArgs e)
         {
             var serverName = ServerNameOverNetwork.Text;
@@ -257,6 +279,7 @@ namespace ProlexNetSetup
             try
             {
                 #region VCRedist
+
                 // Verifica se há necessidade de fazer o download e instalar o VC++ Redist 2013 x86.
                 if (Requirements.VCRedist_X86())
                 {
@@ -283,7 +306,6 @@ namespace ProlexNetSetup
                             InstallationStatus.Text += "Microsoft Visual C++ 2013 x64... ";
                             await Download.VisualCAsync(ServicePath, "x64");
                             InstallationStatus.Text += "OK" + Environment.NewLine;
-
                         }
                         catch (Exception ex)
                         {
@@ -292,9 +314,11 @@ namespace ProlexNetSetup
                         }
                     }
                 }
-                #endregion
+
+                #endregion VCRedist
 
                 #region DotNet
+
                 // Verifica se há necessidade de fazer o download e instalar o DotNet 4.6
                 if (Requirements.DotNet())
                 {
@@ -310,9 +334,11 @@ namespace ProlexNetSetup
                         MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-                #endregion
+
+                #endregion DotNet
 
                 #region ProlexNet Server
+
                 if (checkbox_ProlexNetServer.IsChecked == true)
                 {
                     // Faz o download e instala o IIS
@@ -412,9 +438,11 @@ namespace ProlexNetSetup
                         MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-                #endregion
+
+                #endregion ProlexNet Server
 
                 #region ProlexNet Client
+
                 if (checkbox_ProlexNetClient.IsChecked == true)
                 {
                     // Chama a classe que faz o download e instala o ProlexNet Client.
@@ -431,7 +459,8 @@ namespace ProlexNetSetup
                         MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-                #endregion
+
+                #endregion ProlexNet Client
             }
             catch
             {
@@ -440,6 +469,7 @@ namespace ProlexNetSetup
 
             ButtonAdvance_Click(null, null);
         }
-        #endregion
+
+        #endregion Instalação
     }
 }

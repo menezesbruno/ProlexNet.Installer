@@ -307,9 +307,11 @@
                                         IsChecked="True" />
                                 </Grid>
                                 <Grid
+                                    x:Name="ProlexNetServer_settings"
                                     Grid.Row="3"
                                     Grid.Column="0"
-                                    Margin="15,5,0,0">
+                                    Margin="15,5,0,0"
+                                    IsEnabled="False">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
