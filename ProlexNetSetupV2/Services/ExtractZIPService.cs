@@ -11,7 +11,7 @@ namespace ProlexNetSetupV2.Services
 {
     class ExtractZIPService
     {
-        public static async Task Extract(string file, string folder)
+        public static void Extract(string file, string folder)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace ProlexNetSetupV2.Services
             }
         }
 
-        public static async Task ExtractDatabase(string file, string folder, string databaseDeployed)
+        public static void ExtractDatabase(string file, string folder, string databaseDeployed)
         {
             try
             {

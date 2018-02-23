@@ -8,7 +8,7 @@ namespace ProlexNetSetup.Class.Common
 {
     public class ExtractZIP
     {
-        public static async Task Extract(string file, string folder)
+        public static void Extract(string file, string folder)
         {
             try
             {
@@ -19,10 +19,10 @@ namespace ProlexNetSetup.Class.Common
             catch (Exception ex)
             {
                 Trace.WriteLine("ExtractZIP:Extract:" + ex.Message);
-            }          
+            }
         }
 
-        public static async Task ExtractDatabase(string file, string folder, string databaseDeployed)
+        public static void ExtractDatabase(string file, string folder, string databaseDeployed)
         {
             try
             {

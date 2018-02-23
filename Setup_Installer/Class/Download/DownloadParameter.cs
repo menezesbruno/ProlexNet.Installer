@@ -51,9 +51,9 @@ namespace ProlexNetSetup.Class.Download
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento." + ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
-            }          
+            }
         }
 
         public static DownloadParameters DeserializeJson(string json)

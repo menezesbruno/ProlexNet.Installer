@@ -52,7 +52,7 @@ namespace ProlexNetSetupV2.Services
             }
         }
 
-        public static async Task Updater(string installationPath)
+        public static void Updater(string installationPath)
         {
             try
             {

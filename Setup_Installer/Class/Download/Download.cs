@@ -91,7 +91,7 @@ namespace ProlexNetSetup.Class.Download
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Client");
             if (Directory.Exists(installationSubFolder))
                 BackupFolder.Backup(servicePath, installationSubFolder);
-            await ExtractZIP.Extract(file, installationSubFolder);
+            ExtractZIP.Extract(file, installationSubFolder);
             CreateShortcut.ProlexNetClient(installationSubFolder);
             CreateRegistryEntry.CreateProlexNetClientUninstaller(servicePath, installationPath, applicationGuid, windowsUninstallPath);
         }
@@ -115,14 +115,14 @@ namespace ProlexNetSetup.Class.Download
                 var overwrite = MessageBox.Show($"O banco de dados {databaseName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (overwrite == MessageBoxResult.Yes)
                 {
-                    await ExtractZIP.ExtractDatabase(file, databaseFolder, databaseDeployed);
+                    ExtractZIP.ExtractDatabase(file, databaseFolder, databaseDeployed);
                     return;
                 }
                 else
                     return;
             }
             else
-                await ExtractZIP.ExtractDatabase(file, databaseFolder, databaseDeployed);
+                ExtractZIP.ExtractDatabase(file, databaseFolder, databaseDeployed);
         }
 
         public static async Task VisualCAsync(string servicePath, string systemType)
@@ -179,7 +179,7 @@ namespace ProlexNetSetup.Class.Download
                 Progress.Report(args);
             };
 
-            client.DownloadFileCompleted += async (sender, args) =>
+            client.DownloadFileCompleted += (sender, args) =>
             {
                 var downloadFileName = Path.GetFileName(url);
                 if (CheckHash.Check(file, hash))

@@ -13,7 +13,7 @@ namespace ProlexNetSetup.Class.Common
     {
         public static void Client(string installationPath, string serverName, string serverPort)
         {
-           
+
         }
 
         public static void Server(string installationPath, string serverName, string serverPort)
@@ -49,7 +49,7 @@ namespace ProlexNetSetup.Class.Common
             doc.Save(webConfigFile);
         }
 
-        public static async Task Updater(string installationPath)
+        public static void Updater(string installationPath)
         {
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "updater");
             var prolexPath = Path.Combine(installationPath, "ProlexNet Server", "www");
