@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProlexNetSetupV2.Services
 {
-    class InstallService
+    internal class InstallService
     {
         public static void Firebird(string file, string installationPath)
         {
@@ -167,7 +167,6 @@ namespace ProlexNetSetupV2.Services
                 process.Start();
                 while (!process.HasExited) // Truque para evitar congelamento do instalador no Windows 8.1
                 {
-
                 }
             }
             catch (Exception ex)

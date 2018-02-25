@@ -17,6 +17,7 @@ namespace ProlexNetSetupV2
         // Pode ser criado em: https://www.guidgenerator.com/online-guid-generator.aspx
         // Opções a serem selecionadas: Braces + Hyphens
         public const string ClientApplicationGuid = "{ee152ba9-9db3-47c5-ba10-b6d08cdb74f4}";
+
         public const string ServerApplicationGuid = "{5f64652c-65c0-4e53-9f55-cd25f0afa39c}";
     }
 }

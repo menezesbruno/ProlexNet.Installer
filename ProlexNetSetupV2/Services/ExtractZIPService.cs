@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProlexNetSetupV2.Services
 {
-    class ExtractZIPService
+    internal class ExtractZIPService
     {
         public static void Extract(string file, string folder)
         {

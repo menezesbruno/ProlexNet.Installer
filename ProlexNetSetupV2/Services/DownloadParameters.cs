@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace ProlexNetSetupV2.Services
 {
-    class DownloadParameters
+    internal class DownloadParameters
     {
         public static ApplicationList Instance { get; private set; }
 

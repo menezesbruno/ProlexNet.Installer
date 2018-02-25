@@ -1,12 +1,12 @@
-﻿using ProlexNetSetupV2.Views;
-using System.Windows;
-using Prism.Modularity;
-using Autofac;
+﻿using Autofac;
 using Prism.Autofac;
+using Prism.Modularity;
+using ProlexNetSetupV2.Views;
+using System.Windows;
 
 namespace ProlexNetSetupV2
 {
-    class Bootstrapper : AutofacBootstrapper
+    internal class Bootstrapper : AutofacBootstrapper
     {
         protected override DependencyObject CreateShell()
         {

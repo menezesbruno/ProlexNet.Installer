@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProlexNetSetupV2.Services
 {
-    class RequirementsCheckService
+    internal class RequirementsCheckService
     {
         public static bool Firebird()
         {

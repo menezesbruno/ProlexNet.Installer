@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace ProlexNetSetupV2.Services
 {
-    class DownloadService
+    internal class DownloadService
     {
         public static async Task FirebirdAsync(string servicePath, string installationPath)
         {

@@ -9,9 +9,7 @@
     Height="480"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
-
     <Grid>
         <Label Content="Teste" />
     </Grid>
-
 </Controls:MetroWindow>

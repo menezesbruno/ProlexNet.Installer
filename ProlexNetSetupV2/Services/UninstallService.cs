@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace ProlexNetSetupV2.Services
 {
-    class UninstallService
+    internal class UninstallService
     {
         public static void ProlexNetClient()
         {
