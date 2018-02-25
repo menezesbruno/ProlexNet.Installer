@@ -1,8 +1,7 @@
-﻿<Controls:MetroWindow
+﻿<Window
     x:Class="ProlexNetSetupV2.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:prism="http://prismlibrary.com/"
     Title="Instalação do ProlexNet"
     Width="640"
@@ -12,4 +11,4 @@
     <Grid>
         <Label Content="Teste" />
     </Grid>
-</Controls:MetroWindow>
+</Window>
