@@ -217,5 +217,24 @@ namespace ProlexNetSetup.Class.Install
                 Trace.WriteLine("Installer:LINQPad:" + ex.Message);
             }
         }
+
+        public static void IBExpertSetup(string file)
+        {
+            // Argumentos para a correta instalação do IBExpert.
+            try
+            {
+                var installArgs = "/silent";
+
+                Process process = new Process();
+                process.StartInfo.FileName = file;
+                process.StartInfo.Arguments = installArgs;
+                process.Start();
+                process.WaitForExit();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("Installer:IBExpert:" + ex.Message);
+            }
+        }      
     }
 }

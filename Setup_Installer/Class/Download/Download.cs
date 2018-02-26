@@ -167,6 +167,38 @@ namespace ProlexNetSetup.Class.Download
             Installer.LINQPad(file);
         }
 
+        public static async Task IBExpertSetupAsync(string servicePath)
+        {
+            var url = DownloadParameters.Instance.IBExpertSetup_Url;
+            var hash = DownloadParameters.Instance.IBExpertSetup_Hash;
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            await DownloadFileInBackgroundAsync(url, file, hash);
+            Installer.IBExpertSetup(file);
+        }
+
+        public static async Task IBExpertAsync(string servicePath)
+        {
+            var url = DownloadParameters.Instance.IBExpert_Url;
+            var hash = DownloadParameters.Instance.IBExpert_Hash;
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            var installFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "HK-Software", "IBExpert");
+
+            if (Environment.Is64BitOperatingSystem)
+                installFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "HK-Software", "IBExpert");
+
+            var ibExpert = "IBExpert.exe";
+            var ibExpertDeployed = Path.Combine(installFolder, ibExpert);
+
+            await DownloadFileInBackgroundAsync(url, file, hash);
+            ExtractZIP.ExtractOverwrite(file, installFolder, ibExpertDeployed);
+        }
+
         public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash)
         {
             IProgress<DownloadProgressChangedEventArgs> Progress =

@@ -73,6 +73,7 @@ namespace ProlexNetSetup
                         ProlexNetServer_settings.IsEnabled = true;
                         CheckBoxDatabaseDeploy.IsEnabled = true;
                         CheckBoxFirebirdInstallation.IsEnabled = true;
+                        CheckBoxIBExpertInstallation.IsEnabled = true;
                         CheckBoxLINQPadInstallation.IsEnabled = true;
                         ServerNameOverNetwork.Text = Environment.GetEnvironmentVariable("COMPUTERNAME");
                     }
@@ -81,6 +82,7 @@ namespace ProlexNetSetup
                         ProlexNetServer_settings.IsEnabled = false;
                         CheckBoxDatabaseDeploy.IsEnabled = false;
                         CheckBoxFirebirdInstallation.IsEnabled = false;
+                        CheckBoxIBExpertInstallation.IsEnabled = false;
                         CheckBoxLINQPadInstallation.IsEnabled = false;
                         ServerNameOverNetwork.Text = "localhost";
                     }
@@ -247,6 +249,8 @@ namespace ProlexNetSetup
                     ComponentsToBeInstalled.Text += $"Firebird 3 {systemVersion}" + Environment.NewLine;
                 if (CheckBoxDatabaseDeploy.IsChecked == true)
                     ComponentsToBeInstalled.Text += $"Banco de dados" + Environment.NewLine;
+                if (CheckBoxIBExpertInstallation.IsChecked == true)
+                    ComponentsToBeInstalled.Text += $"IBExpert" + Environment.NewLine;
                 if (CheckBoxLINQPadInstallation.IsChecked == true)
                     ComponentsToBeInstalled.Text += "LINQPad 5" + Environment.NewLine;
                 ComponentsToBeInstalled.Text += "ProlexNet Server" + Environment.NewLine;
@@ -383,6 +387,24 @@ namespace ProlexNetSetup
                         {
                             InstallationStatus.Text += "Banco de dados... ";
                             await Download.ProlexNetDatabaseAsync(ServicePath, InstallationPath);
+                            InstallationStatus.Text += "OK" + Environment.NewLine;
+                        }
+                        catch (Exception ex)
+                        {
+                            InstallationStatus.Text += "Erro" + Environment.NewLine;
+                            MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+
+
+                    // Chama a classe que faz o download e instala o IBExpert.
+                    if (CheckBoxIBExpertInstallation.IsChecked == true)
+                    {
+                        try
+                        {
+                            InstallationStatus.Text += "IBExpert... ";
+                            await Download.IBExpertSetupAsync(ServicePath);
+                            await Download.IBExpertAsync(ServicePath);
                             InstallationStatus.Text += "OK" + Environment.NewLine;
                         }
                         catch (Exception ex)

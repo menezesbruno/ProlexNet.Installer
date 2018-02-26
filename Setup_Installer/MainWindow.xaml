@@ -278,6 +278,7 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Label
                                         Grid.Row="0"
@@ -299,8 +300,15 @@
                                         Content="Banco de dados"
                                         IsChecked="True" />
                                     <CheckBox
-                                        x:Name="CheckBoxLINQPadInstallation"
+                                        x:Name="CheckBoxIBExpertInstallation"
                                         Grid.Row="3"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content="Instalar o IBExpert"
+                                        IsChecked="True" />
+                                    <CheckBox
+                                        x:Name="CheckBoxLINQPadInstallation"
+                                        Grid.Row="4"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
                                         Content="Instalar o LINQPad 5"

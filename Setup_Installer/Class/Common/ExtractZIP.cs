@@ -35,5 +35,19 @@ namespace ProlexNetSetup.Class.Common
                 Trace.WriteLine("ExtractZIP:ExtractDatabase:" + ex.Message);
             }
         }
+
+        public static void ExtractOverwrite(string file, string folder, string fileToOverwrite)
+        {
+            try
+            {
+                if (File.Exists(fileToOverwrite))
+                    File.Delete(fileToOverwrite);
+                ZipFile.ExtractToDirectory(file, folder);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("ExtractZIP:ExtractOverwrite:" + ex.Message);
+            }
+        }
     }
 }
