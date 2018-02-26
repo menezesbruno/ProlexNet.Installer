@@ -9,13 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
     internal class DownloadParameters
     {
         public static ApplicationList Instance { get; private set; }
 
-        public static async Task<bool> ApplicationListAsync()
+        public static async Task ApplicationListAsync()
         {
             WebClient client = new WebClient();
 
@@ -23,13 +23,12 @@ namespace ProlexNetSetupV2.Services
             {
                 var json = await client.DownloadStringTaskAsync(Constants.DownloadServerUrl);
                 Instance = JsonConvert.DeserializeObject<ApplicationList>(json);
-                return true;
             }
             catch (Exception ex)
             {
                 Trace.WriteLine($"{nameof(DownloadParameters)}:{nameof(ApplicationListAsync)}:{ex.Message}");
                 MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
+                Environment.Exit(1);
             }
         }
     }

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
-    internal class ConfigIISService
+    internal class ConfigIIS
     {
         public static void ProlexNetSettings(string installationPath, string serverPort)
         {
@@ -32,7 +32,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigIISService)}:{nameof(ProlexNetSettings)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ConfigIIS)}:{nameof(ProlexNetSettings)}:{ex.Message}");
             }
 
             RemoveSite("prolexnet");
@@ -45,8 +45,8 @@ namespace ProlexNetSetupV2.Services
 
             AddPool("prolexnet");
 
-            ConfigurePool("prolexnet", "prolexnet");
-            ConfigurePool("prolexnet_updater", "prolexnet");
+            SetupPool("prolexnet", "prolexnet");
+            SetupPool("prolexnet_updater", "prolexnet");
         }
 
         public static void RemoveSite(string site)
@@ -72,7 +72,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigIISService)}:{nameof(RemoveSite)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ConfigIIS)}:{nameof(RemoveSite)}:{ex.Message}");
             }
         }
 
@@ -94,7 +94,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigIISService)}:{nameof(RemovePool)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ConfigIIS)}:{nameof(RemovePool)}:{ex.Message}");
             }
         }
 
@@ -111,7 +111,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigIISService)}:{nameof(AddSite)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ConfigIIS)}:{nameof(AddSite)}:{ex.Message}");
             }
         }
 
@@ -131,11 +131,11 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigIISService)}:{nameof(AddPool)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ConfigIIS)}:{nameof(AddPool)}:{ex.Message}");
             }
         }
 
-        public static void ConfigurePool(string site, string pool)
+        public static void SetupPool(string site, string pool)
         {
             try
             {
@@ -151,7 +151,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigIISService)}:{nameof(ConfigurePool)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ConfigIIS)}:{nameof(SetupPool)}:{ex.Message}");
             }
         }
     }

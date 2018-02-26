@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
-    internal class ConfigFirewallService
+    internal class Firewall
     {
         public static void AddRules(string serverPort)
         {
@@ -47,7 +47,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigFirewallService)}:{nameof(NetshRemove)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(Firewall)}:{nameof(NetshRemove)}:{ex.Message}");
             }
         }
 
@@ -65,7 +65,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigFirewallService)}:{nameof(NetshAdd)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(Firewall)}:{nameof(NetshAdd)}:{ex.Message}");
             }
         }
     }

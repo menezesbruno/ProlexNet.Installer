@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
     internal class UninstallService
     {
@@ -114,10 +114,10 @@ namespace ProlexNetSetupV2.Services
                                         child.Close();
                                         try
                                         {
-                                            ConfigIISService.RemoveSite("prolexnet");
-                                            ConfigIISService.RemoveSite("prolexnet_updater");
-                                            ConfigIISService.RemovePool("prolexnet");
-                                            ConfigFirewallService.RemoveRules();
+                                            ConfigIIS.RemoveSite("prolexnet");
+                                            ConfigIIS.RemoveSite("prolexnet_updater");
+                                            ConfigIIS.RemovePool("prolexnet");
+                                            Firewall.RemoveRules();
                                             Directory.Delete(rootPath.ToString(), true);
                                             key.DeleteSubKey(applicationGuid, false);
 

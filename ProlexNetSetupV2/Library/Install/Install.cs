@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
-    internal class InstallService
+    internal class Install
     {
         public static void Firebird(string file, string installationPath)
         {

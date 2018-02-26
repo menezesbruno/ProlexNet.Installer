@@ -6,9 +6,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
-    internal class CheckHashService
+    internal class Hash
     {
         public static bool Check(string downloadedFile, string originalHash)
         {

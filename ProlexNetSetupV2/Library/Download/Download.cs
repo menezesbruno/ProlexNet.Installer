@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
-    internal class DownloadService
+    internal class Download
     {
         public static async Task FirebirdAsync(string servicePath, string installationPath)
         {
@@ -32,7 +32,7 @@ namespace ProlexNetSetupV2.Services
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            InstallService.Firebird(file, installationPath);
+            Install.Firebird(file, installationPath);
         }
 
         public static async Task ProlexNetServerAsync(string servicePath, string installationPath)
@@ -46,13 +46,13 @@ namespace ProlexNetSetupV2.Services
             var installationRootFolder = Path.Combine(installationPath, "ProlexNet Server");
             if (Directory.Exists(installationSubFolder))
             {
-                BackupService.Backup(servicePath, installationSubFolder);
+                Backup.Run(servicePath, installationSubFolder);
                 Directory.Delete(installationSubFolder);
             }
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            ExtractZIPService.Extract(file, installationRootFolder);
-            CreateRegistryEntry.ProlexNetServer(servicePath, installationPath);
+            ZipExtract.Run(file, installationRootFolder);
+            CreateRegistryKey.ProlexNetServer(servicePath, installationPath);
         }
 
         public static async Task ProlexNetUpdaterAsync(string servicePath, string installationPath)
@@ -66,12 +66,12 @@ namespace ProlexNetSetupV2.Services
             var installationRootFolder = Path.Combine(installationPath, "ProlexNet Server");
             if (Directory.Exists(installationSubFolder))
             {
-                BackupService.Backup(servicePath, installationSubFolder);
+                Backup.Run(servicePath, installationSubFolder);
                 Directory.Delete(installationSubFolder);
             }
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            ExtractZIPService.Extract(file, installationRootFolder);
+            ZipExtract.Run(file, installationRootFolder);
         }
 
         public static async Task ProlexNetClientAsync(string servicePath, string installationPath)
@@ -83,12 +83,12 @@ namespace ProlexNetSetupV2.Services
 
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet Client");
             if (Directory.Exists(installationSubFolder))
-                BackupService.Backup(servicePath, installationSubFolder);
+                Backup.Run(servicePath, installationSubFolder);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            ExtractZIPService.Extract(file, installationSubFolder);
+            ZipExtract.Run(file, installationSubFolder);
             CreateShortcut.ProlexNetClient(installationSubFolder);
-            CreateRegistryEntry.ProlexNetClient(servicePath, installationPath);
+            CreateRegistryKey.ProlexNetClient(servicePath, installationPath);
         }
 
         public static async Task ProlexNetDatabaseAsync(string servicePath, string installationPath)
@@ -110,14 +110,14 @@ namespace ProlexNetSetupV2.Services
                 var overwrite = MessageBox.Show($"O banco de dados {databaseName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (overwrite == MessageBoxResult.Yes)
                 {
-                    ExtractZIPService.ExtractDatabase(file, databaseFolder, databaseDeployed);
+                    ZipExtract.Overwrite(file, databaseFolder, databaseDeployed);
                     return;
                 }
                 else
                     return;
             }
             else
-                ExtractZIPService.ExtractDatabase(file, databaseFolder, databaseDeployed);
+                ZipExtract.Overwrite(file, databaseFolder, databaseDeployed);
         }
 
         public static async Task VisualCAsync(string servicePath, string systemType)
@@ -135,7 +135,7 @@ namespace ProlexNetSetupV2.Services
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            InstallService.VCRedist(file);
+            Install.VCRedist(file);
         }
 
         public static async Task DotNetAsync(string servicePath)
@@ -147,7 +147,7 @@ namespace ProlexNetSetupV2.Services
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            InstallService.DotNet(file);
+            Install.DotNet(file);
         }
 
         public static async Task LINQPad5Async(string servicePath)
@@ -159,7 +159,7 @@ namespace ProlexNetSetupV2.Services
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            InstallService.LINQPad(file);
+            Install.LINQPad(file);
         }
 
         public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash)
@@ -177,7 +177,7 @@ namespace ProlexNetSetupV2.Services
             client.DownloadFileCompleted += (sender, args) =>
             {
                 var downloadFileName = Path.GetFileName(url);
-                if (CheckHashService.Check(file, hash))
+                if (Hash.Check(file, hash))
                     return;
                 else
                 {

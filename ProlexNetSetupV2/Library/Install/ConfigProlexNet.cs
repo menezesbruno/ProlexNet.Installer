@@ -8,9 +8,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
-    internal class ConfigProlexNetService
+    internal class ConfigProlexNet
     {
         public static void Server(string installationPath, string serverName, string serverPort)
         {
@@ -48,7 +48,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigProlexNetService)}:{nameof(Server)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ConfigProlexNet)}:{nameof(Server)}:{ex.Message}");
             }
         }
 
@@ -67,7 +67,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigProlexNetService)}:{nameof(Updater)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ConfigProlexNet)}:{nameof(Updater)}:{ex.Message}");
             }
         }
     }

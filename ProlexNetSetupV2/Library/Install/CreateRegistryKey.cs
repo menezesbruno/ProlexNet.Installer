@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
-    internal class CreateRegistryEntry
+    internal class CreateRegistryKey
     {
         public static void ProlexNetClient(string servicePath, string installationPath)
         {
@@ -23,7 +23,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(CreateRegistryEntry)}:{nameof(ProlexNetClient)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(CreateRegistryKey)}:{nameof(ProlexNetClient)}:{ex.Message}");
             }
 
             using (RegistryKey parent = Registry.LocalMachine.OpenSubKey(Constants.WindowsUninstallPath, true))
@@ -67,7 +67,7 @@ namespace ProlexNetSetupV2.Services
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine($"{nameof(CreateRegistryEntry)}:{nameof(ProlexNetClient)}:{ex.Message}");
+                    Trace.WriteLine($"{nameof(CreateRegistryKey)}:{nameof(ProlexNetClient)}:{ex.Message}");
                     throw new Exception(
                         "Um erro ocorreu durante a criação da entrada de registro no sistema. O programa foi instalado com sucesso, mas a sua desinstalação deverá ser feita manualmente caso seja necessário.",
                         ex);
@@ -87,7 +87,7 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(CreateRegistryEntry)}:{nameof(ProlexNetServer)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(CreateRegistryKey)}:{nameof(ProlexNetServer)}:{ex.Message}");
             }
 
             using (RegistryKey parent = Registry.LocalMachine.OpenSubKey(Constants.WindowsUninstallPath, true))
@@ -134,7 +134,7 @@ namespace ProlexNetSetupV2.Services
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine($"{nameof(CreateRegistryEntry)}:{nameof(ProlexNetServer)}:{ex.Message}");
+                    Trace.WriteLine($"{nameof(CreateRegistryKey)}:{nameof(ProlexNetServer)}:{ex.Message}");
                     throw new Exception(
                         "Um erro ocorreu durante a criação da entrada de registro no sistema. O programa foi instalado com sucesso, mas a sua desinstalação deverá ser feita manualmente caso seja necessário.",
                         ex);

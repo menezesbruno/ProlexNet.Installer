@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProlexNetSetupV2.Services
+namespace ProlexNetSetupV2.Library
 {
-    internal class ExtractZIPService
+    internal class ZipExtract
     {
-        public static void Extract(string file, string folder)
+        public static void Run(string file, string folder)
         {
             try
             {
@@ -21,21 +21,21 @@ namespace ProlexNetSetupV2.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ExtractZIPService)}:{nameof(Extract)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ZipExtract)}:{nameof(Run)}:{ex.Message}");
             }
         }
 
-        public static void ExtractDatabase(string file, string folder, string databaseDeployed)
+        public static void Overwrite(string file, string folder, string fileToOverwrite)
         {
             try
             {
-                if (File.Exists(databaseDeployed))
-                    File.Delete(databaseDeployed);
+                if (File.Exists(fileToOverwrite))
+                    File.Delete(fileToOverwrite);
                 ZipFile.ExtractToDirectory(file, folder);
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ExtractZIPService)}:{nameof(ExtractDatabase)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ZipExtract)}:{nameof(Overwrite)}:{ex.Message}");
             }
         }
     }
