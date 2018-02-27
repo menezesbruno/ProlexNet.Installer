@@ -41,10 +41,11 @@
             Margin="10">
             <Grid>
                 <TabControl Background="White" BorderThickness="0">
+                    <!--  Page1  -->
                     <TabItem
-                        x:Name="Page1"
                         Background="White"
-                        Selector.IsSelected="True"
+                        IsSelected="{Binding Page1}"
+                        Selector.IsSelected="{Binding Page1}"
                         Visibility="Collapsed">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -96,10 +97,11 @@
                         </Grid>
                     </TabItem>
 
+                    <!--  Page 2  -->
                     <TabItem
-                        x:Name="Page2"
                         Background="White"
-                        Selector.IsSelected="False"
+                        IsSelected="{Binding Page2}"
+                        Selector.IsSelected="{Binding Page2}"
                         Visibility="Collapsed">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -194,10 +196,11 @@
                         </Grid>
                     </TabItem>
 
+                    <!--  Page3  -->
                     <TabItem
-                        x:Name="Page3"
                         Background="White"
-                        Selector.IsSelected="False"
+                        IsSelected="{Binding Page3}"
+                        Selector.IsSelected="{Binding Page3}"
                         Visibility="Collapsed">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -354,10 +357,11 @@
                         </Grid>
                     </TabItem>
 
+                    <!--  Page4  -->
                     <TabItem
-                        x:Name="Page4"
                         Background="White"
-                        Selector.IsSelected="False"
+                        IsSelected="{Binding Page4}"
+                        Selector.IsSelected="{Binding Page4}"
                         Visibility="Collapsed">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -381,10 +385,11 @@
                         </Grid>
                     </TabItem>
 
+                    <!--  Page5  -->
                     <TabItem
-                        x:Name="Page5"
                         Background="White"
-                        Selector.IsSelected="False"
+                        IsSelected="{Binding Page5}"
+                        Selector.IsSelected="{Binding Page5}"
                         Visibility="Collapsed">
                         <Grid VerticalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
@@ -435,10 +440,11 @@
                         </Grid>
                     </TabItem>
 
+                    <!--  Page6  -->
                     <TabItem
-                        x:Name="Page6"
                         Background="White"
-                        Selector.IsSelected="False"
+                        IsSelected="{Binding Page1}"
+                        Selector.IsSelected="{Binding Page1}"
                         Visibility="Collapsed">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -469,7 +475,6 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Button
-                x:Name="ButtonBack"
                 Grid.Row="0"
                 Grid.Column="0"
                 Width="80"
@@ -477,12 +482,12 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 VerticalContentAlignment="Center"
-                Content="&lt; Voltar"
+                Command="{Binding BackCommand}"
+                Content="{Binding BackContent}"
                 Focusable="False"
                 FontWeight="Bold"
-                Visibility="Hidden" />
+                Visibility="{Binding BackVisibility}" />
             <Button
-                x:Name="ButtonAdvance"
                 Grid.Row="0"
                 Grid.Column="1"
                 Width="80"
@@ -491,12 +496,13 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 VerticalContentAlignment="Center"
-                Content="Próximo &gt;"
+                Command="{Binding NextCommand}"
+                Content="{Binding NextContent}"
                 Focusable="False"
                 FontWeight="Bold"
-                IsDefault="True" />
+                IsDefault="True"
+                Visibility="{Binding NextVisibility}" />
             <Button
-                x:Name="ButtonCancel"
                 Grid.Row="0"
                 Grid.Column="2"
                 Width="80"
@@ -505,10 +511,12 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 VerticalContentAlignment="Center"
-                Content="Cancelar"
+                Command="{Binding CancelCommand}"
+                Content="{Binding CancelContent}"
                 Focusable="False"
                 FontWeight="Bold"
-                IsCancel="True" />
+                IsCancel="True"
+                Visibility="{Binding CancelVisibility}" />
         </Grid>
     </Grid>
 </Window>
