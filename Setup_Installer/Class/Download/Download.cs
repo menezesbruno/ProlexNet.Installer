@@ -7,11 +7,17 @@ using ProlexNetSetup.Class.Common;
 using ProlexNetSetup.Class.Install;
 using ProlexNetSetup.Setup.Class.Common;
 using System.IO.Compression;
+using SegmentDownloader.Core;
+using SegmentDownloader.Protocol;
+using System.Threading;
+using System.Linq;
 
 namespace ProlexNetSetup.Class.Download
 {
     public class Download
     {
+        private static ManualResetEventSlim _manualResetEventSlim;
+
         public static async Task FirebirdAsync(string servicePath, string installationPath)
         {
             var firebird_Url_X86 = DownloadParameters.Instance.Firebird_X86_Url;
@@ -39,7 +45,7 @@ namespace ProlexNetSetup.Class.Download
         {
             var applicationGuid = Constants.ServerApplicationGuid;
             var windowsUninstallPath = Constants.WindowsUninstallPath;
-            
+
             var url = DownloadParameters.Instance.ProlexNet_Server_Url;
             var hash = DownloadParameters.Instance.ProlexNet_Server_Hash;
             var downloadFileName = Path.GetFileName(url);
@@ -199,21 +205,37 @@ namespace ProlexNetSetup.Class.Download
             ExtractZIP.ExtractOverwrite(file, installFolder, ibExpertDeployed);
         }
 
-        public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash)
+        static async Task DownloadFileInBackgroundAsync(string url, string file, string hash)
         {
-            IProgress<DownloadProgressChangedEventArgs> Progress =
-                new Progress<DownloadProgressChangedEventArgs>(((MainWindow)Application.Current.MainWindow).UpdateDownloadProgress);
+            if (File.Exists(file))
+            {
+                if (CheckHash.Check(file, hash))
+                    return;
+                else
+                    File.Delete(file);
+            }
 
-            WebClient client = new WebClient();
+            RegisterProtocols();
 
-            client.DownloadProgressChanged += (sender, args) =>
+            var resourceLocation = ResourceLocation.FromURL(url);
+            var uri = new Uri(url);
+
+            IProgress<Downloader> Progress =
+                new Progress<Downloader>(((MainWindow)Application.Current.MainWindow).UpdateDownloadProgress);
+
+            DownloadManager.Instance.DownloadEnded += DownloadEnded;
+
+            // create downloader with 8 segments
+            var downloader = DownloadManager.Instance.Add(resourceLocation, null, file, 8, false);
+
+
+            downloader.InfoReceived += (sender, args) =>
             {
                 Progress.Report(args);
             };
 
-            client.DownloadFileCompleted += (sender, args) =>
+            downloader.Ending += (sender, args) =>
             {
-                var downloadFileName = Path.GetFileName(url);
                 if (CheckHash.Check(file, hash))
                     return;
                 else
@@ -223,15 +245,24 @@ namespace ProlexNetSetup.Class.Download
                 }
             };
 
-            try
-            {
-                await client.DownloadFileTaskAsync(url, file);
-            }
-            catch
-            {
-                MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(1);
-            }
+            _manualResetEventSlim = new ManualResetEventSlim();
+
+            downloader.Start();
+
+            _manualResetEventSlim.Wait();
+
+        }
+
+        private static void DownloadEnded(object sender, DownloaderEventArgs e)
+        {
+            _manualResetEventSlim.Set();
+        }
+
+        private static void RegisterProtocols()
+        {
+            ProtocolProviderFactory.RegisterProtocolHandler("http", typeof(HttpProtocolProvider));
+            ProtocolProviderFactory.RegisterProtocolHandler("https", typeof(HttpProtocolProvider));
+            ProtocolProviderFactory.RegisterProtocolHandler("ftp", typeof(FtpProtocolProvider));
         }
     }
 }

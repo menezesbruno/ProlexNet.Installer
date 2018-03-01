@@ -3,6 +3,7 @@ using ProlexNetSetup.Class;
 using ProlexNetSetup.Class.Common;
 using ProlexNetSetup.Class.Download;
 using ProlexNetSetup.Class.Install;
+using SegmentDownloader.Core;
 using System;
 using System.IO;
 using System.Net;
@@ -179,17 +180,17 @@ namespace ProlexNetSetup
 
         #region Progressbar
 
-        public void UpdateDownloadProgress(DownloadProgressChangedEventArgs args)
+        public void UpdateDownloadProgress(Downloader args)
         {
             // Progressbar dos downloads
             Dispatcher.Invoke(() =>
             {
-                ProgressBar.Maximum = args.TotalBytesToReceive;
-                ProgressBar.Value = args.BytesReceived;
-                ProgressBarValue.Content = args.ProgressPercentage + "%";
+                ProgressBar.Maximum = args.FileSize;
+                ProgressBar.Value = args.Transfered;
+                ProgressBarValue.Content = args.Progress + "%";
 
-                decimal total = args.TotalBytesToReceive;
-                decimal received = args.BytesReceived;
+                decimal total = args.FileSize;
+                decimal received = args.Transfered;
                 ProgressBarSpeed.Content = $"{(received / 1048576):n3} MB / {(total / 1048576):n3} MB";
             });
         }
