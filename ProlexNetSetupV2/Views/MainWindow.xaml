@@ -236,43 +236,42 @@
                                     Width="150"
                                     Margin="25,0,0,0"
                                     HorizontalAlignment="Left"
-                                    IsEnabled="False">
-                                    <ComboBoxItem x:Name="AC" Content="Acre" />
-                                    <ComboBoxItem x:Name="AL" Content="Alagoas" />
-                                    <ComboBoxItem x:Name="AP" Content="Amapá" />
-                                    <ComboBoxItem x:Name="AM" Content="Amazonas" />
-                                    <ComboBoxItem x:Name="BA" Content="Bahia" />
-                                    <ComboBoxItem x:Name="CE" Content="Ceará" />
-                                    <ComboBoxItem x:Name="DF" Content="Distrito Federal" />
-                                    <ComboBoxItem x:Name="ES" Content="Espírito Santo" />
-                                    <ComboBoxItem x:Name="GO" Content="Goiás" />
-                                    <ComboBoxItem x:Name="MA" Content="Maranhão" />
-                                    <ComboBoxItem x:Name="MT" Content="Mato Grosso" />
-                                    <ComboBoxItem x:Name="MS" Content="Mato Grosso do Sul" />
-                                    <ComboBoxItem
-                                        x:Name="MG"
-                                        Content="Minas Gerais"
-                                        Selector.IsSelected="True" />
-                                    <ComboBoxItem x:Name="PA" Content="Pará" />
-                                    <ComboBoxItem x:Name="PB" Content="Paraíba" />
-                                    <ComboBoxItem x:Name="PR" Content="Paraná" />
-                                    <ComboBoxItem x:Name="PE" Content="Pernambuco" />
-                                    <ComboBoxItem x:Name="PI" Content="Piauí" />
-                                    <ComboBoxItem x:Name="RJ" Content="Rio de Janeiro" />
-                                    <ComboBoxItem x:Name="RN" Content="Rio Grande do Norte" />
-                                    <ComboBoxItem x:Name="RS" Content="Rio Grande do Sul" />
-                                    <ComboBoxItem x:Name="RO" Content="Rondônia" />
-                                    <ComboBoxItem x:Name="RR" Content="Roraima" />
-                                    <ComboBoxItem x:Name="SC" Content="Santa Catarina" />
-                                    <ComboBoxItem x:Name="SP" Content="São Paulo" />
-                                    <ComboBoxItem x:Name="SE" Content="Sergipe" />
-                                    <ComboBoxItem x:Name="TO" Content="Tocantins" />
+                                    IsEnabled="False"
+                                    SelectedValue="{Binding SelectedState}">
+                                    <ComboBoxItem Content="Acre" />
+                                    <ComboBoxItem Content="Alagoas" />
+                                    <ComboBoxItem Content="Amapá" />
+                                    <ComboBoxItem Content="Amazonas" />
+                                    <ComboBoxItem Content="Bahia" />
+                                    <ComboBoxItem Content="Ceará" />
+                                    <ComboBoxItem Content="Distrito Federal" />
+                                    <ComboBoxItem Content="Espírito Santo" />
+                                    <ComboBoxItem Content="Goiás" />
+                                    <ComboBoxItem Content="Maranhão" />
+                                    <ComboBoxItem Content="Mato Grosso" />
+                                    <ComboBoxItem Content="Mato Grosso do Sul" />
+                                    <ComboBoxItem Content="Minas Gerais" Selector.IsSelected="True" />
+                                    <ComboBoxItem Content="Pará" />
+                                    <ComboBoxItem Content="Paraíba" />
+                                    <ComboBoxItem Content="Paraná" />
+                                    <ComboBoxItem Content="Pernambuco" />
+                                    <ComboBoxItem Content="Piauí" />
+                                    <ComboBoxItem Content="Rio de Janeiro" />
+                                    <ComboBoxItem Content="Rio Grande do Norte" />
+                                    <ComboBoxItem Content="Rio Grande do Sul" />
+                                    <ComboBoxItem Content="Rondônia" />
+                                    <ComboBoxItem Content="Roraima" />
+                                    <ComboBoxItem Content="Santa Catarina" />
+                                    <ComboBoxItem Content="São Paulo" />
+                                    <ComboBoxItem Content="Sergipe" />
+                                    <ComboBoxItem Content="Tocantins" />
                                 </ComboBox>
                             </Grid>
                             <Grid
                                 Grid.Row="2"
                                 Grid.Column="0"
-                                Margin="15,5,0,0">
+                                Margin="15,5,0,0"
+                                IsEnabled="{Binding InstallProlexNetServer}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
@@ -361,11 +360,11 @@
                                 Grid.Column="0"
                                 Content="Os seguintes componentes serão instalados:" />
                             <TextBlock
-                                x:Name="ComponentsToBeInstalled"
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Margin="15,5,0,0"
-                                Padding="10" />
+                                Padding="10"
+                                Text="{Binding ComponentsToBeInstalled}" />
                         </Grid>
                     </TabItem>
 
@@ -408,18 +407,21 @@
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Margin="10,0,10,0">
-                                    <ProgressBar x:Name="ProgressBar" Height="20" />
+                                    <ProgressBar
+                                        Height="20"
+                                        Maximum="{Binding ProgressBarMaximum}"
+                                        Value="{Binding ProgressBarValue}" />
                                     <Label
-                                        x:Name="ProgressBarValue"
                                         HorizontalAlignment="Center"
+                                        Content="{Binding ProgressBarPercentage}"
                                         TextBlock.FontWeight="Bold" />
-                                    <Label x:Name="ProgressBarSpeed" HorizontalAlignment="Right" />
+                                    <Label HorizontalAlignment="Right" Content="{Binding ProgressBarSpeed}" />
                                 </Grid>
                                 <TextBlock
-                                    x:Name="InstallationStatus"
                                     Grid.Row="2"
                                     Grid.Column="0"
-                                    Margin="10" />
+                                    Margin="10"
+                                    Text="{Binding InstallationStatus}" />
                             </Grid>
                         </Grid>
                     </TabItem>
@@ -437,7 +439,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Label x:Name="LabelInstallationResult" Content="O ProlexNet foi instalado com sucesso!" />
+                            <Label Content="{Binding InstallationResult}" />
                         </Grid>
                     </TabItem>
                 </TabControl>
