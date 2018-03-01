@@ -134,18 +134,16 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <CheckBox
-                                    x:Name="checkbox_ProlexNetServer"
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Content="ProlexNet - Servidor"
-                                    IsChecked="False" />
+                                    IsChecked="{Binding InstallProlexNetServer, Mode=TwoWay}" />
                                 <CheckBox
-                                    x:Name="checkbox_ProlexNetClient"
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Margin="0,5,0,0"
                                     Content="ProlexNet - Cliente"
-                                    IsChecked="False" />
+                                    IsChecked="{Binding InstallProlexNetClient, Mode=TwoWay}" />
                             </Grid>
                             <Grid
                                 Grid.Row="3"
@@ -174,7 +172,6 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Label
-                                        x:Name="InstallationPathField"
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Width="440"
@@ -182,14 +179,15 @@
                                         Padding="5,1,1,5"
                                         HorizontalAlignment="Left"
                                         BorderBrush="LightGray"
-                                        BorderThickness="1" />
+                                        BorderThickness="1"
+                                        Content="{Binding InstallationPath, Mode=TwoWay}" />
                                     <Button
-                                        x:Name="ButtonChangeInstallPath"
                                         Grid.Row="0"
                                         Grid.Column="1"
                                         Width="80"
                                         Margin="5,0,0,0"
                                         VerticalContentAlignment="Center"
+                                        Command="{Binding ChangeInstallPathCommand}"
                                         Content="Alterar" />
                                 </Grid>
                             </Grid>
@@ -291,42 +289,36 @@
                                     Padding="10"
                                     Content="Outros parâmetros da instalação:" />
                                 <CheckBox
-                                    x:Name="CheckBoxFirebirdInstallation"
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Margin="25,0,0,0"
                                     Content="Instalar o Firebird 3"
-                                    IsChecked="True" />
+                                    IsChecked="{Binding InstallFirebird, Mode=TwoWay}" />
                                 <CheckBox
-                                    x:Name="CheckBoxDatabaseDeploy"
                                     Grid.Row="2"
                                     Grid.Column="0"
                                     Margin="25,0,0,0"
                                     Content="Banco de dados"
-                                    IsChecked="True" />
+                                    IsChecked="{Binding InstallProlexNetDatabase, Mode=TwoWay}" />
                                 <CheckBox
-                                    x:Name="CheckBoxIBExpertInstallation"
                                     Grid.Row="3"
                                     Grid.Column="0"
                                     Margin="25,0,0,0"
                                     Content="Instalar o IBExpert"
-                                    IsChecked="True" />
+                                    IsChecked="{Binding InstallIBExpert, Mode=TwoWay}" />
                                 <CheckBox
-                                    x:Name="CheckBoxLINQPadInstallation"
                                     Grid.Row="4"
                                     Grid.Column="0"
                                     Margin="25,0,0,0"
                                     Content="Instalar o LINQPad 5"
-                                    IsChecked="True" />
+                                    IsChecked="{Binding InstallLinqPad, Mode=TwoWay}" />
                             </Grid>
                             <Grid
-                                x:Name="ProlexNetServer_settings"
                                 Grid.Row="3"
                                 Grid.Column="0"
                                 Margin="15,5,0,0"
-                                IsEnabled="False">
+                                IsEnabled="{Binding InstallProlexNetServer}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -337,22 +329,14 @@
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Padding="10"
-                                    Content="Nome e porta do Servidor:" />
+                                    Content="Porta do Servidor:" />
                                 <TextBox
-                                    x:Name="ServerNameOverNetwork"
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Width="150"
-                                    Margin="25,0,0,0"
-                                    Text="localhost" />
-                                <TextBox
-                                    x:Name="ServerPortOverNetrork"
-                                    Grid.Row="1"
-                                    Grid.Column="1"
                                     Width="75"
                                     Margin="5,0,0,0"
                                     VerticalContentAlignment="Center"
-                                    Text="18520" />
+                                    Text="{Binding ProlexNetServerPort, Mode=TwoWay}" />
                             </Grid>
                         </Grid>
                     </TabItem>

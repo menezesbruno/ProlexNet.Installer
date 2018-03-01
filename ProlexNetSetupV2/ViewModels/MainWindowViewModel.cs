@@ -1,7 +1,10 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace ProlexNetSetupV2.ViewModels
@@ -66,6 +69,75 @@ namespace ProlexNetSetupV2.ViewModels
         }
         #endregion
 
+        #region Checkboxes
+        private bool _installProlexNetServer = false;
+
+        public bool InstallProlexNetServer
+        {
+            get { return _installProlexNetServer; }
+            set { SetProperty(ref _installProlexNetServer, value); }
+        }
+
+        private bool _installProlexNetClient = false;
+
+        public bool InstallProlexNetClient
+        {
+            get { return _installProlexNetClient; }
+            set { SetProperty(ref _installProlexNetClient, value); }
+        }
+
+        private bool _installProlexNetDatabase = false;
+
+        public bool InstallProlexNetDatabase
+        {
+            get { return _installProlexNetDatabase; }
+            set { SetProperty(ref _installProlexNetDatabase, value); }
+        }
+
+        private bool _installFirebird = false;
+
+        public bool InstallFirbird
+        {
+            get { return _installFirebird; }
+            set { SetProperty(ref _installFirebird, value); }
+        }
+
+        private bool _installIBExpert = false;
+
+        public bool InstallIBExpert
+        {
+            get { return _installIBExpert; }
+            set { SetProperty(ref _installIBExpert, value); }
+        }
+
+        private bool _installLinqPad = false;
+
+        public bool InstallLinqPad
+        {
+            get { return _installLinqPad; }
+            set { SetProperty(ref _installLinqPad, value); }
+        }
+        #endregion
+
+        #region Fields
+        private string _installationPath = @"C:\Automatiza";
+
+        public string InstallationPath
+        {
+            get { return _installationPath; }
+            set { SetProperty(ref _installationPath, value); }
+        }
+
+        private string _prolexNetServerPort = "18520";
+
+        public string ProlexNetServerPort
+        {
+            get { return _prolexNetServerPort; }
+            set { SetProperty(ref _prolexNetServerPort, value); }
+        }
+
+        #endregion
+
         #region Pages
         public int CountPages { get; set; }
 
@@ -123,7 +195,9 @@ namespace ProlexNetSetupV2.ViewModels
 
         public ICommand NextCommand { get; set; }
 
-        public ICommand CancelCommand { get; set; } 
+        public ICommand CancelCommand { get; set; }
+
+        public ICommand ChangeInstallPathCommand { get; set; }
         #endregion
 
         public MainWindowViewModel()
@@ -131,6 +205,7 @@ namespace ProlexNetSetupV2.ViewModels
             BackCommand = new DelegateCommand(Back);
             NextCommand = new DelegateCommand(Next);
             CancelCommand = new DelegateCommand(Cancel);
+            ChangeInstallPathCommand = new DelegateCommand(ChangeInstallPath);
         }
 
         private void Back()
@@ -153,7 +228,7 @@ namespace ProlexNetSetupV2.ViewModels
         {
             if (CountPages < 5)
             {
-                var close = MessageBox.Show("Você tem certeza que deseja sair do Instalador do ProlexNet?", "Instalação do ProlexNet", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                var close = System.Windows.MessageBox.Show("Você tem certeza que deseja sair do Instalador do ProlexNet?", "Instalação do ProlexNet", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
                 if (close == MessageBoxResult.Yes)
                     Environment.Exit(1);
             }
@@ -264,6 +339,15 @@ namespace ProlexNetSetupV2.ViewModels
 
                 default:
                     break;
+            }
+        }
+
+        private void ChangeInstallPath()
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            {
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                    InstallationPath = Path.GetFullPath(folderBrowserDialog.SelectedPath);
             }
         }
     }
