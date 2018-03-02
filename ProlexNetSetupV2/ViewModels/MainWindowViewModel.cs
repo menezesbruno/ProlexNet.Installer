@@ -28,9 +28,9 @@ namespace ProlexNetSetupV2.ViewModels
             set { SetProperty(ref _backContent, value); }
         }
 
-        private string _backVisibility = "Hidden";
+        private Visibility _backVisibility = Visibility.Hidden;
 
-        public string BackVisibility
+        public Visibility BackVisibility
         {
             get { return _backVisibility; }
             set { SetProperty(ref _backVisibility, value); }
@@ -44,9 +44,9 @@ namespace ProlexNetSetupV2.ViewModels
             set { SetProperty(ref _nextContent, value); }
         }
 
-        private string _nextVisibility = "Visible";
+        private Visibility _nextVisibility = Visibility.Visible;
 
-        public string NextVisibility
+        public Visibility NextVisibility
         {
             get { return _nextVisibility; }
             set { SetProperty(ref _nextVisibility, value); }
@@ -60,9 +60,9 @@ namespace ProlexNetSetupV2.ViewModels
             set { SetProperty(ref _cancelContent, value); }
         }
 
-        private string _cancelVisibility = "Visible";
+        private Visibility _cancelVisibility = Visibility.Visible;
 
-        public string CancelVisibility
+        public Visibility CancelVisibility
         {
             get { return _cancelVisibility; }
             set { SetProperty(ref _cancelVisibility, value); }
@@ -254,7 +254,7 @@ namespace ProlexNetSetupV2.ViewModels
                     Page5 = false;
                     Page6 = false;
 
-                    BackVisibility = "Hidden";
+                    BackVisibility = Visibility.Hidden;
                     break;
 
                 case 1:
@@ -265,7 +265,7 @@ namespace ProlexNetSetupV2.ViewModels
                     Page5 = false;
                     Page6 = false;
 
-                    BackVisibility = "Visible";
+                    BackVisibility = Visibility.Visible;
                     break;
 
                 case 2:
@@ -276,26 +276,7 @@ namespace ProlexNetSetupV2.ViewModels
                     Page5 = false;
                     Page6 = false;
 
-                    //if (checkbox_ProlexNetServer.IsChecked == true)
-                    //{
-                    //    ProlexNetServer_settings.IsEnabled = true;
-                    //    CheckBoxDatabaseDeploy.IsEnabled = true;
-                    //    CheckBoxFirebirdInstallation.IsEnabled = true;
-                    //    CheckBoxIBExpertInstallation.IsEnabled = true;
-                    //    CheckBoxLINQPadInstallation.IsEnabled = true;
-                    //    ServerNameOverNetwork.Text = Environment.GetEnvironmentVariable("COMPUTERNAME");
-                    //}
-                    //else
-                    //{
-                    //    ProlexNetServer_settings.IsEnabled = false;
-                    //    CheckBoxDatabaseDeploy.IsEnabled = false;
-                    //    CheckBoxFirebirdInstallation.IsEnabled = false;
-                    //    CheckBoxIBExpertInstallation.IsEnabled = false;
-                    //    CheckBoxLINQPadInstallation.IsEnabled = false;
-                    //    ServerNameOverNetwork.Text = "localhost";
-                    //}
-
-                    BackVisibility = "Visible";
+                    BackVisibility = Visibility.Visible;
                     NextContent = "Próximo >";
                     //ButtonAdvance.Click += BeforeInstallation;
                     //ButtonAdvance.Click -= StartInstallationAsync;
@@ -309,7 +290,7 @@ namespace ProlexNetSetupV2.ViewModels
                     Page5 = false;
                     Page6 = false;
 
-                    BackVisibility = "Visible";
+                    BackVisibility = Visibility.Visible;
                     NextContent = "Instalar >";
                     //ButtonAdvance.Click -= BeforeInstallation;
                     //ButtonAdvance.Click += StartInstallationAsync;
@@ -323,10 +304,10 @@ namespace ProlexNetSetupV2.ViewModels
                     Page5 = true;
                     Page6 = false;
 
-                    //ButtonBack.Visibility = Visibility.Hidden;
-                    //ButtonCancel.Visibility = Visibility.Visible;
-                    //ButtonAdvance.Visibility = Visibility.Hidden;
+                    BackVisibility = Visibility.Hidden;
+                    NextVisibility = Visibility.Hidden;
                     NextContent = "Próximo >";
+                    CancelVisibility = Visibility.Visible;
                     //ButtonAdvance.Click -= StartInstallationAsync;
                     break;
 
@@ -338,10 +319,10 @@ namespace ProlexNetSetupV2.ViewModels
                     Page5 = false;
                     Page6 = true;
 
-                    //ButtonBack.Visibility = Visibility.Hidden;
-                    //ButtonAdvance.Visibility = Visibility.Hidden;
-                    //ButtonCancel.Visibility = Visibility.Visible;
-                    //ButtonCancel.Content = "Finalizar";
+                    BackVisibility = Visibility.Hidden;
+                    NextVisibility = Visibility.Hidden;
+                    CancelVisibility = Visibility.Visible;
+                    CancelContent = "Finalizar";
                     break;
 
                 default:

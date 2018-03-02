@@ -429,8 +429,8 @@
                     <!--  Page6  -->
                     <TabItem
                         Background="White"
-                        IsSelected="{Binding Page1}"
-                        Selector.IsSelected="{Binding Page1}"
+                        IsSelected="{Binding Page6}"
+                        Selector.IsSelected="{Binding Page6}"
                         Visibility="Collapsed">
                         <Grid>
                             <Grid.ColumnDefinitions>
