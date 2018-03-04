@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Windows;
 
 namespace ProlexNetSetupV2.Views
@@ -11,6 +12,12 @@ namespace ProlexNetSetupV2.Views
         public MainWindow()
         {
             InitializeComponent();
+            SelectedItem();
+        }
+
+        private void SelectedItem()
+        {
+
         }
 
         public void UpdateDownloadProgress(DownloadProgressChangedEventArgs args)

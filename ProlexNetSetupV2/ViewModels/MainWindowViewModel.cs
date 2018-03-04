@@ -1,8 +1,12 @@
 ﻿using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
+using ProlexNetSetupV2.Library;
+using ProlexNetSetupV2.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -18,6 +22,26 @@ namespace ProlexNetSetupV2.ViewModels
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
+
+        private int _countPages = 0;
+
+        public int CountPages
+        {
+            get { return _countPages; }
+            set { SetProperty(ref _countPages, value); }
+        }
+
+        private List<string> _installList;
+
+        public List<string> InstallList
+        {
+            get { return _installList; }
+            set { SetProperty(ref _installList, value); }
+        }
+
+        List<Action> InstallQueue = new List<Action>();
+
+        public static ComponentsToInstall ComponentsToInstall { get; set; }
 
         #region Buttons
         private string _backContent = "< Voltar";
@@ -96,7 +120,7 @@ namespace ProlexNetSetupV2.ViewModels
 
         private bool _installFirebird = false;
 
-        public bool InstallFirbird
+        public bool InstallFirebird
         {
             get { return _installFirebird; }
             set { SetProperty(ref _installFirebird, value); }
@@ -120,12 +144,12 @@ namespace ProlexNetSetupV2.ViewModels
         #endregion
 
         #region Fields
-        private string _installationPath = @"C:\Automatiza";
+        public static string InstallationPath = @"C:\Automatiza";
 
-        public string InstallationPath
+        public string InstallPath
         {
-            get { return _installationPath; }
-            set { SetProperty(ref _installationPath, value); }
+            get { return InstallationPath; }
+            set { SetProperty(ref InstallationPath, value); }
         }
 
         private string _prolexNetServerPort = "18520";
@@ -139,14 +163,6 @@ namespace ProlexNetSetupV2.ViewModels
         #endregion
 
         #region Pages
-        private int _countPages = 0;
-
-        public int CountPages
-        {
-            get { return _countPages; }
-            set { SetProperty(ref _countPages, value); }
-        }
-
         private bool _page1 = false;
 
         public bool Page1
@@ -278,8 +294,6 @@ namespace ProlexNetSetupV2.ViewModels
 
                     BackVisibility = Visibility.Visible;
                     NextContent = "Próximo >";
-                    //ButtonAdvance.Click += BeforeInstallation;
-                    //ButtonAdvance.Click -= StartInstallationAsync;
                     break;
 
                 case 3:
@@ -292,8 +306,8 @@ namespace ProlexNetSetupV2.ViewModels
 
                     BackVisibility = Visibility.Visible;
                     NextContent = "Instalar >";
-                    //ButtonAdvance.Click -= BeforeInstallation;
-                    //ButtonAdvance.Click += StartInstallationAsync;
+
+                    Components();
                     break;
 
                 case 4:
@@ -306,9 +320,8 @@ namespace ProlexNetSetupV2.ViewModels
 
                     BackVisibility = Visibility.Hidden;
                     NextVisibility = Visibility.Hidden;
-                    NextContent = "Próximo >";
                     CancelVisibility = Visibility.Visible;
-                    //ButtonAdvance.Click -= StartInstallationAsync;
+
                     break;
 
                 case 5:
@@ -330,12 +343,118 @@ namespace ProlexNetSetupV2.ViewModels
             }
         }
 
+        private void Components()
+        {
+            var list = new List<string>();
+            var bits = DetectWindows.Bits();
+
+            #region VisualC2013
+
+            if (RequirementsCheck.VisualC2013x86())
+            {
+                list.Add(Constants.VisualC2013X86);
+                InstallQueue.Add(async () => await Download.VisualCAsync(bits));
+            }
+
+            if (bits == "x64")
+            {
+                if (RequirementsCheck.VisualC2013x64())
+                {
+                    list.Add(Constants.VisualC2013X64);
+                    InstallQueue.Add(async () => await Download.VisualCAsync(bits));
+                }
+            }
+
+            #endregion
+
+            #region DotNet46
+
+            if (RequirementsCheck.DotNet())
+            {
+                list.Add(Constants.DotNet46);
+                InstallQueue.Add(async () => await Download.DotNetAsync());
+            }
+
+            #endregion
+
+            #region ProlexNetServer
+
+            if (InstallProlexNetServer)
+            {
+                #region IIS
+
+                list.Add(Constants.IIS);
+                InstallQueue.Add(async () => await Install.IIS());
+
+                #endregion
+
+                #region Firebird
+
+                if (InstallFirebird)
+                {
+                    if (bits == "x64")
+                        list.Add(Constants.FirebirdX64);
+                    else
+                        list.Add(Constants.FirebirdX86);
+
+                    InstallQueue.Add(async () => await Download.FirebirdAsync());
+                }
+
+                #endregion
+
+                #region Database
+
+                if (InstallProlexNetDatabase)
+                {
+                    list.Add(Constants.ProlexNetDatabase);
+                    InstallQueue.Add(async () => await Download.ProlexNetDatabaseAsync());
+                }
+
+                #endregion
+
+                #region IBExpert
+
+                if (InstallIBExpert)
+                {
+                    list.Add(Constants.IBExpert);
+                    InstallQueue.Add(async () => await Download.IBExpertAsync());
+                }
+
+                #endregion
+
+                #region ProlexNetServer
+
+                list.Add(Constants.ProlexNetServer);
+                InstallQueue.Add(async () => await Download.ProlexNetServerAsync());
+
+                #endregion
+            }
+
+            #endregion
+
+            #region ProlexNetClient
+
+            if (InstallProlexNetClient)
+            {
+                #region ProlexNetClient
+
+                list.Add(Constants.ProlexNetClient);
+                InstallQueue.Add(async () => await Download.ProlexNetClientAsync());
+
+                #endregion
+            }
+
+            #endregion
+
+            InstallList = list;
+        }
+
         private void ChangeInstallPath()
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             {
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-                    InstallationPath = Path.GetFullPath(folderBrowserDialog.SelectedPath);
+                    InstallPath = Path.GetFullPath(folderBrowserDialog.SelectedPath);
             }
         }
     }

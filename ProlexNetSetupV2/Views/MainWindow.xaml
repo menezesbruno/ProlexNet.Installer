@@ -13,265 +13,195 @@
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0">
-            <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
-                <Image
-                    Width="250"
-                    Height="79"
-                    Margin="10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Source="..\Resources\logo-automatiza.png" />
-            </Border>
-        </Grid>
+    <Window.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
+                    <Image
+                        Width="250"
+                        Height="79"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="..\Resources\logo-automatiza.png" />
+                </Border>
+            </Grid>
 
-        <!--  Pages  -->
-        <Grid
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="10">
-            <Grid>
-                <TabControl Background="White" BorderThickness="0">
-                    <!--  Page1  -->
-                    <TabItem
-                        Background="White"
-                        IsSelected="{Binding Page1}"
-                        Selector.IsSelected="{Binding Page1}"
-                        Visibility="Collapsed">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-
-                            <Grid Grid.Row="0" Grid.Column="0">
-                                <Image
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Source="..\Resources/installer-introduction.png" />
-                            </Grid>
-                            <Grid Grid.Row="0" Grid.Column="1">
+            <!--  Pages  -->
+            <Grid
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="10">
+                <Grid>
+                    <TabControl Background="White" BorderThickness="0">
+                        <!--  Page1  -->
+                        <TabItem
+                            Background="White"
+                            IsSelected="{Binding Page1}"
+                            Selector.IsSelected="{Binding Page1}"
+                            Visibility="Collapsed">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Margin="5,0,0,0"
-                                    Text="Este assistente guiará você através da instalação do ProlexNet."
-                                    TextAlignment="Justify"
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="5,20,0,0"
-                                    Text="É recomendado que você feche todos os outros aplicativos antes de iniciar o instalador. Isto tornará possível atualizar os arquivos de sistema relevantes."
-                                    TextAlignment="Justify"
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    Margin="5,20,0,0"
-                                    Text="Clique em Próximo para continuar."
-                                    TextAlignment="Justify"
-                                    TextWrapping="Wrap" />
-                            </Grid>
-                        </Grid>
-                    </TabItem>
+                                <Grid Grid.Row="0" Grid.Column="0">
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Source="..\Resources/installer-introduction.png" />
+                                </Grid>
+                                <Grid Grid.Row="0" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                    <!--  Page 2  -->
-                    <TabItem
-                        Background="White"
-                        IsSelected="{Binding Page2}"
-                        Selector.IsSelected="{Binding Page2}"
-                        Visibility="Collapsed">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Label
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Content="Escolha a opção de instalação que deseja executar." />
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Margin="20,10,0,0"
-                                Content="Selecione qual sistema deseja instalar:" />
-                            <Grid
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Margin="40,0,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <CheckBox
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Content="ProlexNet - Servidor"
-                                    IsChecked="{Binding InstallProlexNetServer, Mode=TwoWay}" />
-                                <CheckBox
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="0,5,0,0"
-                                    Content="ProlexNet - Cliente"
-                                    IsChecked="{Binding InstallProlexNetClient, Mode=TwoWay}" />
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="5,0,0,0"
+                                        Text="Este assistente guiará você através da instalação do ProlexNet."
+                                        TextAlignment="Justify"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="5,20,0,0"
+                                        Text="É recomendado que você feche todos os outros aplicativos antes de iniciar o instalador. Isto tornará possível atualizar os arquivos de sistema relevantes."
+                                        TextAlignment="Justify"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="5,20,0,0"
+                                        Text="Clique em Próximo para continuar."
+                                        TextAlignment="Justify"
+                                        TextWrapping="Wrap" />
+                                </Grid>
                             </Grid>
-                            <Grid
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                Margin="20,20,0,0">
+                        </TabItem>
+
+                        <!--  Page 2  -->
+                        <TabItem
+                            Background="White"
+                            IsSelected="{Binding Page2}"
+                            Selector.IsSelected="{Binding Page2}"
+                            Visibility="Collapsed">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Content="Caminho base para a instalação do sistema:" />
-                                <Grid
+                                    Content="Escolha a opção de instalação que deseja executar." />
+                                <Label
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Margin="20,0,0,0">
+                                    Margin="20,10,0,0"
+                                    Content="Selecione qual sistema deseja instalar:" />
+                                <Grid
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="40,0,0,0">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <CheckBox
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Content="ProlexNet - Servidor"
+                                        IsChecked="{Binding InstallProlexNetServer, Mode=TwoWay}" />
+                                    <CheckBox
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="0,5,0,0"
+                                        Content="ProlexNet - Cliente"
+                                        IsChecked="{Binding InstallProlexNetClient, Mode=TwoWay}" />
+                                </Grid>
+                                <Grid
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="20,20,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Label
                                         Grid.Row="0"
                                         Grid.Column="0"
-                                        Width="440"
-                                        Height="22"
-                                        Padding="5,1,1,5"
-                                        HorizontalAlignment="Left"
-                                        BorderBrush="LightGray"
-                                        BorderThickness="1"
-                                        Content="{Binding InstallationPath, Mode=TwoWay}" />
-                                    <Button
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        Width="80"
-                                        Margin="5,0,0,0"
-                                        VerticalContentAlignment="Center"
-                                        Command="{Binding ChangeInstallPathCommand}"
-                                        Content="Alterar" />
+                                        Content="Caminho base para a instalação do sistema:" />
+                                    <Grid
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="20,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Width="440"
+                                            Height="22"
+                                            Padding="5,1,1,5"
+                                            HorizontalAlignment="Left"
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1"
+                                            Content="{Binding InstallPath}" />
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Width="80"
+                                            Margin="5,0,0,0"
+                                            VerticalContentAlignment="Center"
+                                            Command="{Binding ChangeInstallPathCommand}"
+                                            Content="Alterar" />
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                    </TabItem>
+                        </TabItem>
 
-                    <!--  Page3  -->
-                    <TabItem
-                        Background="White"
-                        IsSelected="{Binding Page3}"
-                        Selector.IsSelected="{Binding Page3}"
-                        Visibility="Collapsed">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Label
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Content="Escolha a opção de instalação que deseja executar." />
-                            <Grid
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Margin="15,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Padding="10"
-                                    Content="Selecione em qual Estado o ProlexNet será instalado:" />
-                                <ComboBox
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Width="150"
-                                    Margin="25,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    IsEnabled="False"
-                                    SelectedValue="{Binding SelectedState}">
-                                    <ComboBoxItem Content="Acre" />
-                                    <ComboBoxItem Content="Alagoas" />
-                                    <ComboBoxItem Content="Amapá" />
-                                    <ComboBoxItem Content="Amazonas" />
-                                    <ComboBoxItem Content="Bahia" />
-                                    <ComboBoxItem Content="Ceará" />
-                                    <ComboBoxItem Content="Distrito Federal" />
-                                    <ComboBoxItem Content="Espírito Santo" />
-                                    <ComboBoxItem Content="Goiás" />
-                                    <ComboBoxItem Content="Maranhão" />
-                                    <ComboBoxItem Content="Mato Grosso" />
-                                    <ComboBoxItem Content="Mato Grosso do Sul" />
-                                    <ComboBoxItem Content="Minas Gerais" Selector.IsSelected="True" />
-                                    <ComboBoxItem Content="Pará" />
-                                    <ComboBoxItem Content="Paraíba" />
-                                    <ComboBoxItem Content="Paraná" />
-                                    <ComboBoxItem Content="Pernambuco" />
-                                    <ComboBoxItem Content="Piauí" />
-                                    <ComboBoxItem Content="Rio de Janeiro" />
-                                    <ComboBoxItem Content="Rio Grande do Norte" />
-                                    <ComboBoxItem Content="Rio Grande do Sul" />
-                                    <ComboBoxItem Content="Rondônia" />
-                                    <ComboBoxItem Content="Roraima" />
-                                    <ComboBoxItem Content="Santa Catarina" />
-                                    <ComboBoxItem Content="São Paulo" />
-                                    <ComboBoxItem Content="Sergipe" />
-                                    <ComboBoxItem Content="Tocantins" />
-                                </ComboBox>
-                            </Grid>
-                            <Grid
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Margin="15,5,0,0"
-                                IsEnabled="{Binding InstallProlexNetServer}">
+                        <!--  Page3  -->
+                        <TabItem
+                            Background="White"
+                            IsSelected="{Binding Page3}"
+                            Selector.IsSelected="{Binding Page3}"
+                            Visibility="Collapsed">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
@@ -280,229 +210,333 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Padding="10"
-                                    Content="Outros parâmetros da instalação:" />
-                                <CheckBox
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="25,0,0,0"
-                                    Content="Instalar o Firebird 3"
-                                    IsChecked="{Binding InstallFirebird, Mode=TwoWay}" />
-                                <CheckBox
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    Margin="25,0,0,0"
-                                    Content="Banco de dados"
-                                    IsChecked="{Binding InstallProlexNetDatabase, Mode=TwoWay}" />
-                                <CheckBox
-                                    Grid.Row="3"
-                                    Grid.Column="0"
-                                    Margin="25,0,0,0"
-                                    Content="Instalar o IBExpert"
-                                    IsChecked="{Binding InstallIBExpert, Mode=TwoWay}" />
-                                <CheckBox
-                                    Grid.Row="4"
-                                    Grid.Column="0"
-                                    Margin="25,0,0,0"
-                                    Content="Instalar o LINQPad 5"
-                                    IsChecked="{Binding InstallLinqPad, Mode=TwoWay}" />
-                            </Grid>
-                            <Grid
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                Margin="15,5,0,0"
-                                IsEnabled="{Binding InstallProlexNetServer}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Padding="10"
-                                    Content="Porta do Servidor:" />
-                                <TextBox
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Width="75"
-                                    Margin="5,0,0,0"
-                                    VerticalContentAlignment="Center"
-                                    Text="{Binding ProlexNetServerPort, Mode=TwoWay}" />
-                            </Grid>
-                        </Grid>
-                    </TabItem>
-
-                    <!--  Page4  -->
-                    <TabItem
-                        Background="White"
-                        IsSelected="{Binding Page4}"
-                        Selector.IsSelected="{Binding Page4}"
-                        Visibility="Collapsed">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Label
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Content="Os seguintes componentes serão instalados:" />
-                            <TextBlock
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Margin="15,5,0,0"
-                                Padding="10"
-                                Text="{Binding ComponentsToBeInstalled}" />
-                        </Grid>
-                    </TabItem>
-
-                    <!--  Page5  -->
-                    <TabItem
-                        Background="White"
-                        IsSelected="{Binding Page5}"
-                        Selector.IsSelected="{Binding Page5}"
-                        Visibility="Collapsed">
-                        <Grid VerticalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Label
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Content="O instalador está fazendo o download dos componentes mais atualizados." />
-                            <Grid
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Margin="15,5,15,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Padding="10"
-                                    Content="Download em andamento..." />
+                                    Content="Escolha a opção de instalação que deseja executar." />
                                 <Grid
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Margin="10,0,10,0">
-                                    <ProgressBar
-                                        Height="20"
-                                        Maximum="{Binding ProgressBarMaximum}"
-                                        Value="{Binding ProgressBarValue}" />
+                                    Margin="15,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
                                     <Label
-                                        HorizontalAlignment="Center"
-                                        Content="{Binding ProgressBarPercentage}"
-                                        TextBlock.FontWeight="Bold" />
-                                    <Label HorizontalAlignment="Right" Content="{Binding ProgressBarSpeed}" />
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Selecione em qual Estado o ProlexNet será instalado:" />
+                                    <ComboBox
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Width="150"
+                                        Margin="25,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        IsEnabled="False"
+                                        SelectedValue="{Binding SelectedState, Mode=TwoWay}">
+                                        <ComboBoxItem Content="Acre" />
+                                        <ComboBoxItem Content="Alagoas" />
+                                        <ComboBoxItem Content="Amapá" />
+                                        <ComboBoxItem Content="Amazonas" />
+                                        <ComboBoxItem Content="Bahia" />
+                                        <ComboBoxItem Content="Ceará" />
+                                        <ComboBoxItem Content="Distrito Federal" />
+                                        <ComboBoxItem Content="Espírito Santo" />
+                                        <ComboBoxItem Content="Goiás" />
+                                        <ComboBoxItem Content="Maranhão" />
+                                        <ComboBoxItem Content="Mato Grosso" />
+                                        <ComboBoxItem Content="Mato Grosso do Sul" />
+                                        <ComboBoxItem Content="Minas Gerais" Selector.IsSelected="True" />
+                                        <ComboBoxItem Content="Pará" />
+                                        <ComboBoxItem Content="Paraíba" />
+                                        <ComboBoxItem Content="Paraná" />
+                                        <ComboBoxItem Content="Pernambuco" />
+                                        <ComboBoxItem Content="Piauí" />
+                                        <ComboBoxItem Content="Rio de Janeiro" />
+                                        <ComboBoxItem Content="Rio Grande do Norte" />
+                                        <ComboBoxItem Content="Rio Grande do Sul" />
+                                        <ComboBoxItem Content="Rondônia" />
+                                        <ComboBoxItem Content="Roraima" />
+                                        <ComboBoxItem Content="Santa Catarina" />
+                                        <ComboBoxItem Content="São Paulo" />
+                                        <ComboBoxItem Content="Sergipe" />
+                                        <ComboBoxItem Content="Tocantins" />
+                                    </ComboBox>
                                 </Grid>
-                                <TextBlock
+                                <Grid
                                     Grid.Row="2"
                                     Grid.Column="0"
-                                    Margin="10"
-                                    Text="{Binding InstallationStatus}" />
+                                    Margin="15,5,0,0"
+                                    IsEnabled="{Binding InstallProlexNetServer}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Outros parâmetros da instalação:" />
+                                    <CheckBox
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content="Instalar o Firebird 3"
+                                        IsChecked="{Binding InstallFirebird, Mode=TwoWay}" />
+                                    <CheckBox
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content="Banco de dados"
+                                        IsChecked="{Binding InstallProlexNetDatabase, Mode=TwoWay}" />
+                                    <CheckBox
+                                        Grid.Row="3"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content="Instalar o IBExpert"
+                                        IsChecked="{Binding InstallIBExpert, Mode=TwoWay}" />
+                                    <CheckBox
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        Margin="25,0,0,0"
+                                        Content="Instalar o LINQPad 5"
+                                        IsChecked="{Binding InstallLinqPad, Mode=TwoWay}" />
+                                </Grid>
+                                <Grid
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="15,5,0,0"
+                                    IsEnabled="{Binding InstallProlexNetServer}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Porta do Servidor:" />
+                                    <TextBox
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Width="75"
+                                        Margin="5,0,0,0"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding ProlexNetServerPort, Mode=TwoWay}" />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </TabItem>
+                        </TabItem>
 
-                    <!--  Page6  -->
-                    <TabItem
-                        Background="White"
-                        IsSelected="{Binding Page6}"
-                        Selector.IsSelected="{Binding Page6}"
-                        Visibility="Collapsed">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Label Content="{Binding InstallationResult}" />
-                        </Grid>
-                    </TabItem>
-                </TabControl>
+                        <!--  Page4  -->
+                        <TabItem
+                            Background="White"
+                            IsSelected="{Binding Page4}"
+                            Selector.IsSelected="{Binding Page4}"
+                            Visibility="Collapsed">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Content="Os seguintes componentes serão instalados:" />
+                                <ListBox
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="15,5,0,0"
+                                    Padding="10"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding InstallList}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding .}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </TabItem>
+
+                        <!--  Page5  -->
+                        <TabItem
+                            Background="White"
+                            IsSelected="{Binding Page5}"
+                            Selector.IsSelected="{Binding Page5}"
+                            Visibility="Collapsed">
+                            <Grid VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Content="O instalador está fazendo o download dos componentes mais atualizados." />
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="15,5,15,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        Content="Download em andamento..." />
+                                    <Grid
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="10,0,10,0">
+                                        <ProgressBar
+                                            Height="20"
+                                            Maximum="{Binding ProgressBarMaximum}"
+                                            Value="{Binding ProgressBarValue}" />
+                                        <Label
+                                            HorizontalAlignment="Center"
+                                            Content="{Binding ProgressBarPercentage}"
+                                            TextBlock.FontWeight="Bold" />
+                                        <Label HorizontalAlignment="Right" Content="{Binding ProgressBarSpeed}" />
+                                    </Grid>
+                                    <ListBox
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="15,5,0,0"
+                                        Padding="10"
+                                        BorderThickness="0"
+                                        ItemsSource="{Binding InstallList}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image
+                                                        Grid.Column="0"
+                                                        Width="20"
+                                                        Height="20"
+                                                        Source="..\Resources\installer-ok.png" />
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        Margin="10,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Text="{Binding .}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+
+                        <!--  Page6  -->
+                        <TabItem
+                            Background="White"
+                            IsSelected="{Binding Page6}"
+                            Selector.IsSelected="{Binding Page6}"
+                            Visibility="Collapsed">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Content="{Binding InstallationResult}" />
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Grid>
+
+            <!--  Navigation Buttons  -->
+            <Grid
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="0,0,10,10"
+                HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Width="80"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding BackCommand}"
+                    Content="{Binding BackContent}"
+                    Focusable="False"
+                    FontWeight="Bold"
+                    Visibility="{Binding BackVisibility}" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Width="80"
+                    Height="22"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding NextCommand}"
+                    Content="{Binding NextContent}"
+                    Focusable="False"
+                    FontWeight="Bold"
+                    IsDefault="True"
+                    Visibility="{Binding NextVisibility}" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Width="80"
+                    Height="22"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding CancelCommand}"
+                    Content="{Binding CancelContent}"
+                    Focusable="False"
+                    FontWeight="Bold"
+                    IsCancel="True"
+                    Visibility="{Binding CancelVisibility}" />
             </Grid>
         </Grid>
-
-        <!--  Navigation Buttons  -->
-        <Grid
-            Grid.Row="2"
-            Grid.Column="0"
-            Margin="0,0,10,10"
-            HorizontalAlignment="Right">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Button
-                Grid.Row="0"
-                Grid.Column="0"
-                Width="80"
-                Height="22"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Command="{Binding BackCommand}"
-                Content="{Binding BackContent}"
-                Focusable="False"
-                FontWeight="Bold"
-                Visibility="{Binding BackVisibility}" />
-            <Button
-                Grid.Row="0"
-                Grid.Column="1"
-                Width="80"
-                Height="22"
-                Margin="5,0,0,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Command="{Binding NextCommand}"
-                Content="{Binding NextContent}"
-                Focusable="False"
-                FontWeight="Bold"
-                IsDefault="True"
-                Visibility="{Binding NextVisibility}" />
-            <Button
-                Grid.Row="0"
-                Grid.Column="2"
-                Width="80"
-                Height="22"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Command="{Binding CancelCommand}"
-                Content="{Binding CancelContent}"
-                Focusable="False"
-                FontWeight="Bold"
-                IsCancel="True"
-                Visibility="{Binding CancelVisibility}" />
-        </Grid>
-    </Grid>
+    </Window.Content>
 </Window>

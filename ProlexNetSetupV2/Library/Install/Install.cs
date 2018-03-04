@@ -1,10 +1,12 @@
-﻿using System;
+﻿using ProlexNetSetupV2.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ProlexNetSetupV2.Library
 {
@@ -76,7 +78,7 @@ namespace ProlexNetSetupV2.Library
             }
         }
 
-        public static void IISAvailablePackages(string servicePath)
+        internal static Task<MethodInvoker> IIS()
         {
             try
             {
@@ -84,6 +86,7 @@ namespace ProlexNetSetupV2.Library
                 if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
                     dismVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "sysnative", "dism.exe");
 
+                var servicePath = MainWindowViewModel.InstallationPath;
                 var dismOutputFile = Path.Combine(servicePath, "dismOutput.txt");
                 var dismArgs = $"/Online /Get-Features /Format:Table";
 
@@ -106,6 +109,8 @@ namespace ProlexNetSetupV2.Library
             {
                 Trace.WriteLine("Installer:IISAsync:" + ex.Message);
             }
+
+            return null;
         }
 
         public static void IISEnablePackages(string servicePath, string dismOutputFile, string dismVersion)
@@ -210,5 +215,6 @@ namespace ProlexNetSetupV2.Library
                 Trace.WriteLine("Installer:LINQPad:" + ex.Message);
             }
         }
+
     }
 }

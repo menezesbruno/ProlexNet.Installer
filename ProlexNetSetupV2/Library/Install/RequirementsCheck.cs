@@ -20,11 +20,8 @@ namespace ProlexNetSetupV2.Library
                     firebird = Directory.GetFiles(@"C:\Program Files (x86)\Firebird", "unins*.exe", SearchOption.AllDirectories).FirstOrDefault();
                     if (firebird == null)
                         return false;
-                    else
-                        return true;
                 }
-                else
-                    return true;
+                return true;
             }
             catch
             {
@@ -44,11 +41,8 @@ namespace ProlexNetSetupV2.Library
                         var releaseKey = Convert.ToInt32(ndpKey.GetValue("Release"));
                         if (releaseKey >= 393295)
                             return false;
-                        else
-                            return true;
                     }
-                    else
-                        return true;
+                    return true;
                 }
             }
             catch
@@ -57,7 +51,7 @@ namespace ProlexNetSetupV2.Library
             }
         }
 
-        public static bool VCRedist_X86()
+        public static bool VisualC2013x86()
         {
             try
             {
@@ -69,11 +63,8 @@ namespace ProlexNetSetupV2.Library
                         var versionKey = redistKey.GetValue("Version").ToString();
                         if (versionKey == "12.0.30501.0")
                             return false;
-                        else
-                            return true;
                     }
-                    else
-                        return true;
+                    return true;
                 }
             }
             catch
@@ -82,7 +73,7 @@ namespace ProlexNetSetupV2.Library
             }
         }
 
-        public static bool VCRedist_X64()
+        public static bool VisualC2013x64()
         {
             try
             {
@@ -94,11 +85,8 @@ namespace ProlexNetSetupV2.Library
                         var versionKey = redistKey.GetValue("Version").ToString();
                         if (versionKey == "12.0.30501.0")
                             return false;
-                        else
-                            return true;
                     }
-                    else
-                        return true;
+                    return true;
                 }
             }
             catch
