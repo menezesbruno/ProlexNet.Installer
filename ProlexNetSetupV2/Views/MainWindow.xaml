@@ -77,14 +77,14 @@
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Margin="5,0,0,0"
-                                        Text="Este assistente guiará você através da instalação do ProlexNet."
+                                        Text="Este assistente o guiará através da instalação do ProlexNet."
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="5,20,0,0"
-                                        Text="É recomendado que você feche todos os outros aplicativos antes de iniciar o instalador. Isto tornará possível atualizar os arquivos de sistema relevantes."
+                                        Text="É recomendado que feche todos os outros aplicativos antes de iniciar o instalador. Isto tornará possível atualizar os arquivos de sistema relevantes."
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
                                     <TextBlock

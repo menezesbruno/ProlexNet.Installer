@@ -11,13 +11,13 @@ namespace ProlexNetSetupV2
 {
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             DetectWindows.Version();
 
             base.OnStartup(e);
 
-            DownloadParameters.ApplicationListAsync();
+            await DownloadParameters.ApplicationListAsync();
 
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();

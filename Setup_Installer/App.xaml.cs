@@ -10,7 +10,7 @@ namespace ProlexNetSetup
     /// </summary>
     public partial class App : Application
     {
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override async void OnStartupAsync(StartupEventArgs e)
         {
             if (!DetectOS.Windows())
             {
