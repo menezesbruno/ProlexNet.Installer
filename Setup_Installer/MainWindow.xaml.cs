@@ -3,7 +3,6 @@ using ProlexNetSetup.Class;
 using ProlexNetSetup.Class.Common;
 using ProlexNetSetup.Class.Download;
 using ProlexNetSetup.Class.Install;
-using SegmentDownloader.Core;
 using System;
 using System.IO;
 using System.Net;
