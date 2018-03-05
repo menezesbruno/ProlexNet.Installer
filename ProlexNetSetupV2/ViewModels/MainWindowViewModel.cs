@@ -263,7 +263,7 @@ namespace ProlexNetSetupV2.ViewModels
 
         public MainWindowViewModel()
         {
-            ChangePages();
+            ChangePagesAsync();
             CreateServicePath();
 
             BackCommand = new DelegateCommand(Back);
@@ -283,7 +283,7 @@ namespace ProlexNetSetupV2.ViewModels
             CountPages = CountPages - 1;
             if (CountPages < 0)
                 CountPages = 0;
-            ChangePages();
+            ChangePagesAsync();
         }
 
         private void Next()
@@ -291,7 +291,7 @@ namespace ProlexNetSetupV2.ViewModels
             CountPages = CountPages + 1;
             if (CountPages > 5)
                 CountPages = 5;
-            ChangePages();
+            ChangePagesAsync();
         }
 
         private void Cancel()
@@ -304,7 +304,7 @@ namespace ProlexNetSetupV2.ViewModels
             }
         }
 
-        private void ChangePages()
+        private async void ChangePagesAsync()
         {
             switch (CountPages)
             {
@@ -392,13 +392,13 @@ namespace ProlexNetSetupV2.ViewModels
 
         public void ProgressChanged(DownloadProgressChangedEventArgs callback)
         {
-            ProgressBarMaximum = callback.TotalBytesToReceive;
-            ProgressBarValue = callback.BytesReceived;
+            ProgressBarMaximum = callback.TotalBytesToReceive / 1048576;
+            ProgressBarValue = callback.BytesReceived / 1048576;
             ProgressBarPercentage = $"{callback.ProgressPercentage}%";
 
             decimal total = ProgressBarMaximum;
             decimal received = ProgressBarValue;
-            ProgressBarSpeed = $"{(received / 1048576):n3} MB / {(total / 1048576):n3} MB";
+            ProgressBarSpeed = $"{(received):n3} MB / {(total):n3} MB";
         }
 
         private async void InstallComponentsAsync()

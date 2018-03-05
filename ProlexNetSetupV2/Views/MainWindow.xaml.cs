@@ -12,12 +12,6 @@ namespace ProlexNetSetupV2.Views
         public MainWindow()
         {
             InitializeComponent();
-            SelectedItem();
-        }
-
-        private void SelectedItem()
-        {
-
         }
     }
 }
