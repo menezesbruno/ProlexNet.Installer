@@ -402,22 +402,32 @@ namespace ProlexNetSetupV2.ViewModels
 
                 #endregion
 
-                #region Database
-
-                if (InstallProlexNetDatabase)
-                {
-                    list.Add(Constants.ProlexNetDatabase);
-                    InstallQueue.Add(async () => await Download.ProlexNetDatabaseAsync());
-                }
-
-                #endregion
-
                 #region IBExpert
 
                 if (InstallIBExpert)
                 {
                     list.Add(Constants.IBExpert);
                     InstallQueue.Add(async () => await Download.IBExpertAsync());
+                }
+
+                #endregion
+
+                #region LinqPad
+
+                if (InstallLinqPad)
+                {
+                    list.Add(Constants.LinqPad);
+                    InstallQueue.Add(async () => await Download.LINQPad5Async());
+                }
+
+                #endregion
+
+                #region Database
+
+                if (InstallProlexNetDatabase)
+                {
+                    list.Add(Constants.ProlexNetDatabase);
+                    InstallQueue.Add(async () => await Download.ProlexNetDatabaseAsync());
                 }
 
                 #endregion
