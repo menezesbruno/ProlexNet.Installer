@@ -78,7 +78,7 @@ namespace ProlexNetSetupV2.Library
             }
         }
 
-        internal static Task<MethodInvoker> IIS()
+        public static void IIS()
         {
             try
             {
@@ -109,8 +109,6 @@ namespace ProlexNetSetupV2.Library
             {
                 Trace.WriteLine("Installer:IISAsync:" + ex.Message);
             }
-
-            return null;
         }
 
         public static void IISEnablePackages(string servicePath, string dismOutputFile, string dismVersion)
@@ -216,5 +214,23 @@ namespace ProlexNetSetupV2.Library
             }
         }
 
+        public static void IBExpertSetup(string file)
+        {
+            // Argumentos para a correta instalação do IBExpert.
+            try
+            {
+                var installArgs = "/silent";
+
+                Process process = new Process();
+                process.StartInfo.FileName = file;
+                process.StartInfo.Arguments = installArgs;
+                process.Start();
+                process.WaitForExit();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("Installer:IBExpert:" + ex.Message);
+            }
+        }
     }
 }

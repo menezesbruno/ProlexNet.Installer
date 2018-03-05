@@ -14,20 +14,11 @@ namespace ProlexNetSetupV2.Library
 {
     internal class Download
     {
-        public static string ServicePath { get; set; }
-
-        public static string InstallationPath { get; set; }
-
-        public Download()
+        public static async void FirebirdAsync()
         {
-            ServicePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Automatiza", "Instalador");
-            Directory.CreateDirectory(ServicePath);
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
 
-            InstallationPath = MainWindowViewModel.InstallationPath;
-        }
-
-        public static async Task FirebirdAsync()
-        {
             var firebird_Url_X86 = DownloadParameters.Instance.Firebird_X86_Url;
             var firebird_Hash_X86 = DownloadParameters.Instance.Firebird_X86_Hash;
             var firebird_Url_X64 = DownloadParameters.Instance.Firebird_X64_Url;
@@ -43,76 +34,82 @@ namespace ProlexNetSetupV2.Library
             }
 
             var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(ServicePath, downloadFileName);
+            var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
-            Install.Firebird(file, InstallationPath);
+            Install.Firebird(file, installationPath);
         }
 
-        public static async Task ProlexNetServerAsync()
+        public static async void ProlexNetServerAsync()
         {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
+
             var url = DownloadParameters.Instance.ProlexNet_Server_Url;
             var hash = DownloadParameters.Instance.ProlexNet_Server_Hash;
             var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(ServicePath, downloadFileName);
+            var file = Path.Combine(servicePath, downloadFileName);
 
-            var installationSubFolder = Path.Combine(InstallationPath, "ProlexNet Server", "www");
-            var installationRootFolder = Path.Combine(InstallationPath, "ProlexNet Server");
+            var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
+            var installationRootFolder = Path.Combine(installationPath, "ProlexNet Server");
             if (Directory.Exists(installationSubFolder))
-            {
-                Backup.Run(ServicePath, installationSubFolder);
-                Directory.Delete(installationSubFolder);
-            }
+                Backup.Run(servicePath, installationSubFolder);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             ZipExtract.Run(file, installationRootFolder);
-            CreateRegistryKey.ProlexNetServer(ServicePath, InstallationPath);
+            CreateRegistryKey.ProlexNetServer(servicePath, installationPath);
         }
 
-        public static async Task ProlexNetUpdaterAsync()
+        public static async void ProlexNetUpdaterAsync()
         {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
+
             var url = DownloadParameters.Instance.ProlexNet_Updater_Url;
             var hash = DownloadParameters.Instance.ProlexNet_Updater_Hash;
             var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(ServicePath, downloadFileName);
+            var file = Path.Combine(servicePath, downloadFileName);
 
-            var installationSubFolder = Path.Combine(InstallationPath, "ProlexNet Server", "updater");
-            var installationRootFolder = Path.Combine(InstallationPath, "ProlexNet Server");
+            var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "updater");
+            var installationRootFolder = Path.Combine(installationPath, "ProlexNet Server");
             if (Directory.Exists(installationSubFolder))
-            {
-                Backup.Run(ServicePath, installationSubFolder);
-                Directory.Delete(installationSubFolder);
-            }
+                Backup.Run(servicePath, installationSubFolder);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             ZipExtract.Run(file, installationRootFolder);
         }
 
-        public static async Task ProlexNetClientAsync()
+        public static async void ProlexNetClientAsync()
         {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
+
             var url = DownloadParameters.Instance.ProlexNet_Client_Url;
             var hash = DownloadParameters.Instance.ProlexNet_Client_Hash;
             var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(ServicePath, downloadFileName);
+            var file = Path.Combine(servicePath, downloadFileName);
 
-            var installationSubFolder = Path.Combine(InstallationPath, "ProlexNet Client");
+            var installationSubFolder = Path.Combine(installationPath, "ProlexNet Client");
             if (Directory.Exists(installationSubFolder))
-                Backup.Run(ServicePath, installationSubFolder);
+                Backup.Run(servicePath, installationSubFolder);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             ZipExtract.Run(file, installationSubFolder);
             CreateShortcut.ProlexNetClient(installationSubFolder);
-            CreateRegistryKey.ProlexNetClient(ServicePath, InstallationPath);
+            CreateRegistryKey.ProlexNetClient(servicePath, installationPath);
         }
 
-        public static async Task ProlexNetDatabaseAsync()
+        public static async void ProlexNetDatabaseAsync()
         {
-            var databaseFolder = Path.Combine(InstallationPath, "Database");
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
+
+            var databaseFolder = Path.Combine(installationPath, "Database");
             Directory.CreateDirectory(databaseFolder);
 
             var url = DownloadParameters.Instance.ProlexNet_Database_Url;
             var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(ServicePath, downloadFileName);
+            var file = Path.Combine(servicePath, downloadFileName);
             var hash = DownloadParameters.Instance.ProlexNet_Database_Hash;
 
             var databaseName = "ProlexNet.prolex";
@@ -130,8 +127,11 @@ namespace ProlexNetSetupV2.Library
                 ZipExtract.Overwrite(file, databaseFolder, databaseDeployed);
         }
 
-        public static async Task VisualCAsync(string systemType)
+        public static async void VisualCAsync(string systemType)
         {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
+
             var url = DownloadParameters.Instance.VisualC2103_X86_Url;
             var hash = DownloadParameters.Instance.VisualC2103_X86_Hash;
 
@@ -142,45 +142,83 @@ namespace ProlexNetSetupV2.Library
             }
 
             var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(ServicePath, downloadFileName);
+            var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             Install.VCRedist(file);
         }
 
-        public static async Task DotNetAsync()
+        public static async void DotNetAsync()
         {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
+
             var url = DownloadParameters.Instance.DotNet46_Url;
             var hash = DownloadParameters.Instance.DotNet46_Hash;
 
             var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(ServicePath, downloadFileName);
+            var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             Install.DotNet(file);
         }
 
-        public static async Task LINQPad5Async()
+        public static async void LINQPad5Async()
         {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
+
             var url = DownloadParameters.Instance.LINQPad5_Url;
             var hash = DownloadParameters.Instance.LINQPad5_Hash;
 
             var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(ServicePath, downloadFileName);
+            var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash);
             Install.LINQPad(file);
         }
 
-        public static async Task IBExpertAsync()
+        public static async void IBExpertSetupAsync(string servicePath)
         {
-            throw new NotImplementedException();
+            var url = DownloadParameters.Instance.IBExpertSetup_Url;
+            var hash = DownloadParameters.Instance.IBExpertSetup_Hash;
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            await DownloadFileInBackgroundAsync(url, file, hash);
+            Install.IBExpertSetup(file);
+
+            IBExpertAsync();
+        }
+
+        public static async void IBExpertAsync()
+        {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
+
+            var url = DownloadParameters.Instance.IBExpert_Url;
+            var hash = DownloadParameters.Instance.IBExpert_Hash;
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            var installFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "HK-Software", "IBExpert");
+
+            if (Environment.Is64BitOperatingSystem)
+                installFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "HK-Software", "IBExpert");
+
+            var ibExpert = "IBExpert.exe";
+            var ibExpertDeployed = Path.Combine(installFolder, ibExpert);
+
+            await DownloadFileInBackgroundAsync(url, file, hash);
+            ZipExtract.Overwrite(file, installFolder, ibExpertDeployed);
         }
 
         public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash)
         {
             IProgress<DownloadProgressChangedEventArgs> Progress =
-                new Progress<DownloadProgressChangedEventArgs>(((MainWindow)System.Windows.Application.Current.MainWindow).UpdateDownloadProgress);
+                new Progress<DownloadProgressChangedEventArgs>(((MainWindowViewModel)System.Windows.Application.Current.MainWindow).UpdateDownloadProgress);
 
             WebClient client = new WebClient();
 
