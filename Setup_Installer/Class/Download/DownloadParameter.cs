@@ -1,8 +1,8 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Windows;
+﻿using Newtonsoft.Json;
 using System;
+using System.Net;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProlexNetSetup.Class.Download
 {
@@ -13,6 +13,7 @@ namespace ProlexNetSetup.Class.Download
         // Parâmentros contidos no arquivo JSON servido pelo servidor da Automatiza
         // Atenção: case sensitive e underline
         public string Firebird_X86_Url { get; set; }
+
         public string Firebird_X86_Hash { get; set; }
         public string Firebird_X64_Url { get; set; }
         public string Firebird_X64_Hash { get; set; }

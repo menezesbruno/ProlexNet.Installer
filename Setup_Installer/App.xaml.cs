@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows;
-using ProlexNetSetup.Class.Common;
+﻿using ProlexNetSetup.Class.Common;
 using ProlexNetSetup.Class.Download;
+using System;
+using System.Windows;
 
 namespace ProlexNetSetup
 {

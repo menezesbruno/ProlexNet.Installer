@@ -9,7 +9,7 @@ namespace ProlexNetSetup.Class.Common
             var majorVersion = Environment.OSVersion.Version.Major;
             var minorVersion = Environment.OSVersion.Version.Minor;
 
-            if (majorVersion >= 6 && minorVersion >=1 )
+            if (majorVersion >= 6 && minorVersion >= 1)
                 return true;
             else if (majorVersion == 10)
                 return true;

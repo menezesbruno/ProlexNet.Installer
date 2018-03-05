@@ -121,7 +121,6 @@ namespace ProlexNetSetupV2.Library
                 var overwrite = System.Windows.MessageBox.Show($"O banco de dados {databaseName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (overwrite == MessageBoxResult.Yes)
                     ZipExtract.Overwrite(file, databaseFolder, databaseDeployed);
-
             }
             else
                 ZipExtract.Overwrite(file, databaseFolder, databaseDeployed);

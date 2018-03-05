@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Windows;
-using System.Threading.Tasks;
-using ProlexNetSetup.Class.Common;
+﻿using ProlexNetSetup.Class.Common;
 using ProlexNetSetup.Class.Install;
 using ProlexNetSetup.Setup.Class.Common;
+using System;
+using System.IO;
 using System.IO.Compression;
+using System.Net;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProlexNetSetup.Class.Download
 {

@@ -171,7 +171,6 @@ namespace ProlexNetSetup.Class.Install
                 process.Start();
                 while (!process.HasExited) // Truque para evitar congelamento do instalador no Windows 8.1
                 {
-
                 }
             }
             catch (Exception ex)
@@ -235,6 +234,6 @@ namespace ProlexNetSetup.Class.Install
             {
                 Trace.WriteLine("Installer:IBExpert:" + ex.Message);
             }
-        }      
+        }
     }
 }

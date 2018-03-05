@@ -396,7 +396,6 @@ namespace ProlexNetSetup
                         }
                     }
 
-
                     // Chama a classe que faz o download e instala o IBExpert.
                     if (CheckBoxIBExpertInstallation.IsChecked == true)
                     {
