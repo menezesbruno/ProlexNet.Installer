@@ -14,7 +14,7 @@ namespace ProlexNetSetupV2.Library
 {
     internal class Download
     {
-        public static async void FirebirdAsync()
+        public static async void FirebirdAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -36,11 +36,11 @@ namespace ProlexNetSetupV2.Library
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             Install.Firebird(file, installationPath);
         }
 
-        public static async void ProlexNetServerAsync()
+        public static async void ProlexNetServerAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -55,12 +55,12 @@ namespace ProlexNetSetupV2.Library
             if (Directory.Exists(installationSubFolder))
                 Backup.Run(servicePath, installationSubFolder);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             ZipExtract.Run(file, installationRootFolder);
             CreateRegistryKey.ProlexNetServer(servicePath, installationPath);
         }
 
-        public static async void ProlexNetUpdaterAsync()
+        public static async void ProlexNetUpdaterAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -75,11 +75,11 @@ namespace ProlexNetSetupV2.Library
             if (Directory.Exists(installationSubFolder))
                 Backup.Run(servicePath, installationSubFolder);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             ZipExtract.Run(file, installationRootFolder);
         }
 
-        public static async void ProlexNetClientAsync()
+        public static async void ProlexNetClientAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -93,13 +93,13 @@ namespace ProlexNetSetupV2.Library
             if (Directory.Exists(installationSubFolder))
                 Backup.Run(servicePath, installationSubFolder);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             ZipExtract.Run(file, installationSubFolder);
             CreateShortcut.ProlexNetClient(installationSubFolder);
             CreateRegistryKey.ProlexNetClient(servicePath, installationPath);
         }
 
-        public static async void ProlexNetDatabaseAsync()
+        public static async void ProlexNetDatabaseAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -115,7 +115,7 @@ namespace ProlexNetSetupV2.Library
             var databaseName = "ProlexNet.prolex";
             var databaseDeployed = Path.Combine(databaseFolder, databaseName);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             if (File.Exists(databaseDeployed))
             {
                 var overwrite = System.Windows.MessageBox.Show($"O banco de dados {databaseName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -127,7 +127,7 @@ namespace ProlexNetSetupV2.Library
                 ZipExtract.Overwrite(file, databaseFolder, databaseDeployed);
         }
 
-        public static async void VisualCAsync(string systemType)
+        public static async void VisualCAsync(string systemType, Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -144,11 +144,11 @@ namespace ProlexNetSetupV2.Library
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             Install.VCRedist(file);
         }
 
-        public static async void DotNetAsync()
+        public static async void DotNetAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -159,11 +159,11 @@ namespace ProlexNetSetupV2.Library
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             Install.DotNet(file);
         }
 
-        public static async void LINQPad5Async()
+        public static async void LINQPad5Async(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -174,25 +174,28 @@ namespace ProlexNetSetupV2.Library
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             Install.LINQPad(file);
         }
 
-        public static async void IBExpertSetupAsync(string servicePath)
+        public static async void IBExpertSetupAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = MainWindowViewModel.ServicePath;
+
             var url = DownloadParameters.Instance.IBExpertSetup_Url;
             var hash = DownloadParameters.Instance.IBExpertSetup_Hash;
 
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             Install.IBExpertSetup(file);
 
-            IBExpertAsync();
+            IBExpertAsync(callback);
         }
 
-        public static async void IBExpertAsync()
+        public static async void IBExpertAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -211,20 +214,17 @@ namespace ProlexNetSetupV2.Library
             var ibExpert = "IBExpert.exe";
             var ibExpertDeployed = Path.Combine(installFolder, ibExpert);
 
-            await DownloadFileInBackgroundAsync(url, file, hash);
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
             ZipExtract.Overwrite(file, installFolder, ibExpertDeployed);
         }
 
-        public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash)
+        public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash, Action<DownloadProgressChangedEventArgs> callback)
         {
-            IProgress<DownloadProgressChangedEventArgs> Progress =
-                new Progress<DownloadProgressChangedEventArgs>(((MainWindowViewModel)System.Windows.Application.Current.MainWindow).UpdateDownloadProgress);
-
             WebClient client = new WebClient();
 
             client.DownloadProgressChanged += (sender, args) =>
             {
-                Progress.Report(args);
+                callback(args);
             };
 
             client.DownloadFileCompleted += (sender, args) =>

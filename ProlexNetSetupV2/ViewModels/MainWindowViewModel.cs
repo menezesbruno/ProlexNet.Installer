@@ -234,9 +234,9 @@ namespace ProlexNetSetupV2.ViewModels
             set { SetProperty(ref _progressBarValue, value); }
         }
 
-        private int _progressBarPercentage = 0;
+        private string _progressBarPercentage;
 
-        public int ProgressBarPercentage
+        public string ProgressBarPercentage
         {
             get { return _progressBarPercentage; }
             set { SetProperty(ref _progressBarPercentage, value); }
@@ -368,7 +368,7 @@ namespace ProlexNetSetupV2.ViewModels
                     NextVisibility = Visibility.Hidden;
                     CancelVisibility = Visibility.Visible;
 
-                    InstallComponents();
+                    InstallComponentsAsync();
                     break;
 
                 case 5:
@@ -390,33 +390,25 @@ namespace ProlexNetSetupV2.ViewModels
             }
         }
 
-        public void UpdateDownloadProgress(DownloadProgressChangedEventArgs args)
+        public void ProgressChanged(DownloadProgressChangedEventArgs callback)
         {
-            Dispatcher.Invoke(() =>
-            {
-                ProgressBarMaximum = args.TotalBytesToReceive;
-                ProgressBarValue = args.BytesReceived;
-                ProgressBarPercentage = args.ProgressPercentage;
+            ProgressBarMaximum = callback.TotalBytesToReceive;
+            ProgressBarValue = callback.BytesReceived;
+            ProgressBarPercentage = $"{callback.ProgressPercentage}%";
 
-                decimal total = ProgressBarMaximum;
-                decimal received = ProgressBarValue;
-                ProgressBarSpeed = $"{(received / 1048576):n3} MB / {(total / 1048576):n3} MB";
-            });
+            decimal total = ProgressBarMaximum;
+            decimal received = ProgressBarValue;
+            ProgressBarSpeed = $"{(received / 1048576):n3} MB / {(total / 1048576):n3} MB";
         }
 
-        public static explicit operator MainWindowViewModel(Window v)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void InstallComponents()
+        private async void InstallComponentsAsync()
         {
             foreach (Action item in InstallQueue)
             {
-                item();
+                await Task.Run(() => item());
             }
 
-            //Next();
+            Next();
         }
 
         private void ListToInstall()
@@ -429,7 +421,7 @@ namespace ProlexNetSetupV2.ViewModels
             if (RequirementsCheck.VisualC2013x86())
             {
                 list.Add(Constants.VisualC2013X86);
-                InstallQueue.Add(() => Download.VisualCAsync(bits));
+                InstallQueue.Add(() => Download.VisualCAsync(bits, ProgressChanged));
             }
 
             if (bits == "x64")
@@ -437,7 +429,7 @@ namespace ProlexNetSetupV2.ViewModels
                 if (RequirementsCheck.VisualC2013x64())
                 {
                     list.Add(Constants.VisualC2013X64);
-                    InstallQueue.Add(() => Download.VisualCAsync(bits));
+                    InstallQueue.Add(() => Download.VisualCAsync(bits, ProgressChanged));
                 }
             }
 
@@ -448,7 +440,7 @@ namespace ProlexNetSetupV2.ViewModels
             if (RequirementsCheck.DotNet())
             {
                 list.Add(Constants.DotNet46);
-                InstallQueue.Add(() => Download.DotNetAsync());
+                InstallQueue.Add(() => Download.DotNetAsync(ProgressChanged));
             }
 
             #endregion
@@ -473,7 +465,7 @@ namespace ProlexNetSetupV2.ViewModels
                     else
                         list.Add(Constants.FirebirdX86);
 
-                    InstallQueue.Add(() => Download.FirebirdAsync());
+                    InstallQueue.Add(() => Download.FirebirdAsync(ProgressChanged));
                 }
 
                 #endregion
@@ -483,7 +475,7 @@ namespace ProlexNetSetupV2.ViewModels
                 if (InstallIBExpert)
                 {
                     list.Add(Constants.IBExpert);
-                    InstallQueue.Add(() => Download.IBExpertSetupAsync(ServicePath));
+                    InstallQueue.Add(() => Download.IBExpertSetupAsync(ProgressChanged));
                 }
 
                 #endregion
@@ -493,7 +485,7 @@ namespace ProlexNetSetupV2.ViewModels
                 if (InstallLinqPad)
                 {
                     list.Add(Constants.LinqPad);
-                    InstallQueue.Add(() => Download.LINQPad5Async());
+                    InstallQueue.Add(() => Download.LINQPad5Async(ProgressChanged));
                 }
 
                 #endregion
@@ -503,7 +495,7 @@ namespace ProlexNetSetupV2.ViewModels
                 if (InstallProlexNetDatabase)
                 {
                     list.Add(Constants.ProlexNetDatabase);
-                    InstallQueue.Add(() => Download.ProlexNetDatabaseAsync());
+                    InstallQueue.Add(() => Download.ProlexNetDatabaseAsync(ProgressChanged));
                 }
 
                 #endregion
@@ -511,8 +503,8 @@ namespace ProlexNetSetupV2.ViewModels
                 #region ProlexNetServer
 
                 list.Add(Constants.ProlexNetServer);
-                InstallQueue.Add(() => Download.ProlexNetServerAsync());
-                InstallQueue.Add(() => Download.ProlexNetUpdaterAsync());
+                InstallQueue.Add(() => Download.ProlexNetServerAsync(ProgressChanged));
+                InstallQueue.Add(() => Download.ProlexNetUpdaterAsync(ProgressChanged));
 
                 #endregion
             }
@@ -526,7 +518,7 @@ namespace ProlexNetSetupV2.ViewModels
                 #region ProlexNetClient
 
                 list.Add(Constants.ProlexNetClient);
-                InstallQueue.Add(() => Download.ProlexNetClientAsync());
+                InstallQueue.Add(() => Download.ProlexNetClientAsync(ProgressChanged));
 
                 #endregion
             }
