@@ -106,7 +106,6 @@
     <Compile Include="Library\Install\Install.cs" />
     <Compile Include="Library\Install\RequirementsCheck.cs" />
     <Compile Include="Library\Uninstall\UninstallService.cs" />
-    <Compile Include="Models\ComponentsToInstall.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

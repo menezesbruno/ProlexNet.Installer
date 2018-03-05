@@ -43,8 +43,6 @@ namespace ProlexNetSetupV2.ViewModels
 
         List<Action> InstallQueue = new List<Action>();
 
-        public static ComponentsToInstall ComponentsToInstall { get; set; }
-
         #region Buttons
         private string _backContent = "< Voltar";
 
