@@ -1,6 +1,6 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using System;
 using System.IO;
-using IWshRuntimeLibrary;
 
 namespace ProlexNetSetup.Setup.Class.Common
 {

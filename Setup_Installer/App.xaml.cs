@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows;
-using ProlexNetSetup.Class.Common;
+﻿using ProlexNetSetup.Class.Common;
 using ProlexNetSetup.Class.Download;
+using System;
+using System.Windows;
 
 namespace ProlexNetSetup
 {
@@ -10,7 +10,7 @@ namespace ProlexNetSetup
     /// </summary>
     public partial class App : Application
     {
-        protected override async void OnStartupAsync(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             if (!DetectOS.Windows())
             {

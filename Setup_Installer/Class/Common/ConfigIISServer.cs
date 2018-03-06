@@ -43,7 +43,7 @@ namespace ProlexNetSetup.Class.Common
             try
             {
                 string appcmd = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "inetsrv", "appcmd.exe");
-                
+
                 Process process = new Process();
                 var appcmdArgs = $"delete apppool /apppool.name:{pool}";
                 process.StartInfo.FileName = appcmd;

@@ -17,7 +17,7 @@ namespace ProlexNetSetup.Class.Common
             }
         }
 
-        static string GetMd5FileHash(MD5 md5Hash, string input)
+        private static string GetMd5FileHash(MD5 md5Hash, string input)
         {
             byte[] data = md5Hash.ComputeHash(File.ReadAllBytes(input));
 
@@ -28,7 +28,7 @@ namespace ProlexNetSetup.Class.Common
             return sBuilder.ToString();
         }
 
-        static string GetMd5Hash(MD5 md5Hash, string input)
+        private static string GetMd5Hash(MD5 md5Hash, string input)
         {
             byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
             StringBuilder sBuilder = new StringBuilder();
@@ -39,7 +39,7 @@ namespace ProlexNetSetup.Class.Common
             return sBuilder.ToString();
         }
 
-        static bool VerifyMd5Hash(MD5 md5Hash, string input, string hash)
+        private static bool VerifyMd5Hash(MD5 md5Hash, string input, string hash)
         {
             string hashOfInput = GetMd5FileHash(md5Hash, input);
             StringComparer comparer = StringComparer.OrdinalIgnoreCase;

@@ -1,19 +1,18 @@
-﻿using System;
+﻿using ProlexNetSetup.Class.Download;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using ProlexNetSetup.Class.Download;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace ProlexNetSetup.Class.Common
 {
-    class ConfigProlexNet
+    internal class ConfigProlexNet
     {
         public static void Client(string installationPath, string serverName, string serverPort)
         {
-
         }
 
         public static void Server(string installationPath, string serverName, string serverPort)

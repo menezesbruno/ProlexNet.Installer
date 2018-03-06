@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace ProlexNetSetupV2.Library
 {
-    internal class UninstallService
+    public static class Uninstall
     {
         public static void ProlexNetClient()
         {
@@ -63,9 +63,7 @@ namespace ProlexNetSetupV2.Library
                                                 {
                                                 }
                                             }
-
                                             MessageBox.Show("ProlexNet Client removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
-                                            Environment.Exit(1);
                                         }
                                         catch (Exception ex)
                                         {
@@ -73,17 +71,15 @@ namespace ProlexNetSetupV2.Library
                                             Environment.Exit(1);
                                         }
                                     }
-                                    else
-                                        Environment.Exit(1);
                                 }
                             }
                             catch (Exception ex)
                             {
                                 MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                                Environment.Exit(1);
                             }
                         }
                     }
+                    Environment.Exit(1);
                 }
             }
         }
@@ -127,20 +123,17 @@ namespace ProlexNetSetupV2.Library
                                         catch (Exception ex)
                                         {
                                             MessageBox.Show(ex.Message, "Aviso!", MessageBoxButton.OK, MessageBoxImage.Error);
-                                            Environment.Exit(1);
                                         }
                                     }
-                                    else
-                                        Environment.Exit(1);
                                 }
                             }
                             catch (Exception ex)
                             {
                                 MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                                Environment.Exit(1);
                             }
                         }
                     }
+                    Environment.Exit(1);
                 }
             }
         }

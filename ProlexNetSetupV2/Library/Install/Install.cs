@@ -86,7 +86,7 @@ namespace ProlexNetSetupV2.Library
                 if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
                     dismVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "sysnative", "dism.exe");
 
-                var servicePath = MainWindowViewModel.InstallationPath;
+                var servicePath = MainWindowViewModel.ServicePath;
                 var dismOutputFile = Path.Combine(servicePath, "dismOutput.txt");
                 var dismArgs = $"/Online /Get-Features /Format:Table";
 

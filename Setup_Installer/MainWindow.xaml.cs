@@ -3,7 +3,6 @@ using ProlexNetSetup.Class;
 using ProlexNetSetup.Class.Common;
 using ProlexNetSetup.Class.Download;
 using ProlexNetSetup.Class.Install;
-using SegmentDownloader.Core;
 using System;
 using System.IO;
 using System.Net;
@@ -396,7 +395,6 @@ namespace ProlexNetSetup
                             MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
-
 
                     // Chama a classe que faz o download e instala o IBExpert.
                     if (CheckBoxIBExpertInstallation.IsChecked == true)

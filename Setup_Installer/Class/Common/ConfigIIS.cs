@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.Web.Administration;
+using ProlexNetSetup.Class.Common;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.Web.Administration;
-using ProlexNetSetup.Class.Common;
 
 namespace ProlexNetSetup.Class.Common
 {
@@ -13,7 +13,7 @@ namespace ProlexNetSetup.Class.Common
         {
             var installationSitePath = Path.Combine(installationPath, "ProlexNet Server");
             int sitePort = Convert.ToInt32(serverPort);
-            
+
             // Chama o aspnet_regiis para informar o IIS sobre a versão do DotNet
             try
             {
@@ -40,10 +40,10 @@ namespace ProlexNetSetup.Class.Common
 
             // Remove o Pool de aplicativo "prolexnet".
             ConfigIISServer.RemovePool("prolexnet");
-            
+
             // Adiciona os Sites "prolexnet" e "prolexnet_updater" ao IIS.
             ConfigIISServer.AddSite("prolexnet", sitePort, installationSitePath, "www");
-            ConfigIISServer.AddSite("prolexnet_updater", sitePort+1, installationSitePath, "updater");
+            ConfigIISServer.AddSite("prolexnet_updater", sitePort + 1, installationSitePath, "updater");
 
             // Adiciona o Pool de aplicativo .Net 4.0 ao IIS chamado "prolexnet".
             ConfigIISServer.AddPool("prolexnet");

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Win32;
 
 namespace ProlexNetSetup.Class.Install
 {
@@ -49,7 +49,7 @@ namespace ProlexNetSetup.Class.Install
                             return true;
                     }
                     else
-                        return true;                   
+                        return true;
                 }
             }
             catch
@@ -57,14 +57,14 @@ namespace ProlexNetSetup.Class.Install
                 return true;
             }
         }
-        
+
         public static bool VCRedist_X86()
         {
             try
             {
                 const string subkey = @"SOFTWARE\Classes\Installer\Dependencies\{f65db027-aff3-4070-886a-0d87064aabb1}\";
                 using (RegistryKey redistKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
-                {                  
+                {
                     if (redistKey != null && redistKey.GetValue("Version") != null)
                     {
                         var versionKey = redistKey.GetValue("Version").ToString();

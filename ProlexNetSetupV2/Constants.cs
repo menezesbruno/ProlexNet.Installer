@@ -33,7 +33,7 @@ namespace ProlexNetSetupV2
         public const string VisualC2013X64 = "Microsoft Visual C++ 2013 x64";
         public const string LinqPad = "LinqPad 5";
         public const string IBExpert = "IBExpert";
-      
-        #endregion
+
+        #endregion Components
     }
 }
