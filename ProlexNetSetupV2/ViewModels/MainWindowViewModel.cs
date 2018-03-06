@@ -17,6 +17,8 @@ namespace ProlexNetSetupV2.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+        #region Common
+
         private string _title = "Instalação do ProlexNet";
 
         public string Title
@@ -41,7 +43,9 @@ namespace ProlexNetSetupV2.ViewModels
             set { SetProperty(ref _installList, value); }
         }
 
-        private List<Action> InstallQueue = new List<Action>();
+        private List<Action> InstallQueue = new List<Action>(); 
+
+        #endregion
 
         #region Buttons
 
