@@ -78,7 +78,7 @@ namespace ProlexNetSetupV2.Library
             }
         }
 
-        public static void IIS()
+        public static async Task IIS()
         {
             try
             {

@@ -14,7 +14,7 @@ namespace ProlexNetSetupV2.Library
 {
     internal class Download
     {
-        public static async void FirebirdAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task FirebirdAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -40,7 +40,7 @@ namespace ProlexNetSetupV2.Library
             Install.Firebird(file, installationPath);
         }
 
-        public static async void ProlexNetServerAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task ProlexNetServerAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -60,7 +60,7 @@ namespace ProlexNetSetupV2.Library
             CreateRegistryKey.ProlexNetServer(servicePath, installationPath);
         }
 
-        public static async void ProlexNetUpdaterAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task ProlexNetUpdaterAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -79,7 +79,7 @@ namespace ProlexNetSetupV2.Library
             ZipExtract.Run(file, installationRootFolder);
         }
 
-        public static async void ProlexNetClientAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task ProlexNetClientAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -99,7 +99,7 @@ namespace ProlexNetSetupV2.Library
             CreateRegistryKey.ProlexNetClient(servicePath, installationPath);
         }
 
-        public static async void ProlexNetDatabaseAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task ProlexNetDatabaseAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -127,7 +127,7 @@ namespace ProlexNetSetupV2.Library
                 ZipExtract.Overwrite(file, databaseFolder, databaseDeployed);
         }
 
-        public static async void VisualCAsync(string systemType, Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task VisualCAsync(string systemType, Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -148,7 +148,7 @@ namespace ProlexNetSetupV2.Library
             Install.VCRedist(file);
         }
 
-        public static async void DotNetAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task DotNetAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -163,7 +163,7 @@ namespace ProlexNetSetupV2.Library
             Install.DotNet(file);
         }
 
-        public static async void LINQPad5Async(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task LINQPad5Async(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -178,7 +178,7 @@ namespace ProlexNetSetupV2.Library
             Install.LINQPad(file);
         }
 
-        public static async void IBExpertSetupAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task IBExpertSetupAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -195,7 +195,7 @@ namespace ProlexNetSetupV2.Library
             IBExpertAsync(callback);
         }
 
-        public static async void IBExpertAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task IBExpertAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
