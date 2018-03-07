@@ -103,7 +103,7 @@ namespace ProlexNetSetupV2.Library
 
                 File.WriteAllText(dismOutputFile, output, Encoding.UTF8);
 
-                IISEnablePackages(servicePath, dismOutputFile, dismVersion);
+                await Task.Run(() => IISEnablePackages(servicePath, dismOutputFile, dismVersion));
             }
             catch (Exception ex)
             {

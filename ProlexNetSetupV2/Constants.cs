@@ -26,6 +26,7 @@ namespace ProlexNetSetupV2
         public const string FirebirdX86 = "Firebird x86";
         public const string FirebirdX64 = "Firebird x64";
         public const string ProlexNetServer = "ProlexNet Server";
+        public const string ProlexNetUpdater = "ProlexNet Updater";
         public const string ProlexNetClient = "ProlexNet Client";
         public const string ProlexNetDatabase = "ProlexNet Database";
         public const string DotNet46 = "Microsoft .NET Framework 4.6";

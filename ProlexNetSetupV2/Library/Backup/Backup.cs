@@ -17,7 +17,7 @@ namespace ProlexNetSetupV2.Library
                 var backupFolder = Path.Combine(servicePath, "Backup");
                 Directory.CreateDirectory(backupFolder);
 
-                var timeStamp = DateTime.Now.ToString("dd.MM.yyyy HH.mm");
+                var timeStamp = DateTime.Now.ToString("dd.MM.yyyy.HH.mm");
                 var folderName = Path.GetFileNameWithoutExtension(folderToBackup);
                 var backupDateTime = Path.Combine(backupFolder, $"{folderName} {timeStamp}");
                 Directory.Move(folderToBackup, backupDateTime);

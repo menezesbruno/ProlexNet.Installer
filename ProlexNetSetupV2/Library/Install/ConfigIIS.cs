@@ -11,7 +11,7 @@ namespace ProlexNetSetupV2.Library
 {
     internal class ConfigIIS
     {
-        public static void ProlexNetSettings(string installationPath, string serverPort)
+        public static async Task ProlexNetSettingsAsync(string installationPath, string serverPort)
         {
             var installationSitePath = Path.Combine(installationPath, "ProlexNet Server");
             int sitePort = Convert.ToInt32(serverPort);
@@ -32,21 +32,21 @@ namespace ProlexNetSetupV2.Library
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(ConfigIIS)}:{nameof(ProlexNetSettings)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(ConfigIIS)}:{nameof(ProlexNetSettingsAsync)}:{ex.Message}");
             }
 
-            RemoveSite("prolexnet");
-            RemoveSite("prolexnet_updater");
+            await Task.Run(() => RemoveSite("prolexnet"));
+            await Task.Run(() => RemoveSite("prolexnet_updater"));
 
-            RemovePool("prolexnet");
+            await Task.Run(() => RemovePool("prolexnet"));
 
-            AddSite("prolexnet", sitePort, installationSitePath, "www");
-            AddSite("prolexnet_updater", sitePort + 1, installationSitePath, "updater");
+            await Task.Run(() => AddSite("prolexnet", sitePort, installationSitePath, "www"));
+            await Task.Run(() => AddSite("prolexnet_updater", sitePort + 1, installationSitePath, "updater"));
 
-            AddPool("prolexnet");
+            await Task.Run(() => AddPool("prolexnet"));
 
-            SetupPool("prolexnet", "prolexnet");
-            SetupPool("prolexnet_updater", "prolexnet");
+            await Task.Run(() => SetupPool("prolexnet", "prolexnet"));
+            await Task.Run(() => SetupPool("prolexnet_updater", "prolexnet"));
         }
 
         public static void RemoveSite(string site)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProlexNetSetupV2.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,10 +13,11 @@ namespace ProlexNetSetupV2.Library
 {
     internal class ConfigProlexNet
     {
-        public static void Server(string installationPath, string serverName, string serverPort)
+        public static async Task Server(string installationPath, string serverPort)
         {
             try
             {
+                var serverName = Environment.GetEnvironmentVariable("COMPUTERNAME");
                 var installationSubFolder = Path.Combine(installationPath, "ProlexNet Server", "www");
                 var webConfigFile = Path.Combine(installationSubFolder, "Web.config");
                 var appConfigFile = Path.Combine(installationSubFolder, "app.config.js");
@@ -52,7 +54,7 @@ namespace ProlexNetSetupV2.Library
             }
         }
 
-        public static void Updater(string installationPath)
+        public static async Task Updater(string installationPath)
         {
             try
             {
@@ -63,7 +65,7 @@ namespace ProlexNetSetupV2.Library
                 var originalProlexPath = @"<add key=""ProlexPath"" value=""(.*)"" />";
                 var replacedProlexPath = $@"<add key=""ProlexPath"" value=""{prolexPath}"" />";
 
-                File.WriteAllText(webConfigFile, Regex.Replace(File.ReadAllText(webConfigFile), originalProlexPath, replacedProlexPath));
+                await Task.Run (() => File.WriteAllText(webConfigFile, Regex.Replace(File.ReadAllText(webConfigFile), originalProlexPath, replacedProlexPath)));
             }
             catch (Exception ex)
             {

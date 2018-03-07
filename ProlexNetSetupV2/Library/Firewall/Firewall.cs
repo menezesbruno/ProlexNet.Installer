@@ -9,21 +9,21 @@ namespace ProlexNetSetupV2.Library
 {
     internal class Firewall
     {
-        public static void AddRules(string serverPort)
+        public static async Task AddRules(string serverPort)
         {
             var updaterPort = Convert.ToInt32(serverPort) + 1;
             var firebirdPort = "3050";
 
-            RemoveRules();
+            await Task.Run(() => RemoveRules());
 
-            NetshAdd("ProlexNet_Firebird", "in", $"{firebirdPort}");
-            NetshAdd("ProlexNet_Firebird", "out", $"{firebirdPort}");
+            await Task.Run(() => NetshAdd("ProlexNet_Firebird", "in", $"{firebirdPort}"));
+            await Task.Run(() => NetshAdd("ProlexNet_Firebird", "out", $"{firebirdPort}"));
 
-            NetshAdd("ProlexNet", "in", $"{serverPort}");
-            NetshAdd("ProlexNet", "out", $"{serverPort}");
+            await Task.Run(() => NetshAdd("ProlexNet", "in", $"{serverPort}"));
+            await Task.Run(() => NetshAdd("ProlexNet", "out", $"{serverPort}"));
 
-            NetshAdd("ProlexNet_Updater", "in", $"{updaterPort}");
-            NetshAdd("ProlexNet_Updater", "out", $"{updaterPort}");
+            await Task.Run(() => NetshAdd("ProlexNet_Updater", "in", $"{updaterPort}"));
+            await Task.Run(() => NetshAdd("ProlexNet_Updater", "out", $"{updaterPort}"));
         }
 
         public static void RemoveRules()
