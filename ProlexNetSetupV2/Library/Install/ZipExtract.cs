@@ -15,8 +15,6 @@ namespace ProlexNetSetupV2.Library
         {
             try
             {
-                if (Directory.Exists(folder))
-                    Directory.Delete(folder);
                 ZipFile.ExtractToDirectory(file, folder);
             }
             catch (Exception ex)

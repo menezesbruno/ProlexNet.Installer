@@ -14,6 +14,8 @@ namespace ProlexNetSetupV2.Library
 {
     internal class Download
     {
+        public static DownloadProgressChangedEventArgs Args { get; set; }
+
         public static async Task FirebirdAsync(Action<DownloadProgressChangedEventArgs> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
@@ -37,7 +39,7 @@ namespace ProlexNetSetupV2.Library
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            Install.Firebird(file, installationPath);
+            await Task.Run(() => Install.Firebird(file, installationPath));
         }
 
         public static async Task ProlexNetServerAsync(Action<DownloadProgressChangedEventArgs> callback)
@@ -56,8 +58,8 @@ namespace ProlexNetSetupV2.Library
                 Backup.Run(servicePath, installationSubFolder);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            ZipExtract.Run(file, installationRootFolder);
-            CreateRegistryKey.ProlexNetServer(servicePath, installationPath);
+            await Task.Run(() => ZipExtract.Run(file, installationRootFolder));
+            await Task.Run(() => CreateRegistryKey.ProlexNetServer(servicePath, installationPath));
         }
 
         public static async Task ProlexNetUpdaterAsync(Action<DownloadProgressChangedEventArgs> callback)
@@ -76,7 +78,7 @@ namespace ProlexNetSetupV2.Library
                 Backup.Run(servicePath, installationSubFolder);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            ZipExtract.Run(file, installationRootFolder);
+            await Task.Run(() => ZipExtract.Run(file, installationRootFolder));
         }
 
         public static async Task ProlexNetClientAsync(Action<DownloadProgressChangedEventArgs> callback)
@@ -94,9 +96,9 @@ namespace ProlexNetSetupV2.Library
                 Backup.Run(servicePath, installationSubFolder);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            ZipExtract.Run(file, installationSubFolder);
-            CreateShortcut.ProlexNetClient(installationSubFolder);
-            CreateRegistryKey.ProlexNetClient(servicePath, installationPath);
+            await Task.Run(() => ZipExtract.Run(file, installationSubFolder));
+            await Task.Run(() => CreateShortcut.ProlexNetClient(installationSubFolder));
+            await Task.Run(() => CreateRegistryKey.ProlexNetClient(servicePath, installationPath));
         }
 
         public static async Task ProlexNetDatabaseAsync(Action<DownloadProgressChangedEventArgs> callback)
@@ -120,10 +122,10 @@ namespace ProlexNetSetupV2.Library
             {
                 var overwrite = System.Windows.MessageBox.Show($"O banco de dados {databaseName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (overwrite == MessageBoxResult.Yes)
-                    ZipExtract.Overwrite(file, databaseFolder, databaseDeployed);
+                    await Task.Run(() => ZipExtract.Overwrite(file, databaseFolder, databaseDeployed));
             }
             else
-                ZipExtract.Overwrite(file, databaseFolder, databaseDeployed);
+                await Task.Run(() => ZipExtract.Overwrite(file, databaseFolder, databaseDeployed));
         }
 
         public static async Task VisualCAsync(string systemType, Action<DownloadProgressChangedEventArgs> callback)
@@ -144,7 +146,7 @@ namespace ProlexNetSetupV2.Library
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            Install.VCRedist(file);
+            await Task.Run(() => Install.VCRedist(file));
         }
 
         public static async Task DotNetAsync(Action<DownloadProgressChangedEventArgs> callback)
@@ -159,7 +161,7 @@ namespace ProlexNetSetupV2.Library
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            Install.DotNet(file);
+            await Task.Run(() => Install.DotNet(file));
         }
 
         public static async Task LINQPad5Async(Action<DownloadProgressChangedEventArgs> callback)
@@ -174,7 +176,7 @@ namespace ProlexNetSetupV2.Library
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            Install.LINQPad(file);
+            await Task.Run(() => Install.LINQPad(file));
         }
 
         public static async Task IBExpertSetupAsync(Action<DownloadProgressChangedEventArgs> callback)
@@ -189,9 +191,9 @@ namespace ProlexNetSetupV2.Library
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            Install.IBExpertSetup(file);
+            await Task.Run(() => Install.IBExpertSetup(file));
 
-            IBExpertAsync(callback);
+            await Task.Run(() => IBExpertAsync(callback));
         }
 
         public static async Task IBExpertAsync(Action<DownloadProgressChangedEventArgs> callback)
@@ -214,11 +216,17 @@ namespace ProlexNetSetupV2.Library
             var ibExpertDeployed = Path.Combine(installFolder, ibExpert);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            ZipExtract.Overwrite(file, installFolder, ibExpertDeployed);
+            await Task.Run(() => ZipExtract.Overwrite(file, installFolder, ibExpertDeployed));
         }
 
         public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash, Action<DownloadProgressChangedEventArgs> callback)
         {
+            if (File.Exists(file))
+            {
+                if (Hash.Check(file, hash))
+                    return;
+            }
+
             WebClient client = new WebClient();
 
             client.DownloadProgressChanged += (sender, args) =>

@@ -371,6 +371,7 @@ namespace ProlexNetSetupV2.ViewModels
                     CancelVisibility = Visibility.Visible;
 
                     await InstallComponentsAsync();
+                    Next();
                     break;
 
                 case 5:
@@ -394,13 +395,13 @@ namespace ProlexNetSetupV2.ViewModels
 
         public void ProgressChanged(DownloadProgressChangedEventArgs callback)
         {
-            ProgressBarMaximum = callback.TotalBytesToReceive / 1048576;
-            ProgressBarValue = callback.BytesReceived / 1048576;
+            ProgressBarMaximum = callback.TotalBytesToReceive;
+            ProgressBarValue = callback.BytesReceived;
             ProgressBarPercentage = $"{callback.ProgressPercentage}%";
 
             decimal total = ProgressBarMaximum;
             decimal received = ProgressBarValue;
-            ProgressBarSpeed = $"{(received):n3} MB / {(total):n3} MB";
+            ProgressBarSpeed = $"{(received / 1048576):n3} MB / {(total / 1048576):n3} MB";
         }
 
         private async Task InstallComponentsAsync()
@@ -409,8 +410,6 @@ namespace ProlexNetSetupV2.ViewModels
             {
                 await item.Invoke();
             }
-
-            //Next();
         }
 
         private void ListToInstall()

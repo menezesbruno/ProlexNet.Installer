@@ -88,6 +88,11 @@ namespace ProlexNetSetupV2.Library
 
                 var servicePath = MainWindowViewModel.ServicePath;
                 var dismOutputFile = Path.Combine(servicePath, "dismOutput.txt");
+
+                var tempComparer = new string[0];
+                if (File.Exists(dismOutputFile))
+                    tempComparer = File.ReadAllLines(dismOutputFile);
+
                 var dismArgs = $"/Online /Get-Features /Format:Table";
 
                 Process process = new Process();
@@ -95,7 +100,7 @@ namespace ProlexNetSetupV2.Library
                 process.StartInfo.Arguments = dismArgs;
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.CreateNoWindow = false;
+                process.StartInfo.CreateNoWindow = true;
                 process.Start();
 
                 var output = process.StandardOutput.ReadToEnd();
@@ -103,7 +108,24 @@ namespace ProlexNetSetupV2.Library
 
                 File.WriteAllText(dismOutputFile, output, Encoding.UTF8);
 
-                await Task.Run(() => IISEnablePackages(servicePath, dismOutputFile, dismVersion));
+                var dismChecker = false;
+                string[] dismOutputFileComparer = File.ReadAllLines(dismOutputFile);
+                if (dismOutputFileComparer.Count() != tempComparer.Count())
+                    dismChecker = true;
+                else
+                {
+                    for (int line = 0; line < tempComparer.Length; line++)
+                    {
+                        if (line < dismOutputFileComparer.Length)
+                        {
+                            if (!tempComparer[line].Equals(dismOutputFileComparer[line]))
+                                dismChecker = true;
+                        }
+                    }
+                }
+
+                if (dismChecker)
+                    IISEnablePackagesAsync(servicePath, dismOutputFile, dismVersion);
             }
             catch (Exception ex)
             {
@@ -111,7 +133,7 @@ namespace ProlexNetSetupV2.Library
             }
         }
 
-        public static void IISEnablePackages(string servicePath, string dismOutputFile, string dismVersion)
+        public static void IISEnablePackagesAsync(string servicePath, string dismOutputFile, string dismVersion)
         {
             try
             {
