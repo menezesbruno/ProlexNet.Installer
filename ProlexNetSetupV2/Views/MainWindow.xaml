@@ -432,15 +432,27 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="10,0,10,0">
-                                        <ProgressBar
-                                            Height="20"
-                                            Maximum="{Binding ProgressBarMaximum}"
-                                            Value="{Binding ProgressBarValue}" />
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <ProgressBar
+                                                Height="20"
+                                                Maximum="{Binding ProgressBarMaximum}"
+                                                Value="{Binding ProgressBarValue}" />
+                                            <Label
+                                                HorizontalAlignment="Center"
+                                                Content="{Binding ProgressBarPercentage}"
+                                                TextBlock.FontWeight="Bold" />
+                                            <Label HorizontalAlignment="Right" Content="{Binding ProgressBarBytesReceived}" />
+                                        </Grid>
                                         <Label
-                                            HorizontalAlignment="Center"
-                                            Content="{Binding ProgressBarPercentage}"
-                                            TextBlock.FontWeight="Bold" />
-                                        <Label HorizontalAlignment="Right" Content="{Binding ProgressBarSpeed}" />
+                                            Grid.Row="1"
+                                            HorizontalAlignment="Right"
+                                            Content="{Binding ProgressBarDownloadSpeed}"
+                                            FontSize="10"
+                                            FontWeight="Bold" />
                                     </Grid>
                                     <ListView
                                         Grid.Row="2"

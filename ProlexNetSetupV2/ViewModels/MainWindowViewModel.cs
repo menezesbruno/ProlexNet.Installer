@@ -4,6 +4,7 @@ using ProlexNetSetupV2.Library;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -248,12 +249,20 @@ namespace ProlexNetSetupV2.ViewModels
             set { SetProperty(ref _progressBarPercentage, value); }
         }
 
-        private string _progressBarSpeed;
+        private string _progressBarBytesReceived;
 
-        public string ProgressBarSpeed
+        public string ProgressBarBytesReceived
         {
-            get { return _progressBarSpeed; }
-            set { SetProperty(ref _progressBarSpeed, value); }
+            get { return _progressBarBytesReceived; }
+            set { SetProperty(ref _progressBarBytesReceived, value); }
+        }
+
+        public string _progressBarDownloadSpeed;
+
+        public string ProgressBarDownloadSpeed
+        {
+            get { return _progressBarDownloadSpeed; }
+            set { SetProperty(ref _progressBarDownloadSpeed, value); }
         }
 
         #endregion ProgressBar
@@ -400,7 +409,7 @@ namespace ProlexNetSetupV2.ViewModels
             }
         }
 
-        public void ProgressChanged(DownloadProgressChangedEventArgs callback)
+        public void ProgressChanged(DownloadProgressChangedEventArgs callback, double stopWatch)
         {
             ProgressBarMaximum = callback.TotalBytesToReceive;
             ProgressBarValue = callback.BytesReceived;
@@ -408,7 +417,9 @@ namespace ProlexNetSetupV2.ViewModels
 
             decimal total = ProgressBarMaximum;
             decimal received = ProgressBarValue;
-            ProgressBarSpeed = $"{(received / 1048576):n1} MB / {(total / 1048576):n1} MB";
+            ProgressBarBytesReceived = $"{(received / 1048576):n1} MB / {(total / 1048576):n1} MB";
+
+            ProgressBarDownloadSpeed = string.Format("{0} kb/s", (callback.BytesReceived / 1024d / stopWatch).ToString("0"));
         }
 
         private async Task InstallComponentsAsync()

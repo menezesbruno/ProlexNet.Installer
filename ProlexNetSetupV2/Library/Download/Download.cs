@@ -1,6 +1,9 @@
 ﻿using ProlexNetSetupV2.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,9 +12,9 @@ namespace ProlexNetSetupV2.Library
 {
     internal class Download
     {
-        public static DownloadProgressChangedEventArgs Args { get; set; }
+        public static Stopwatch sw = new Stopwatch();
 
-        public static async Task FirebirdAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task FirebirdAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -37,7 +40,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => Install.Firebird(file, installationPath));
         }
 
-        public static async Task ProlexNetServerAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task ProlexNetServerAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -57,7 +60,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => CreateRegistryKey.ProlexNetServer(servicePath, installationPath));
         }
 
-        public static async Task ProlexNetUpdaterAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task ProlexNetUpdaterAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -76,7 +79,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => ZipExtract.Run(file, installationRootFolder));
         }
 
-        public static async Task ProlexNetClientAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task ProlexNetClientAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -96,7 +99,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => CreateRegistryKey.ProlexNetClient(servicePath, installationPath));
         }
 
-        public static async Task ProlexNetDatabaseAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task ProlexNetDatabaseAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -123,7 +126,7 @@ namespace ProlexNetSetupV2.Library
                 await Task.Run(() => ZipExtract.Overwrite(file, databaseFolder, databaseDeployed));
         }
 
-        public static async Task VisualCAsync(string systemType, Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task VisualCAsync(string systemType, Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -144,7 +147,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => Install.VCRedist(file));
         }
 
-        public static async Task DotNetAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task DotNetAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -159,7 +162,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => Install.DotNet(file));
         }
 
-        public static async Task LINQPad5Async(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task LINQPad5Async(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -174,7 +177,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => Install.LINQPad(file));
         }
 
-        public static async Task IBExpertSetupAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task IBExpertSetupAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -191,7 +194,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => IBExpertAsync(callback));
         }
 
-        public static async Task IBExpertAsync(Action<DownloadProgressChangedEventArgs> callback)
+        public static async Task IBExpertAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -214,7 +217,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => ZipExtract.Overwrite(file, installFolder, ibExpertDeployed));
         }
 
-        public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash, Action<DownloadProgressChangedEventArgs> callback)
+        public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash, Action<DownloadProgressChangedEventArgs, double> callback)
         {
             if (File.Exists(file))
             {
@@ -224,33 +227,36 @@ namespace ProlexNetSetupV2.Library
                     File.Delete(file);
             }
 
-            WebClient client = new WebClient();
-
-            client.DownloadProgressChanged += (sender, args) =>
+            using (WebClient client = new WebClient())
             {
-                callback(args);
-            };
-
-            client.DownloadFileCompleted += (sender, args) =>
-            {
-                var downloadFileName = Path.GetFileName(url);
-                if (Hash.Check(file, hash))
-                    return;
-                else
+                sw.Start();
+                client.DownloadProgressChanged += (sender, args) =>
                 {
-                    System.Windows.MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}. A instalação será finalizada. Informe ao setor de Desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    callback(args, sw.Elapsed.TotalSeconds);
+                };
+
+                client.DownloadFileCompleted += (sender, args) =>
+                {
+                    sw.Reset();
+                    var downloadFileName = Path.GetFileName(url);
+                    if (Hash.Check(file, hash))
+                        return;
+                    else
+                    {
+                        MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}. A instalação será finalizada. Informe ao setor de Desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        Environment.Exit(1);
+                    }
+                };
+
+                try
+                {
+                    await client.DownloadFileTaskAsync(url, file);
+                }
+                catch
+                {
+                    MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                     Environment.Exit(1);
                 }
-            };
-
-            try
-            {
-                await client.DownloadFileTaskAsync(url, file);
-            }
-            catch
-            {
-                System.Windows.MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(1);
             }
         }
     }
