@@ -1,10 +1,4 @@
 ﻿using ProlexNetSetupV2.Library;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProlexNetSetupV2
@@ -13,7 +7,7 @@ namespace ProlexNetSetupV2
     {
         protected override async void OnStartup(StartupEventArgs e)
         {
-            DetectWindows.Version();
+            DetectWindows.Supported();
 
             base.OnStartup(e);
 

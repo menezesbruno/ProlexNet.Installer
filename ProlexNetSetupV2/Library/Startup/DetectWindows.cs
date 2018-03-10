@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProlexNetSetupV2.Library
 {
     internal class DetectWindows
     {
-        public static void Version()
+        public static void Supported()
         {
             var majorVersion = Environment.OSVersion.Version.Major;
             var minorVersion = Environment.OSVersion.Version.Minor;

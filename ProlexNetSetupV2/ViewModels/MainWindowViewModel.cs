@@ -1,8 +1,6 @@
-﻿using Microsoft.Win32;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using ProlexNetSetupV2.Library;
-using ProlexNetSetupV2.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace ProlexNetSetupV2.ViewModels
 {
@@ -43,11 +40,12 @@ namespace ProlexNetSetupV2.ViewModels
             set { SetProperty(ref _installList, value); }
         }
 
-        List<Func<Task>> InstallQueue = new List<Func<Task>>();
+        private List<Func<Task>> InstallQueue = new List<Func<Task>>();
 
-        #endregion
+        #endregion Common
 
         #region Buttons
+
         private string _backContent = "< Voltar";
 
         public string BackContent
@@ -95,9 +93,11 @@ namespace ProlexNetSetupV2.ViewModels
             get { return _cancelVisibility; }
             set { SetProperty(ref _cancelVisibility, value); }
         }
-        #endregion
+
+        #endregion Buttons
 
         #region Checkboxes
+
         private bool _installProlexNetServer = false;
 
         public bool InstallProlexNetServer
@@ -145,9 +145,11 @@ namespace ProlexNetSetupV2.ViewModels
             get { return _installLinqPad; }
             set { SetProperty(ref _installLinqPad, value); }
         }
-        #endregion
+
+        #endregion Checkboxes
 
         #region Fields
+
         public static string InstallationPath = @"C:\Automatiza";
 
         public string InstallPath
@@ -166,9 +168,10 @@ namespace ProlexNetSetupV2.ViewModels
 
         public static string ServicePath { get; set; }
 
-        #endregion
+        #endregion Fields
 
         #region Pages
+
         private bool _page1 = false;
 
         public bool Page1
@@ -216,7 +219,8 @@ namespace ProlexNetSetupV2.ViewModels
             get { return _page6; }
             set { SetProperty(ref _page6, value); }
         }
-        #endregion
+
+        #endregion Pages
 
         #region ProgressBar
 
@@ -251,9 +255,11 @@ namespace ProlexNetSetupV2.ViewModels
             get { return _progressBarSpeed; }
             set { SetProperty(ref _progressBarSpeed, value); }
         }
-        #endregion
+
+        #endregion ProgressBar
 
         #region Commands
+
         public ICommand BackCommand { get; set; }
 
         public ICommand NextCommand { get; set; }
@@ -261,7 +267,8 @@ namespace ProlexNetSetupV2.ViewModels
         public ICommand CancelCommand { get; set; }
 
         public ICommand ChangeInstallPathCommand { get; set; }
-        #endregion
+
+        #endregion Commands
 
         public MainWindowViewModel()
         {
@@ -401,7 +408,7 @@ namespace ProlexNetSetupV2.ViewModels
 
             decimal total = ProgressBarMaximum;
             decimal received = ProgressBarValue;
-            ProgressBarSpeed = $"{(received / 1048576):n3} MB / {(total / 1048576):n3} MB";
+            ProgressBarSpeed = $"{(received / 1048576):n1} MB / {(total / 1048576):n1} MB";
         }
 
         private async Task InstallComponentsAsync()
@@ -434,7 +441,7 @@ namespace ProlexNetSetupV2.ViewModels
                 }
             }
 
-            #endregion
+            #endregion VisualC2013
 
             #region DotNet46
 
@@ -444,7 +451,7 @@ namespace ProlexNetSetupV2.ViewModels
                 InstallQueue.Add(() => Download.DotNetAsync(ProgressChanged));
             }
 
-            #endregion
+            #endregion DotNet46
 
             #region ProlexNetServer
 
@@ -455,7 +462,7 @@ namespace ProlexNetSetupV2.ViewModels
                 list.Add(Constants.IIS);
                 InstallQueue.Add(() => Install.IIS());
 
-                #endregion
+                #endregion InstallIIS
 
                 #region Firebird
 
@@ -469,7 +476,7 @@ namespace ProlexNetSetupV2.ViewModels
                     InstallQueue.Add(() => Download.FirebirdAsync(ProgressChanged));
                 }
 
-                #endregion
+                #endregion Firebird
 
                 #region IBExpert
 
@@ -479,7 +486,7 @@ namespace ProlexNetSetupV2.ViewModels
                     InstallQueue.Add(() => Download.IBExpertSetupAsync(ProgressChanged));
                 }
 
-                #endregion
+                #endregion IBExpert
 
                 #region LinqPad
 
@@ -489,7 +496,7 @@ namespace ProlexNetSetupV2.ViewModels
                     InstallQueue.Add(() => Download.LINQPad5Async(ProgressChanged));
                 }
 
-                #endregion
+                #endregion LinqPad
 
                 #region Database
 
@@ -499,7 +506,7 @@ namespace ProlexNetSetupV2.ViewModels
                     InstallQueue.Add(() => Download.ProlexNetDatabaseAsync(ProgressChanged));
                 }
 
-                #endregion
+                #endregion Database
 
                 #region ProlexNetServer
 
@@ -508,7 +515,7 @@ namespace ProlexNetSetupV2.ViewModels
                 InstallQueue.Add(() => ConfigProlexNet.Server(InstallationPath, ProlexNetServerPort));
                 InstallQueue.Add(() => Firewall.AddRules(ProlexNetServerPort));
 
-                #endregion
+                #endregion ProlexNetServer
 
                 #region ProlexNetUpdater
 
@@ -516,16 +523,16 @@ namespace ProlexNetSetupV2.ViewModels
                 InstallQueue.Add(() => Download.ProlexNetUpdaterAsync(ProgressChanged));
                 InstallQueue.Add(() => ConfigProlexNet.Updater(InstallationPath));
 
-                #endregion
+                #endregion ProlexNetUpdater
 
                 #region ConfigIIS
 
                 InstallQueue.Add(() => ConfigIIS.ProlexNetSettingsAsync(InstallationPath, ProlexNetServerPort));
 
-                #endregion
+                #endregion ConfigIIS
             }
 
-            #endregion
+            #endregion ProlexNetServer
 
             #region ProlexNetClient
 
@@ -536,10 +543,10 @@ namespace ProlexNetSetupV2.ViewModels
                 list.Add(Constants.ProlexNetClient);
                 InstallQueue.Add(() => Download.ProlexNetClientAsync(ProgressChanged));
 
-                #endregion
+                #endregion ProlexNetClient
             }
 
-            #endregion
+            #endregion ProlexNetClient
 
             InstallList = list;
         }

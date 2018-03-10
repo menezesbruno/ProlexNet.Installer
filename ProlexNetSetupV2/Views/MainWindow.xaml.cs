@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-
-namespace ProlexNetSetupV2.Views
+﻿namespace ProlexNetSetupV2.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

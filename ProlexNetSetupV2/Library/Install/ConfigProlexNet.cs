@@ -1,10 +1,7 @@
-﻿using ProlexNetSetupV2.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -65,7 +62,7 @@ namespace ProlexNetSetupV2.Library
                 var originalProlexPath = @"<add key=""ProlexPath"" value=""(.*)"" />";
                 var replacedProlexPath = $@"<add key=""ProlexPath"" value=""{prolexPath}"" />";
 
-                await Task.Run (() => File.WriteAllText(webConfigFile, Regex.Replace(File.ReadAllText(webConfigFile), originalProlexPath, replacedProlexPath)));
+                await Task.Run(() => File.WriteAllText(webConfigFile, Regex.Replace(File.ReadAllText(webConfigFile), originalProlexPath, replacedProlexPath)));
             }
             catch (Exception ex)
             {

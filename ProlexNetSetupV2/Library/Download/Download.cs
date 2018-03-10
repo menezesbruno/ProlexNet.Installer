@@ -1,14 +1,9 @@
 ﻿using ProlexNetSetupV2.ViewModels;
-using ProlexNetSetupV2.Views;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 
 namespace ProlexNetSetupV2.Library
 {
@@ -225,6 +220,8 @@ namespace ProlexNetSetupV2.Library
             {
                 if (Hash.Check(file, hash))
                     return;
+                else
+                    File.Delete(file);
             }
 
             WebClient client = new WebClient();
