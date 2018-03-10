@@ -1,8 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProlexNetSetupV2.Library
@@ -35,24 +38,37 @@ namespace ProlexNetSetupV2.Library
                                         child.Close();
                                         try
                                         {
-                                            Process[] processes = Process.GetProcessesByName("ProlexNet.ExtHost");
-                                            foreach (var process in processes)
+                                            try
                                             {
-                                                process.Kill();
-                                                process.WaitForExit();
+                                                Process[] processes = Process.GetProcessesByName("ProlexNet.ExtHost");
+                                                foreach (var process in processes)
+                                                {
+                                                    process.Kill();
+                                                }
+                                            }
+                                            catch
+                                            {
                                             }
 
                                             var deleteShortcut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "ProlexNet.lnk");
                                             Directory.Delete(installedPath.ToString(), true);
                                             key.DeleteSubKey(applicationGuid, false);
                                             if (File.Exists(deleteShortcut))
-                                                File.Delete(deleteShortcut);
-
+                                            {
+                                                try
+                                                {
+                                                    File.Delete(deleteShortcut);
+                                                }
+                                                catch
+                                                {
+                                                }
+                                            }
                                             MessageBox.Show("ProlexNet Client removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
                                         }
                                         catch (Exception ex)
                                         {
-                                            MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                            MessageBox.Show(ex.Message, "Aviso!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                            Environment.Exit(1);
                                         }
                                     }
                                 }
@@ -63,9 +79,9 @@ namespace ProlexNetSetupV2.Library
                             }
                         }
                     }
+                    Environment.Exit(1);
                 }
             }
-            Environment.Exit(1);
         }
 
         public static void ProlexNetServer()
@@ -102,10 +118,11 @@ namespace ProlexNetSetupV2.Library
                                             key.DeleteSubKey(applicationGuid, false);
 
                                             MessageBox.Show("ProlexNet Server removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
+                                            Environment.Exit(1);
                                         }
                                         catch (Exception ex)
                                         {
-                                            MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                            MessageBox.Show(ex.Message, "Aviso!", MessageBoxButton.OK, MessageBoxImage.Error);
                                         }
                                     }
                                 }
@@ -116,9 +133,9 @@ namespace ProlexNetSetupV2.Library
                             }
                         }
                     }
+                    Environment.Exit(1);
                 }
             }
-            Environment.Exit(1);
         }
 
         public static void Firebird()
