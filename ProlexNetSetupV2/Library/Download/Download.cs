@@ -40,7 +40,7 @@ namespace ProlexNetSetupV2.Library
             await Task.Run(() => Install.Firebird(file, installationPath));
         }
 
-        public static async Task ProlexNetServerAsync(Action<DownloadProgressChangedEventArgs, double> callback)
+        public static async Task ProlexNetServerAsync(Action<DownloadProgressChangedEventArgs, double> callback, string prolexNetServerPort)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
@@ -58,6 +58,8 @@ namespace ProlexNetSetupV2.Library
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
             await Task.Run(() => ZipExtract.Run(file, installationRootFolder));
             await Task.Run(() => CreateRegistryKey.ProlexNetServer(servicePath, installationPath));
+            await Task.Run(() => ConfigProlexNet.Server(installationPath, prolexNetServerPort));
+            await Task.Run(() => Firewall.AddRules(prolexNetServerPort));
         }
 
         public static async Task ProlexNetUpdaterAsync(Action<DownloadProgressChangedEventArgs, double> callback)
@@ -77,6 +79,7 @@ namespace ProlexNetSetupV2.Library
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
             await Task.Run(() => ZipExtract.Run(file, installationRootFolder));
+            await Task.Run(() => ConfigProlexNet.Updater(installationPath));
         }
 
         public static async Task ProlexNetClientAsync(Action<DownloadProgressChangedEventArgs, double> callback)

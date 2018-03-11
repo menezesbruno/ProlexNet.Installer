@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using ProlexNetSetupV2.Library;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -40,6 +41,8 @@ namespace ProlexNetSetupV2.ViewModels
             get { return _installList; }
             set { SetProperty(ref _installList, value); }
         }
+
+        public ObservableCollection<string> InstallStatus { get; set; }
 
         private List<Func<Task>> InstallQueue = new List<Func<Task>>();
 
@@ -169,6 +172,13 @@ namespace ProlexNetSetupV2.ViewModels
 
         public static string ServicePath { get; set; }
 
+        private string _installationResult = "O ProlexNet foi instalado com sucesso!";
+
+        public string InstallationResult
+        {
+            get { return _installationResult; }
+            set { SetProperty(ref _installationResult, value); }
+        }
         #endregion Fields
 
         #region Pages
@@ -283,6 +293,8 @@ namespace ProlexNetSetupV2.ViewModels
         {
             ChangePagesAsync();
             CreateServicePath();
+            InstallStatus = new ObservableCollection<string>();
+
 
             BackCommand = new DelegateCommand(Back);
             NextCommand = new DelegateCommand(Next);
@@ -320,6 +332,8 @@ namespace ProlexNetSetupV2.ViewModels
                 if (close == MessageBoxResult.Yes)
                     Environment.Exit(1);
             }
+            else
+                Environment.Exit(1);
         }
 
         private async void ChangePagesAsync()
@@ -426,7 +440,17 @@ namespace ProlexNetSetupV2.ViewModels
         {
             foreach (var item in InstallQueue)
             {
-                await item.Invoke();
+                try
+                {
+                    await item.Invoke();
+                    InstallStatus.Add(@"..\Resources\installer-ok.png");
+                }
+                catch (Exception ex)
+                {
+                    InstallationResult = "Houveram um ou mais erros durante a instalação! A operação não foi bem sucedida.";
+                    InstallStatus.Add(@"..\Resources\installer-error.png");
+                    System.Windows.MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -471,7 +495,7 @@ namespace ProlexNetSetupV2.ViewModels
                 #region InstallIIS
 
                 list.Add(Constants.IIS);
-                InstallQueue.Add(() => Install.IIS());
+                InstallQueue.Add(() => Install.IIS(InstallationPath, ProlexNetServerPort));
 
                 #endregion InstallIIS
 
@@ -522,9 +546,7 @@ namespace ProlexNetSetupV2.ViewModels
                 #region ProlexNetServer
 
                 list.Add(Constants.ProlexNetServer);
-                InstallQueue.Add(() => Download.ProlexNetServerAsync(ProgressChanged));
-                InstallQueue.Add(() => ConfigProlexNet.Server(InstallationPath, ProlexNetServerPort));
-                InstallQueue.Add(() => Firewall.AddRules(ProlexNetServerPort));
+                InstallQueue.Add(() => Download.ProlexNetServerAsync(ProgressChanged, ProlexNetServerPort));
 
                 #endregion ProlexNetServer
 
@@ -532,15 +554,8 @@ namespace ProlexNetSetupV2.ViewModels
 
                 list.Add(Constants.ProlexNetUpdater);
                 InstallQueue.Add(() => Download.ProlexNetUpdaterAsync(ProgressChanged));
-                InstallQueue.Add(() => ConfigProlexNet.Updater(InstallationPath));
 
                 #endregion ProlexNetUpdater
-
-                #region ConfigIIS
-
-                InstallQueue.Add(() => ConfigIIS.ProlexNetSettingsAsync(InstallationPath, ProlexNetServerPort));
-
-                #endregion ConfigIIS
             }
 
             #endregion ProlexNetServer
