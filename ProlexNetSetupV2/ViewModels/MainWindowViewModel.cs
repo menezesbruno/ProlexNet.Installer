@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -179,6 +178,7 @@ namespace ProlexNetSetupV2.ViewModels
             get { return _installationResult; }
             set { SetProperty(ref _installationResult, value); }
         }
+
         #endregion Fields
 
         #region Pages
@@ -294,7 +294,6 @@ namespace ProlexNetSetupV2.ViewModels
             ChangePagesAsync();
             CreateServicePath();
             InstallStatus = new ObservableCollection<string>();
-
 
             BackCommand = new DelegateCommand(Back);
             NextCommand = new DelegateCommand(Next);

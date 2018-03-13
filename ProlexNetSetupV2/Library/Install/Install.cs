@@ -126,7 +126,7 @@ namespace ProlexNetSetupV2.Library
                 if (dismChecker)
                     IISEnablePackagesAsync(servicePath, dismOutputFile, dismVersion);
 
-                await Task.Run(()=> ConfigIIS.ProlexNetSettingsAsync(installationPath, prolexNetServerPort));
+                await Task.Run(() => ConfigIIS.ProlexNetSettingsAsync(installationPath, prolexNetServerPort));
             }
             catch (Exception ex)
             {
