@@ -3,13 +3,14 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProlexNetSetupV2.Library
 {
     public static class Uninstall
     {
-        public static void ProlexNetClient()
+        public static async void ProlexNetClient()
         {
             var applicationGuid = Constants.ClientApplicationGuid;
             var windowsUninstallPath = Constants.WindowsUninstallPath;
@@ -40,7 +41,7 @@ namespace ProlexNetSetupV2.Library
                                                 Process[] processes = Process.GetProcessesByName("ProlexNet.ExtHost");
                                                 foreach (var process in processes)
                                                 {
-                                                    process.Kill();
+                                                    await Task.Run(() => process.Kill());
                                                 }
                                             }
                                             catch
@@ -65,7 +66,7 @@ namespace ProlexNetSetupV2.Library
                                         catch (Exception ex)
                                         {
                                             MessageBox.Show(ex.Message, "Aviso!", MessageBoxButton.OK, MessageBoxImage.Error);
-                                            Environment.Exit(1);
+                                            Environment.Exit(0);
                                         }
                                     }
                                 }
@@ -76,7 +77,7 @@ namespace ProlexNetSetupV2.Library
                             }
                         }
                     }
-                    Environment.Exit(1);
+                    Environment.Exit(0);
                 }
             }
         }
@@ -115,7 +116,7 @@ namespace ProlexNetSetupV2.Library
                                             key.DeleteSubKey(applicationGuid, false);
 
                                             MessageBox.Show("ProlexNet Server removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
-                                            Environment.Exit(1);
+                                            Environment.Exit(0);
                                         }
                                         catch (Exception ex)
                                         {
@@ -130,7 +131,7 @@ namespace ProlexNetSetupV2.Library
                             }
                         }
                     }
-                    Environment.Exit(1);
+                    Environment.Exit(0);
                 }
             }
         }
