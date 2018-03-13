@@ -441,12 +441,15 @@ namespace ProlexNetSetupV2.ViewModels
             {
                 try
                 {
+                    InstallStatus.Add(@"..\Resources\installer-arrow.png");
                     await item.Invoke();
+                    InstallStatus.Remove(@"..\Resources\installer-arrow.png");
                     InstallStatus.Add(@"..\Resources\installer-ok.png");
                 }
                 catch (Exception ex)
                 {
                     InstallationResult = "Houveram um ou mais erros durante a instalação! A operação não foi bem sucedida.";
+                    InstallStatus.Remove(@"..\Resources\installer-arrow.png");
                     InstallStatus.Add(@"..\Resources\installer-error.png");
                     System.Windows.MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
