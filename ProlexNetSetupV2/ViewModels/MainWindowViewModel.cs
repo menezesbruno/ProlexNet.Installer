@@ -466,7 +466,7 @@ namespace ProlexNetSetupV2.ViewModels
             if (RequirementsCheck.VisualC2013x86())
             {
                 list.Add(Constants.VisualC2013X86);
-                InstallQueue.Add(() => Download.VisualCAsync(bits, ProgressChanged));
+                InstallQueue.Add(() => Download.VisualCAsync("x86", ProgressChanged));
             }
 
             if (bits == "x64")
@@ -474,7 +474,7 @@ namespace ProlexNetSetupV2.ViewModels
                 if (RequirementsCheck.VisualC2013x64())
                 {
                     list.Add(Constants.VisualC2013X64);
-                    InstallQueue.Add(() => Download.VisualCAsync(bits, ProgressChanged));
+                    InstallQueue.Add(() => Download.VisualCAsync("x64", ProgressChanged));
                 }
             }
 
