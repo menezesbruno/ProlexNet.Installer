@@ -85,7 +85,6 @@ namespace ProlexNetSetupV2.Library
                     }
                 }
             }
-
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -131,7 +130,6 @@ namespace ProlexNetSetupV2.Library
             }
             System.Windows.Application.Current.Shutdown();
         }
-
 
         public static void Firebird()
         {
