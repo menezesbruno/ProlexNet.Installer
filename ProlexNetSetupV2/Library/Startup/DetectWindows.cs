@@ -19,7 +19,7 @@ namespace ProlexNetSetupV2.Library
             if (!supported)
             {
                 MessageBox.Show("Versão do Windows não suportada! A instalação exige no mínimo Windows 7 com SP1 instalado.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
+                Application.Current.Shutdown();
             }
         }
 

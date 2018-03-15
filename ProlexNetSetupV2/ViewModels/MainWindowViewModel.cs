@@ -329,10 +329,10 @@ namespace ProlexNetSetupV2.ViewModels
             {
                 var close = System.Windows.MessageBox.Show("Você tem certeza que deseja sair do Instalador do ProlexNet?", "Instalação do ProlexNet", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
                 if (close == MessageBoxResult.Yes)
-                    Environment.Exit(0);
+                    System.Windows.Application.Current.Shutdown();
             }
             else
-                Environment.Exit(0);
+                System.Windows.Application.Current.Shutdown();
         }
 
         private async void ChangePagesAsync()

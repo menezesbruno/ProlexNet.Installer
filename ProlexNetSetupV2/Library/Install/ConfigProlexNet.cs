@@ -10,7 +10,7 @@ namespace ProlexNetSetupV2.Library
 {
     internal class ConfigProlexNet
     {
-        public static async Task Server(string installationPath, string serverPort)
+        public static void Server(string installationPath, string serverPort)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace ProlexNetSetupV2.Library
             }
         }
 
-        public static async Task Updater(string installationPath)
+        public static void Updater(string installationPath)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace ProlexNetSetupV2.Library
                 var originalProlexPath = @"<add key=""ProlexPath"" value=""(.*)"" />";
                 var replacedProlexPath = $@"<add key=""ProlexPath"" value=""{prolexPath}"" />";
 
-                await Task.Run(() => File.WriteAllText(webConfigFile, Regex.Replace(File.ReadAllText(webConfigFile), originalProlexPath, replacedProlexPath)));
+                File.WriteAllText(webConfigFile, Regex.Replace(File.ReadAllText(webConfigFile), originalProlexPath, replacedProlexPath));
             }
             catch (Exception ex)
             {

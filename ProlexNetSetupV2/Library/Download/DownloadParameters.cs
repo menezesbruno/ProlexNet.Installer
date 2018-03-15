@@ -25,7 +25,7 @@ namespace ProlexNetSetupV2.Library
             {
                 Trace.WriteLine($"{nameof(DownloadParameters)}:{nameof(ApplicationListAsync)}:{ex.Message}");
                 MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
+                System.Windows.Application.Current.Shutdown();
             }
         }
     }

@@ -10,131 +10,128 @@ namespace ProlexNetSetupV2.Library
 {
     public static class Uninstall
     {
-        public static async void ProlexNetClient()
+        public static void Run()
         {
-            var applicationGuid = Constants.ClientApplicationGuid;
+            var clientApplicationGuid = Constants.ClientApplicationGuid;
+            var serverApplicationGuid = Constants.ServerApplicationGuid;
             var windowsUninstallPath = Constants.WindowsUninstallPath;
 
             string[] args = Environment.GetCommandLineArgs();
-            foreach (string arg in args)
+            foreach (string item in args)
             {
-                if (arg == "/uninstallprompt")
-                {
-                    using (RegistryKey key = Registry.LocalMachine.OpenSubKey(windowsUninstallPath, true))
-                    {
-                        if (key != null)
-                        {
-                            try
-                            {
-                                RegistryKey child = key.OpenSubKey(applicationGuid);
-                                if (child != null)
-                                {
-                                    var uninstall = MessageBox.Show("Tem certeza que deseja remover o ProlexNet Client?", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                                    if (uninstall == MessageBoxResult.Yes)
-                                    {
-                                        var installedPath = child.GetValue("InstallLocation");
-                                        child.Close();
-                                        try
-                                        {
-                                            try
-                                            {
-                                                Process[] processes = Process.GetProcessesByName("ProlexNet.ExtHost");
-                                                foreach (var process in processes)
-                                                {
-                                                    await Task.Run(() => process.Kill());
-                                                }
-                                            }
-                                            catch
-                                            {
-                                            }
+                if (item == "/uninstallprompt")
+                    ProlexNetClient(windowsUninstallPath, clientApplicationGuid);
 
-                                            var deleteShortcut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "ProlexNet.lnk");
-                                            Directory.Delete(installedPath.ToString(), true);
-                                            key.DeleteSubKey(applicationGuid, false);
-                                            if (File.Exists(deleteShortcut))
-                                            {
-                                                try
-                                                {
-                                                    File.Delete(deleteShortcut);
-                                                }
-                                                catch
-                                                {
-                                                }
-                                            }
-                                            MessageBox.Show("ProlexNet Client removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            MessageBox.Show(ex.Message, "Aviso!", MessageBoxButton.OK, MessageBoxImage.Error);
-                                            Environment.Exit(0);
-                                        }
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
-                        }
-                    }
-                    Environment.Exit(0);
-                }
+                if (item == "/serveruninstallprompt")
+                    ProlexNetServer(windowsUninstallPath, serverApplicationGuid);
             }
         }
 
-        public static void ProlexNetServer()
+        public static async void ProlexNetClient(string windowsUninstallPath, string applicationGuid)
         {
-            var applicationGuid = Constants.ServerApplicationGuid;
-            var windowsUninstallPath = Constants.WindowsUninstallPath;
-
-            string[] args = Environment.GetCommandLineArgs();
-            foreach (string arg in args)
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(windowsUninstallPath, true))
             {
-                if (arg == "/serveruninstallprompt")
+                if (key != null)
                 {
-                    using (RegistryKey key = Registry.LocalMachine.OpenSubKey(windowsUninstallPath, true))
+                    try
                     {
-                        if (key != null)
+                        RegistryKey child = key.OpenSubKey(applicationGuid);
+                        if (child != null)
                         {
-                            try
+                            var uninstall = MessageBox.Show("Tem certeza que deseja remover o ProlexNet Client?", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                            if (uninstall == MessageBoxResult.Yes)
                             {
-                                RegistryKey child = key.OpenSubKey(applicationGuid);
-                                if (child != null)
+                                var installedPath = child.GetValue("InstallLocation");
+                                child.Close();
+                                try
                                 {
-                                    var uninstall = MessageBox.Show("Tem certeza que deseja remover o ProlexNet Server? O banco de dados localizado na pasta Database NÃO será removido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                                    if (uninstall == MessageBoxResult.Yes)
+                                    try
                                     {
-                                        var rootPath = child.GetValue("RootLocation");
-                                        child.Close();
-                                        try
+                                        Process[] processes = Process.GetProcessesByName("ProlexNet.ExtHost");
+                                        foreach (var process in processes)
                                         {
-                                            ConfigIIS.RemoveSite("prolexnet");
-                                            ConfigIIS.RemoveSite("prolexnet_updater");
-                                            ConfigIIS.RemovePool("prolexnet");
-                                            Firewall.RemoveRules();
-                                            Directory.Delete(rootPath.ToString(), true);
-                                            key.DeleteSubKey(applicationGuid, false);
-
-                                            MessageBox.Show("ProlexNet Server removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
-                                            Environment.Exit(0);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            MessageBox.Show(ex.Message, "Aviso!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                            await Task.Run(() => process.Kill());
                                         }
                                     }
+                                    catch
+                                    {
+                                    }
+
+                                    var deleteShortcut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "ProlexNet.lnk");
+                                    Directory.Delete(installedPath.ToString(), true);
+                                    key.DeleteSubKey(applicationGuid, false);
+                                    if (File.Exists(deleteShortcut))
+                                    {
+                                        try
+                                        {
+                                            File.Delete(deleteShortcut);
+                                        }
+                                        catch
+                                        {
+                                        }
+                                    }
+                                    MessageBox.Show("ProlexNet Client removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "Aviso!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
                             }
                         }
                     }
-                    Environment.Exit(0);
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
+
+            System.Windows.Application.Current.Shutdown();
         }
+
+        public static void ProlexNetServer(string windowsUninstallPath, string applicationGuid)
+        {
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(windowsUninstallPath, true))
+            {
+                if (key != null)
+                {
+                    try
+                    {
+                        RegistryKey child = key.OpenSubKey(applicationGuid);
+                        if (child != null)
+                        {
+                            var uninstall = MessageBox.Show("Tem certeza que deseja remover o ProlexNet Server? O banco de dados localizado na pasta Database NÃO será removido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                            if (uninstall == MessageBoxResult.Yes)
+                            {
+                                var rootPath = child.GetValue("RootLocation");
+                                child.Close();
+                                try
+                                {
+                                    ConfigIIS.RemoveSite("prolexnet");
+                                    ConfigIIS.RemoveSite("prolexnet_updater");
+                                    ConfigIIS.RemovePool("prolexnet");
+                                    Firewall.RemoveRules();
+                                    Directory.Delete(rootPath.ToString(), true);
+                                    key.DeleteSubKey(applicationGuid, false);
+
+                                    MessageBox.Show("ProlexNet Server removido com sucesso!", "Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "Aviso!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            System.Windows.Application.Current.Shutdown();
+        }
+
 
         public static void Firebird()
         {

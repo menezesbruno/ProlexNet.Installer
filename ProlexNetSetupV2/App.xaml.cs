@@ -11,8 +11,7 @@ namespace ProlexNetSetupV2
 
             base.OnStartup(e);
 
-            Uninstall.ProlexNetClient();
-            Uninstall.ProlexNetServer();
+            Uninstall.Run();
             await DownloadParameters.ApplicationListAsync();
 
             var bootstrapper = new Bootstrapper();
