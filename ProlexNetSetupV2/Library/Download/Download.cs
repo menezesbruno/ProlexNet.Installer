@@ -17,10 +17,10 @@ namespace ProlexNetSetupV2.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
 
-            var firebird_Url_X86 = DownloadParameters.Instance.Firebird_X86_Url;
-            var firebird_Hash_X86 = DownloadParameters.Instance.Firebird_X86_Hash;
-            var firebird_Url_X64 = DownloadParameters.Instance.Firebird_X64_Url;
-            var firebird_Hash_X64 = DownloadParameters.Instance.Firebird_X64_Hash;
+            var firebird_Url_X86 = DownloadParameters.AppList.Firebird_X86_Url;
+            var firebird_Hash_X86 = DownloadParameters.AppList.Firebird_X86_Hash;
+            var firebird_Url_X64 = DownloadParameters.AppList.Firebird_X64_Url;
+            var firebird_Hash_X64 = DownloadParameters.AppList.Firebird_X64_Hash;
 
             var url = firebird_Url_X86;
             var hash = firebird_Hash_X86;
@@ -43,8 +43,8 @@ namespace ProlexNetSetupV2.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
 
-            var url = DownloadParameters.Instance.ProlexNet_Server_Url;
-            var hash = DownloadParameters.Instance.ProlexNet_Server_Hash;
+            var url = DownloadParameters.AppList.ProlexNet_Server_Url;
+            var hash = DownloadParameters.AppList.ProlexNet_Server_Hash;
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
@@ -65,8 +65,8 @@ namespace ProlexNetSetupV2.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
 
-            var url = DownloadParameters.Instance.ProlexNet_Updater_Url;
-            var hash = DownloadParameters.Instance.ProlexNet_Updater_Hash;
+            var url = DownloadParameters.AppList.ProlexNet_Updater_Url;
+            var hash = DownloadParameters.AppList.ProlexNet_Updater_Hash;
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
@@ -85,8 +85,8 @@ namespace ProlexNetSetupV2.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
 
-            var url = DownloadParameters.Instance.ProlexNet_Client_Url;
-            var hash = DownloadParameters.Instance.ProlexNet_Client_Hash;
+            var url = DownloadParameters.AppList.ProlexNet_Client_Url;
+            var hash = DownloadParameters.AppList.ProlexNet_Client_Hash;
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
@@ -108,10 +108,10 @@ namespace ProlexNetSetupV2.Library
             var databaseFolder = Path.Combine(installationPath, "Database");
             Directory.CreateDirectory(databaseFolder);
 
-            var url = DownloadParameters.Instance.ProlexNet_Database_Url;
+            var url = DownloadParameters.AppList.ProlexNet_Database_Url;
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
-            var hash = DownloadParameters.Instance.ProlexNet_Database_Hash;
+            var hash = DownloadParameters.AppList.ProlexNet_Database_Hash;
 
             var databaseName = "ProlexNet.prolex";
             var databaseDeployed = Path.Combine(databaseFolder, databaseName);
@@ -132,13 +132,13 @@ namespace ProlexNetSetupV2.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
 
-            var url = DownloadParameters.Instance.VisualC2103_X86_Url;
-            var hash = DownloadParameters.Instance.VisualC2103_X86_Hash;
+            var url = DownloadParameters.AppList.VisualC2103_X86_Url;
+            var hash = DownloadParameters.AppList.VisualC2103_X86_Hash;
 
             if (systemType == "x64")
             {
-                url = DownloadParameters.Instance.VisualC2103_X64_Url;
-                hash = DownloadParameters.Instance.VisualC2103_X64_Hash;
+                url = DownloadParameters.AppList.VisualC2103_X64_Url;
+                hash = DownloadParameters.AppList.VisualC2103_X64_Hash;
             }
 
             var downloadFileName = Path.GetFileName(url);
@@ -153,8 +153,8 @@ namespace ProlexNetSetupV2.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
 
-            var url = DownloadParameters.Instance.DotNet46_Url;
-            var hash = DownloadParameters.Instance.DotNet46_Hash;
+            var url = DownloadParameters.AppList.DotNet46_Url;
+            var hash = DownloadParameters.AppList.DotNet46_Hash;
 
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
@@ -168,8 +168,8 @@ namespace ProlexNetSetupV2.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
 
-            var url = DownloadParameters.Instance.LINQPad5_Url;
-            var hash = DownloadParameters.Instance.LINQPad5_Hash;
+            var url = DownloadParameters.AppList.LINQPad5_Url;
+            var hash = DownloadParameters.AppList.LINQPad5_Hash;
 
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
@@ -183,8 +183,8 @@ namespace ProlexNetSetupV2.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
 
-            var url = DownloadParameters.Instance.IBExpertSetup_Url;
-            var hash = DownloadParameters.Instance.IBExpertSetup_Hash;
+            var url = DownloadParameters.AppList.IBExpertSetup_Url;
+            var hash = DownloadParameters.AppList.IBExpertSetup_Hash;
 
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
@@ -200,8 +200,8 @@ namespace ProlexNetSetupV2.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = MainWindowViewModel.ServicePath;
 
-            var url = DownloadParameters.Instance.IBExpert_Url;
-            var hash = DownloadParameters.Instance.IBExpert_Hash;
+            var url = DownloadParameters.AppList.IBExpert_Url;
+            var hash = DownloadParameters.AppList.IBExpert_Hash;
 
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);

@@ -237,35 +237,14 @@
                                         Width="150"
                                         Margin="25,0,0,0"
                                         HorizontalAlignment="Left"
-                                        IsEnabled="False"
-                                        SelectedValue="{Binding SelectedState, Mode=TwoWay}">
-                                        <ComboBoxItem Content="Acre" />
-                                        <ComboBoxItem Content="Alagoas" />
-                                        <ComboBoxItem Content="Amapá" />
-                                        <ComboBoxItem Content="Amazonas" />
-                                        <ComboBoxItem Content="Bahia" />
-                                        <ComboBoxItem Content="Ceará" />
-                                        <ComboBoxItem Content="Distrito Federal" />
-                                        <ComboBoxItem Content="Espírito Santo" />
-                                        <ComboBoxItem Content="Goiás" />
-                                        <ComboBoxItem Content="Maranhão" />
-                                        <ComboBoxItem Content="Mato Grosso" />
-                                        <ComboBoxItem Content="Mato Grosso do Sul" />
-                                        <ComboBoxItem Content="Minas Gerais" Selector.IsSelected="True" />
-                                        <ComboBoxItem Content="Pará" />
-                                        <ComboBoxItem Content="Paraíba" />
-                                        <ComboBoxItem Content="Paraná" />
-                                        <ComboBoxItem Content="Pernambuco" />
-                                        <ComboBoxItem Content="Piauí" />
-                                        <ComboBoxItem Content="Rio de Janeiro" />
-                                        <ComboBoxItem Content="Rio Grande do Norte" />
-                                        <ComboBoxItem Content="Rio Grande do Sul" />
-                                        <ComboBoxItem Content="Rondônia" />
-                                        <ComboBoxItem Content="Roraima" />
-                                        <ComboBoxItem Content="Santa Catarina" />
-                                        <ComboBoxItem Content="São Paulo" />
-                                        <ComboBoxItem Content="Sergipe" />
-                                        <ComboBoxItem Content="Tocantins" />
+                                        IsEnabled="{Binding InstallProlexNetServer}"
+                                        ItemsSource="{Binding States}"
+                                        SelectedItem="{Binding SelectedItem}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Name}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
                                     </ComboBox>
                                 </Grid>
                                 <Grid

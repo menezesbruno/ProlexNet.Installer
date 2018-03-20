@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using ProlexNetSetupV2.Library;
+using ProlexNetSetupV2.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,7 +44,9 @@ namespace ProlexNetSetupV2.ViewModels
 
         public ObservableCollection<string> InstallStatus { get; set; }
 
-        private List<Func<Task>> InstallQueue = new List<Func<Task>>();
+        public ObservableCollection<AvailableStates> States { get; set; }
+
+        private List<Func<Task>> InstallQueue { get; set; }
 
         #endregion Common
 
@@ -179,6 +182,14 @@ namespace ProlexNetSetupV2.ViewModels
             set { SetProperty(ref _installationResult, value); }
         }
 
+        private AvailableStates _selectedItem;
+
+        public AvailableStates SelectedItem
+        {
+            get { return _selectedItem; }
+            set { SetProperty(ref _selectedItem, value); }
+        }
+
         #endregion Fields
 
         #region Pages
@@ -293,12 +304,24 @@ namespace ProlexNetSetupV2.ViewModels
         {
             ChangePagesAsync();
             CreateServicePath();
+            GetStates();
+
             InstallStatus = new ObservableCollection<string>();
 
             BackCommand = new DelegateCommand(Back);
             NextCommand = new DelegateCommand(Next);
             CancelCommand = new DelegateCommand(Cancel);
             ChangeInstallPathCommand = new DelegateCommand(ChangeInstallPath);
+        }
+
+        private void GetStates()
+        {
+            States = new ObservableCollection<AvailableStates>();
+            var getStates = DownloadParameters.StatesList;
+            foreach (var item in getStates)
+            {
+                States.Add(item);
+            }
         }
 
         private void CreateServicePath()
@@ -341,46 +364,27 @@ namespace ProlexNetSetupV2.ViewModels
             {
                 case 0:
                     Page1 = true;
-                    Page2 = false;
-                    Page3 = false;
-                    Page4 = false;
-                    Page5 = false;
-                    Page6 = false;
 
                     BackVisibility = Visibility.Hidden;
                     break;
 
                 case 1:
-                    Page1 = false;
                     Page2 = true;
-                    Page3 = false;
-                    Page4 = false;
-                    Page5 = false;
-                    Page6 = false;
 
                     BackVisibility = Visibility.Visible;
                     break;
 
                 case 2:
-                    Page1 = false;
-                    Page2 = false;
                     Page3 = true;
-                    Page4 = false;
-                    Page5 = false;
-                    Page6 = false;
 
                     BackVisibility = Visibility.Visible;
                     NextContent = "Próximo >";
                     break;
 
                 case 3:
-                    Page1 = false;
-                    Page2 = false;
-                    Page3 = false;
                     Page4 = true;
-                    Page5 = false;
-                    Page6 = false;
 
+                    SetStateToDownload();
                     BackVisibility = Visibility.Visible;
                     NextContent = "Instalar >";
 
@@ -388,12 +392,7 @@ namespace ProlexNetSetupV2.ViewModels
                     break;
 
                 case 4:
-                    Page1 = false;
-                    Page2 = false;
-                    Page3 = false;
-                    Page4 = false;
                     Page5 = true;
-                    Page6 = false;
 
                     BackVisibility = Visibility.Hidden;
                     NextVisibility = Visibility.Hidden;
@@ -404,11 +403,6 @@ namespace ProlexNetSetupV2.ViewModels
                     break;
 
                 case 5:
-                    Page1 = false;
-                    Page2 = false;
-                    Page3 = false;
-                    Page4 = false;
-                    Page5 = false;
                     Page6 = true;
 
                     BackVisibility = Visibility.Hidden;
@@ -419,6 +413,26 @@ namespace ProlexNetSetupV2.ViewModels
 
                 default:
                     break;
+            }
+        }
+
+        private void SetStateToDownload()
+        {
+            if (InstallProlexNetServer)
+            {
+                var selectedItem = SelectedItem;
+                if (selectedItem == null)
+                {
+                    System.Windows.MessageBox.Show("Estado não selecionado", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Back();
+                }
+                else
+                {
+                    DownloadParameters.AppList.ProlexNet_Server_Url = selectedItem.Url;
+                    DownloadParameters.AppList.ProlexNet_Server_Hash = selectedItem.Hash;
+                    DownloadParameters.AppList.ProlexNet_Database_Url = selectedItem.Database.Url;
+                    DownloadParameters.AppList.ProlexNet_Database_Hash = selectedItem.Database.Hash;
+                }
             }
         }
 
@@ -459,6 +473,7 @@ namespace ProlexNetSetupV2.ViewModels
         private void ListToInstall()
         {
             var list = new List<string>();
+            var installQueue = new List<Func<Task>>();
             var bits = DetectWindows.Bits();
 
             #region VisualC2013
@@ -466,7 +481,7 @@ namespace ProlexNetSetupV2.ViewModels
             if (RequirementsCheck.VisualC2013x86())
             {
                 list.Add(Constants.VisualC2013X86);
-                InstallQueue.Add(() => Download.VisualCAsync("x86", ProgressChanged));
+                installQueue.Add(() => Download.VisualCAsync("x86", ProgressChanged));
             }
 
             if (bits == "x64")
@@ -474,7 +489,7 @@ namespace ProlexNetSetupV2.ViewModels
                 if (RequirementsCheck.VisualC2013x64())
                 {
                     list.Add(Constants.VisualC2013X64);
-                    InstallQueue.Add(() => Download.VisualCAsync("x64", ProgressChanged));
+                    installQueue.Add(() => Download.VisualCAsync("x64", ProgressChanged));
                 }
             }
 
@@ -485,7 +500,7 @@ namespace ProlexNetSetupV2.ViewModels
             if (RequirementsCheck.DotNet())
             {
                 list.Add(Constants.DotNet46);
-                InstallQueue.Add(() => Download.DotNetAsync(ProgressChanged));
+                installQueue.Add(() => Download.DotNetAsync(ProgressChanged));
             }
 
             #endregion DotNet46
@@ -497,7 +512,7 @@ namespace ProlexNetSetupV2.ViewModels
                 #region InstallIIS
 
                 list.Add(Constants.IIS);
-                InstallQueue.Add(() => Install.IIS(InstallationPath, ProlexNetServerPort));
+                installQueue.Add(() => Install.IIS(InstallationPath, ProlexNetServerPort));
 
                 #endregion InstallIIS
 
@@ -510,7 +525,7 @@ namespace ProlexNetSetupV2.ViewModels
                     else
                         list.Add(Constants.FirebirdX86);
 
-                    InstallQueue.Add(() => Download.FirebirdAsync(ProgressChanged));
+                    installQueue.Add(() => Download.FirebirdAsync(ProgressChanged));
                 }
 
                 #endregion Firebird
@@ -520,7 +535,7 @@ namespace ProlexNetSetupV2.ViewModels
                 if (InstallIBExpert)
                 {
                     list.Add(Constants.IBExpert);
-                    InstallQueue.Add(() => Download.IBExpertSetupAsync(ProgressChanged));
+                    installQueue.Add(() => Download.IBExpertSetupAsync(ProgressChanged));
                 }
 
                 #endregion IBExpert
@@ -530,7 +545,7 @@ namespace ProlexNetSetupV2.ViewModels
                 if (InstallLinqPad)
                 {
                     list.Add(Constants.LinqPad);
-                    InstallQueue.Add(() => Download.LINQPad5Async(ProgressChanged));
+                    installQueue.Add(() => Download.LINQPad5Async(ProgressChanged));
                 }
 
                 #endregion LinqPad
@@ -540,7 +555,7 @@ namespace ProlexNetSetupV2.ViewModels
                 if (InstallProlexNetDatabase)
                 {
                     list.Add(Constants.ProlexNetDatabase);
-                    InstallQueue.Add(() => Download.ProlexNetDatabaseAsync(ProgressChanged));
+                    installQueue.Add(() => Download.ProlexNetDatabaseAsync(ProgressChanged));
                 }
 
                 #endregion Database
@@ -548,14 +563,14 @@ namespace ProlexNetSetupV2.ViewModels
                 #region ProlexNetServer
 
                 list.Add(Constants.ProlexNetServer);
-                InstallQueue.Add(() => Download.ProlexNetServerAsync(ProgressChanged, ProlexNetServerPort));
+                installQueue.Add(() => Download.ProlexNetServerAsync(ProgressChanged, ProlexNetServerPort));
 
                 #endregion ProlexNetServer
 
                 #region ProlexNetUpdater
 
                 list.Add(Constants.ProlexNetUpdater);
-                InstallQueue.Add(() => Download.ProlexNetUpdaterAsync(ProgressChanged));
+                installQueue.Add(() => Download.ProlexNetUpdaterAsync(ProgressChanged));
 
                 #endregion ProlexNetUpdater
             }
@@ -569,7 +584,7 @@ namespace ProlexNetSetupV2.ViewModels
                 #region ProlexNetClient
 
                 list.Add(Constants.ProlexNetClient);
-                InstallQueue.Add(() => Download.ProlexNetClientAsync(ProgressChanged));
+                installQueue.Add(() => Download.ProlexNetClientAsync(ProgressChanged));
 
                 #endregion ProlexNetClient
             }
@@ -577,6 +592,7 @@ namespace ProlexNetSetupV2.ViewModels
             #endregion ProlexNetClient
 
             InstallList = list;
+            InstallQueue = installQueue;
         }
 
         private void ChangeInstallPath()

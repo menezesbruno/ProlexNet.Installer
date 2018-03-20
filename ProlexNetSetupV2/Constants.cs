@@ -2,7 +2,8 @@
 {
     public class Constants
     {
-        public const string DownloadServerUrl = "https://automatizabox.azurewebsites.net/uploads/applicationlist.json";
+        public const string AppListUrl = "https://automatizabox.azurewebsites.net/uploads/applicationlist.json";
+        public const string StatesListUrl = "https://automatizabox.azurewebsites.net/uploads/stateslist.json";
 
         public const string WindowsUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
 
