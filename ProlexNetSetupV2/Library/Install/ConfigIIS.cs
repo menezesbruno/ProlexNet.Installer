@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace ProlexNetSetupV2.Library
+namespace ProlexNetSetup.Library
 {
     internal class ConfigIIS
     {

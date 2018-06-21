@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace ProlexNetSetupV2.Library
+namespace ProlexNetSetup.Library
 {
     internal class DetectWindows
     {

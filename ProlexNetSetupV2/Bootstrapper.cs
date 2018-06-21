@@ -1,10 +1,10 @@
 ﻿using Autofac;
 using Prism.Autofac;
 using Prism.Modularity;
-using ProlexNetSetupV2.Views;
+using ProlexNetSetup.Views;
 using System.Windows;
 
-namespace ProlexNetSetupV2
+namespace ProlexNetSetup
 {
     internal class Bootstrapper : AutofacBootstrapper
     {

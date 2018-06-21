@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using ProlexNetSetupV2.Models;
+using ProlexNetSetup.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProlexNetSetupV2.Library
+namespace ProlexNetSetup.Library
 {
     internal class DownloadParameters
     {

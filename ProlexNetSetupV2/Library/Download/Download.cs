@@ -1,4 +1,4 @@
-﻿using ProlexNetSetupV2.ViewModels;
+﻿using ProlexNetSetup.ViewModels;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProlexNetSetupV2.Library
+namespace ProlexNetSetup.Library
 {
     internal class Download
     {

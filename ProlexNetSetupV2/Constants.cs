@@ -1,4 +1,4 @@
-﻿namespace ProlexNetSetupV2
+﻿namespace ProlexNetSetup
 {
     public class Constants
     {

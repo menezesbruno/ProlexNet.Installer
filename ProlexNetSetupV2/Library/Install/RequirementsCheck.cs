@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace ProlexNetSetupV2.Library
+namespace ProlexNetSetup.Library
 {
     internal class RequirementsCheck
     {

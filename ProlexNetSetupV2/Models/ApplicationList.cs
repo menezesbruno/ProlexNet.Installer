@@ -1,4 +1,4 @@
-﻿namespace ProlexNetSetupV2.Models
+﻿namespace ProlexNetSetup.Models
 {
     public class ApplicationList
     {

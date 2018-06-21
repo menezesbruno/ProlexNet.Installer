@@ -1,4 +1,4 @@
-﻿namespace ProlexNetSetupV2.Views
+﻿namespace ProlexNetSetup.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

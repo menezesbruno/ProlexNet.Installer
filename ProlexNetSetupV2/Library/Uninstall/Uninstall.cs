@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProlexNetSetupV2.Library
+namespace ProlexNetSetup.Library
 {
     public static class Uninstall
     {

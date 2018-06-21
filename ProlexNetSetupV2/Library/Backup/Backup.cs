@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace ProlexNetSetupV2.Library
+namespace ProlexNetSetup.Library
 {
     internal class Backup
     {

@@ -1,7 +1,7 @@
-﻿using ProlexNetSetupV2.Library;
+﻿using ProlexNetSetup.Library;
 using System.Windows;
 
-namespace ProlexNetSetupV2
+namespace ProlexNetSetup
 {
     public partial class App : Application
     {

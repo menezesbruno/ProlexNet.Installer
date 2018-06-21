@@ -7,7 +7,7 @@
     <ProjectGuid>{3D5EF1B0-DED6-4883-A68A-BCEB79A9E8A6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProlexNetSetupV2</RootNamespace>
+    <RootNamespace>ProlexNetSetup</RootNamespace>
     <AssemblyName>ProlexNet.Setup</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

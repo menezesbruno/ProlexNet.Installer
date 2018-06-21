@@ -1,7 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
-using ProlexNetSetupV2.Library;
-using ProlexNetSetupV2.Models;
+using ProlexNetSetup.Library;
+using ProlexNetSetup.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace ProlexNetSetupV2.ViewModels
+namespace ProlexNetSetup.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
