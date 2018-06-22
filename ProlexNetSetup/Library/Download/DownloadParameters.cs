@@ -13,7 +13,7 @@ namespace ProlexNetSetup.Library
     internal class DownloadParameters
     {
         public static ApplicationList AppList { get; private set; }
-        public static List<AvailableStates> StatesList { get; private set; }
+        public static List<States> StatesList { get; private set; }
 
         public static async Task ApplicationListAsync()
         {
@@ -22,10 +22,9 @@ namespace ProlexNetSetup.Library
             try
             {
                 var appList = await client.DownloadStringTaskAsync(Constants.AppListUrl);
-                var statesList = await client.DownloadStringTaskAsync(Constants.StatesListUrl);
 
                 AppList = JsonConvert.DeserializeObject<ApplicationList>(appList);
-                StatesList = JsonConvert.DeserializeObject<List<AvailableStates>>(statesList);
+                StatesList = JsonConvert.DeserializeObject<List<States>>(appList);
             }
             catch (Exception ex)
             {

@@ -44,7 +44,7 @@ namespace ProlexNetSetup.ViewModels
 
         public ObservableCollection<string> InstallStatus { get; set; }
 
-        public ObservableCollection<AvailableStates> States { get; set; }
+        public ObservableCollection<States> States { get; set; }
 
         private List<Func<Task>> InstallQueue { get; set; }
 
@@ -104,20 +104,12 @@ namespace ProlexNetSetup.ViewModels
 
         #region Checkboxes
 
-        private bool _installProlexNetServer = false;
+        private bool _installProlexNet = false;
 
-        public bool InstallProlexNetServer
+        public bool InstallProlexNet
         {
-            get { return _installProlexNetServer; }
-            set { SetProperty(ref _installProlexNetServer, value); }
-        }
-
-        private bool _installProlexNetClient = false;
-
-        public bool InstallProlexNetClient
-        {
-            get { return _installProlexNetClient; }
-            set { SetProperty(ref _installProlexNetClient, value); }
+            get { return _installProlexNet; }
+            set { SetProperty(ref _installProlexNet, value); }
         }
 
         private bool _installProlexNetDatabase = false;
@@ -128,20 +120,20 @@ namespace ProlexNetSetup.ViewModels
             set { SetProperty(ref _installProlexNetDatabase, value); }
         }
 
-        private bool _installFirebird = false;
+        private bool _installSQLServer = false;
 
-        public bool InstallFirebird
+        public bool InstallSQLServer
         {
-            get { return _installFirebird; }
-            set { SetProperty(ref _installFirebird, value); }
+            get { return _installSQLServer; }
+            set { SetProperty(ref _installSQLServer, value); }
         }
 
-        private bool _installIBExpert = false;
+        private bool _installSQLServerStudio = false;
 
-        public bool InstallIBExpert
+        public bool InstallSQLServerStudio
         {
-            get { return _installIBExpert; }
-            set { SetProperty(ref _installIBExpert, value); }
+            get { return _installSQLServerStudio; }
+            set { SetProperty(ref _installSQLServerStudio, value); }
         }
 
         private bool _installLinqPad = false;
@@ -164,7 +156,7 @@ namespace ProlexNetSetup.ViewModels
             set { SetProperty(ref InstallationPath, value); }
         }
 
-        private string _prolexNetServerPort = "18520";
+        private string _prolexNetServerPort = "5000";
 
         public string ProlexNetServerPort
         {
@@ -182,9 +174,9 @@ namespace ProlexNetSetup.ViewModels
             set { SetProperty(ref _installationResult, value); }
         }
 
-        private AvailableStates _selectedItem;
+        private States _selectedItem;
 
-        public AvailableStates SelectedItem
+        public States SelectedItem
         {
             get { return _selectedItem; }
             set { SetProperty(ref _selectedItem, value); }
@@ -316,7 +308,7 @@ namespace ProlexNetSetup.ViewModels
 
         private void GetStates()
         {
-            States = new ObservableCollection<AvailableStates>();
+            States = new ObservableCollection<States>();
             var getStates = DownloadParameters.StatesList;
             foreach (var item in getStates)
             {
@@ -418,7 +410,7 @@ namespace ProlexNetSetup.ViewModels
 
         private void SetStateToDownload()
         {
-            if (InstallProlexNetServer)
+            if (InstallProlexNet)
             {
                 var selectedItem = SelectedItem;
                 if (selectedItem == null)
@@ -428,10 +420,10 @@ namespace ProlexNetSetup.ViewModels
                 }
                 else
                 {
-                    DownloadParameters.AppList.ProlexNet_Server_Url = selectedItem.Url;
-                    DownloadParameters.AppList.ProlexNet_Server_Hash = selectedItem.Hash;
-                    DownloadParameters.AppList.ProlexNet_Database_Url = selectedItem.Database.Url;
-                    DownloadParameters.AppList.ProlexNet_Database_Hash = selectedItem.Database.Hash;
+                    DownloadParameters.AppList.ProlexNet_Url = selectedItem.Url;
+                    DownloadParameters.AppList.ProlexNet_Hash = selectedItem.Hash;
+                    DownloadParameters.AppList.Database_Url = selectedItem.Database.Url;
+                    DownloadParameters.AppList.Database_Hash = selectedItem.Database.Hash;
                 }
             }
         }
@@ -497,17 +489,17 @@ namespace ProlexNetSetup.ViewModels
 
             #region DotNet46
 
-            if (RequirementsCheck.DotNet())
+            if (RequirementsCheck.NetCore21())
             {
                 list.Add(Constants.DotNet46);
-                installQueue.Add(() => Download.DotNetAsync(ProgressChanged));
+                installQueue.Add(() => Download.NetCore21Async(ProgressChanged));
             }
 
             #endregion DotNet46
 
             #region ProlexNetServer
 
-            if (InstallProlexNetServer)
+            if (InstallProlexNet)
             {
                 #region InstallIIS
 
@@ -518,7 +510,7 @@ namespace ProlexNetSetup.ViewModels
 
                 #region Firebird
 
-                if (InstallFirebird)
+                if (InstallSQLServer)
                 {
                     if (bits == "x64")
                         list.Add(Constants.FirebirdX64);
@@ -532,7 +524,7 @@ namespace ProlexNetSetup.ViewModels
 
                 #region IBExpert
 
-                if (InstallIBExpert)
+                if (InstallSQLServerStudio)
                 {
                     list.Add(Constants.IBExpert);
                     installQueue.Add(() => Download.IBExpertSetupAsync(ProgressChanged));
@@ -555,7 +547,7 @@ namespace ProlexNetSetup.ViewModels
                 if (InstallProlexNetDatabase)
                 {
                     list.Add(Constants.ProlexNetDatabase);
-                    installQueue.Add(() => Download.ProlexNetDatabaseAsync(ProgressChanged));
+                    installQueue.Add(() => Download.DatabaseAsync(ProgressChanged));
                 }
 
                 #endregion Database
@@ -563,7 +555,7 @@ namespace ProlexNetSetup.ViewModels
                 #region ProlexNetServer
 
                 list.Add(Constants.ProlexNetServer);
-                installQueue.Add(() => Download.ProlexNetServerAsync(ProgressChanged, ProlexNetServerPort));
+                installQueue.Add(() => Download.ProlexNetAsync(ProgressChanged, ProlexNetServerPort));
 
                 #endregion ProlexNetServer
 

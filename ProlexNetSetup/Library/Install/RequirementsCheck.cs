@@ -1,32 +1,16 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows.Documents;
 
 namespace ProlexNetSetup.Library
 {
     internal class RequirementsCheck
     {
-        public static bool Firebird()
-        {
-            try
-            {
-                var firebird = Directory.GetFiles(@"C:\Program Files\Firebird", "unins*.exe", SearchOption.AllDirectories).FirstOrDefault();
-                if (firebird == null)
-                {
-                    firebird = Directory.GetFiles(@"C:\Program Files (x86)\Firebird", "unins*.exe", SearchOption.AllDirectories).FirstOrDefault();
-                    if (firebird == null)
-                        return false;
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public static bool DotNet()
+        public static bool NetCore()
         {
             try
             {
@@ -48,43 +32,35 @@ namespace ProlexNetSetup.Library
             }
         }
 
-        public static bool VisualC2013x86()
+        public static bool NetCore21()
         {
             try
             {
-                const string subkey = @"SOFTWARE\Classes\Installer\Dependencies\{f65db027-aff3-4070-886a-0d87064aabb1}\";
-                using (RegistryKey redistKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
-                {
-                    if (redistKey != null && redistKey.GetValue("Version") != null)
-                    {
-                        var versionKey = redistKey.GetValue("Version").ToString();
-                        if (versionKey == "12.0.30501.0")
-                            return false;
-                    }
-                    return true;
-                }
-            }
-            catch
-            {
-                return true;
-            }
-        }
+                var dotnetArgs = $"--list-runtimes";
 
-        public static bool VisualC2013x64()
-        {
-            try
-            {
-                const string subkey = @"SOFTWARE\Classes\Installer\Dependencies\{050d4fc8-5d48-4b8f-8972-47c82c46020f}\";
-                using (RegistryKey redistKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
+                Process process = new Process();
+                process.StartInfo.FileName = "dotnet";
+                process.StartInfo.Arguments = dotnetArgs;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+
+                var output = process.StandardOutput.ReadToEnd().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                process.WaitForExit();
+
+                foreach (var items in output)
                 {
-                    if (redistKey != null && redistKey.GetValue("Version") != null)
+                    var versionList = new List<string>();
+                    var version = items.Split(' ');
+                    foreach (var item in items)
                     {
-                        var versionKey = redistKey.GetValue("Version").ToString();
-                        if (versionKey == "12.0.30501.0")
-                            return false;
+                        if (!item.ToString().Contains('-'))
+                            versionList.Add(item.ToString());
                     }
-                    return true;
+                    return false;
                 }
+                return true;
             }
             catch
             {
