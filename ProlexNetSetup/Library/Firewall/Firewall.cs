@@ -8,26 +8,15 @@ namespace ProlexNetSetup.Library
     {
         public static async Task AddRules(string serverPort)
         {
-            var updaterPort = Convert.ToInt32(serverPort) + 1;
-            var firebirdPort = "3050";
-
             await Task.Run(() => RemoveRules());
-
-            await Task.Run(() => NetshAdd("ProlexNet_Firebird", "in", $"{firebirdPort}"));
-            await Task.Run(() => NetshAdd("ProlexNet_Firebird", "out", $"{firebirdPort}"));
 
             await Task.Run(() => NetshAdd("ProlexNet", "in", $"{serverPort}"));
             await Task.Run(() => NetshAdd("ProlexNet", "out", $"{serverPort}"));
-
-            await Task.Run(() => NetshAdd("ProlexNet_Updater", "in", $"{updaterPort}"));
-            await Task.Run(() => NetshAdd("ProlexNet_Updater", "out", $"{updaterPort}"));
         }
 
         public static void RemoveRules()
         {
-            NetshRemove("ProlexNet_Firebird");
             NetshRemove("ProlexNet");
-            NetshRemove("ProlexNet_Updater");
         }
 
         private static void NetshRemove(string name)

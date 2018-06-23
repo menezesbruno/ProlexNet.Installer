@@ -1,8 +1,8 @@
-﻿using Autofac;
+﻿using System.Windows;
+using Autofac;
 using Prism.Autofac;
 using Prism.Modularity;
 using ProlexNetSetup.Views;
-using System.Windows;
 
 namespace ProlexNetSetup
 {

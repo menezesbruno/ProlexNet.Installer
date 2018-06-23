@@ -1,5 +1,5 @@
-﻿using ProlexNetSetup.Library;
-using System.Windows;
+﻿using System.Windows;
+using ProlexNetSetup.Library;
 
 namespace ProlexNetSetup
 {

@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-using ProlexNetSetup.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
+using ProlexNetSetup.Models;
 
 namespace ProlexNetSetup.Library
 {

@@ -1,8 +1,4 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using ProlexNetSetup.Library;
-using ProlexNetSetup.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -11,6 +7,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Prism.Commands;
+using Prism.Mvvm;
+using ProlexNetSetup.Library;
+using ProlexNetSetup.Models;
 
 namespace ProlexNetSetup.ViewModels
 {
@@ -420,10 +420,10 @@ namespace ProlexNetSetup.ViewModels
                 }
                 else
                 {
-                    DownloadParameters.AppList.ProlexNet_Url = selectedItem.Url;
-                    DownloadParameters.AppList.ProlexNet_Hash = selectedItem.Hash;
-                    DownloadParameters.AppList.Database_Url = selectedItem.Database.Url;
-                    DownloadParameters.AppList.Database_Hash = selectedItem.Database.Hash;
+                    DownloadParameters.AppList.ProlexNet.Url = selectedItem.Url;
+                    DownloadParameters.AppList.ProlexNet.Hash = selectedItem.Hash;
+                    DownloadParameters.AppList.Database.Url = selectedItem.Url;
+                    DownloadParameters.AppList.Database.Hash = selectedItem.Hash;
                 }
             }
         }
@@ -468,36 +468,17 @@ namespace ProlexNetSetup.ViewModels
             var installQueue = new List<Func<Task>>();
             var bits = DetectWindows.Bits();
 
-            #region VisualC2013
-
-            if (RequirementsCheck.VisualC2013x86())
-            {
-                list.Add(Constants.VisualC2013X86);
-                installQueue.Add(() => Download.VisualCAsync("x86", ProgressChanged));
-            }
-
-            if (bits == "x64")
-            {
-                if (RequirementsCheck.VisualC2013x64())
-                {
-                    list.Add(Constants.VisualC2013X64);
-                    installQueue.Add(() => Download.VisualCAsync("x64", ProgressChanged));
-                }
-            }
-
-            #endregion VisualC2013
-
-            #region DotNet46
+            #region NetCore21
 
             if (RequirementsCheck.NetCore21())
             {
-                list.Add(Constants.DotNet46);
+                list.Add(Constants.NetCore21);
                 installQueue.Add(() => Download.NetCore21Async(ProgressChanged));
             }
 
-            #endregion DotNet46
+            #endregion NetCore21
 
-            #region ProlexNetServer
+            #region ProlexNet
 
             if (InstallProlexNet)
             {
@@ -508,35 +489,11 @@ namespace ProlexNetSetup.ViewModels
 
                 #endregion InstallIIS
 
-                #region Firebird
-
-                if (InstallSQLServer)
-                {
-                    if (bits == "x64")
-                        list.Add(Constants.FirebirdX64);
-                    else
-                        list.Add(Constants.FirebirdX86);
-
-                    installQueue.Add(() => Download.FirebirdAsync(ProgressChanged));
-                }
-
-                #endregion Firebird
-
-                #region IBExpert
-
-                if (InstallSQLServerStudio)
-                {
-                    list.Add(Constants.IBExpert);
-                    installQueue.Add(() => Download.IBExpertSetupAsync(ProgressChanged));
-                }
-
-                #endregion IBExpert
-
                 #region LinqPad
 
                 if (InstallLinqPad)
                 {
-                    list.Add(Constants.LinqPad);
+                    list.Add(Constants.LINQPad5);
                     installQueue.Add(() => Download.LINQPad5Async(ProgressChanged));
                 }
 
@@ -546,42 +503,21 @@ namespace ProlexNetSetup.ViewModels
 
                 if (InstallProlexNetDatabase)
                 {
-                    list.Add(Constants.ProlexNetDatabase);
+                    list.Add(Constants.Database);
                     installQueue.Add(() => Download.DatabaseAsync(ProgressChanged));
                 }
 
                 #endregion Database
 
-                #region ProlexNetServer
+                #region ProlexNet
 
-                list.Add(Constants.ProlexNetServer);
+                list.Add(Constants.ProlexNet);
                 installQueue.Add(() => Download.ProlexNetAsync(ProgressChanged, ProlexNetServerPort));
 
-                #endregion ProlexNetServer
-
-                #region ProlexNetUpdater
-
-                list.Add(Constants.ProlexNetUpdater);
-                installQueue.Add(() => Download.ProlexNetUpdaterAsync(ProgressChanged));
-
-                #endregion ProlexNetUpdater
+                #endregion ProlexNet
             }
 
-            #endregion ProlexNetServer
-
-            #region ProlexNetClient
-
-            if (InstallProlexNetClient)
-            {
-                #region ProlexNetClient
-
-                list.Add(Constants.ProlexNetClient);
-                installQueue.Add(() => Download.ProlexNetClientAsync(ProgressChanged));
-
-                #endregion ProlexNetClient
-            }
-
-            #endregion ProlexNetClient
+            #endregion ProlexNet
 
             InstallList = list;
             InstallQueue = installQueue;

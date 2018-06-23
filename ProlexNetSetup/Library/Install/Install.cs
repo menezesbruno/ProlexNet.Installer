@@ -1,83 +1,17 @@
-﻿using ProlexNetSetup.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProlexNetSetup.ViewModels;
 
 namespace ProlexNetSetup.Library
 {
     internal class Install
     {
-        public static void Firebird(string file, string installationPath)
-        {
-            try
-            {
-                var installArgsComponents = "/COMPONENTS=" + "\"ServerComponent,DevAdminComponent,ClientComponent\"";
-                var installArgsTasks = " /TASKS=" + "\"UseSuperServerTask,UseServiceTask,AutoStartTask,MenuGroupTask,CopyFbClientToSysTask,CopyFbClientAsGds32Task,EnableLegacyClientAuth\"";
-                var installArgsSecurity = " /SYSDBAPASSWORD=masterkey";
-                var installArgsSilent = " /FORCE /SILENT /SP-";
-
-                Process process = new Process();
-                process.StartInfo.FileName = file;
-                process.StartInfo.Arguments = installArgsComponents;
-                process.StartInfo.Arguments += installArgsTasks;
-                process.StartInfo.Arguments += installArgsSecurity;
-                process.StartInfo.Arguments += installArgsSilent;
-                process.Start();
-                process.WaitForExit();
-
-                var databaseFolder = Path.Combine(installationPath, "Database");
-                var databasesConf = Directory.GetFiles(@"C:\Program Files\Firebird", "databases.conf", SearchOption.AllDirectories).FirstOrDefault();
-                using (StreamWriter writer = new StreamWriter(databasesConf, false))
-                {
-                    writer.WriteLine("# ------------------------------");
-                    writer.WriteLine("# List of known databases");
-                    writer.WriteLine("# ------------------------------");
-                    writer.WriteLine("");
-                    writer.WriteLine("#");
-                    writer.WriteLine("# Makes it possible to specify per-database configuration parameters.");
-                    writer.WriteLine("# See the list of them and description on file firebird.conf.");
-                    writer.WriteLine("# To place that parameters in this file add them in curly braces");
-                    writer.WriteLine("# after \"alias = / path / to / database.fdb\" line. Example:");
-                    writer.WriteLine("#	big = /databases/bigdb.fdb");
-                    writer.WriteLine("#	{");
-                    writer.WriteLine("#		LockMemSize = 32M		# We know that bigdb needs a lot of locks");
-                    writer.WriteLine("#		LockHashSlots = 19927	#	and big enough hash table for them");
-                    writer.WriteLine("#	}");
-                    writer.WriteLine("#");
-                    writer.WriteLine("");
-                    writer.WriteLine("#");
-                    writer.WriteLine("# Example Database:");
-                    writer.WriteLine("#");
-                    writer.WriteLine("employee.fdb = $(dir_sampleDb)/employee.fdb");
-                    writer.WriteLine("employee = $(dir_sampleDb)/employee.fdb");
-                    writer.WriteLine("");
-                    writer.WriteLine("#");
-                    writer.WriteLine("# Master security database specific setup.");
-                    writer.WriteLine("# Do not remove it until you understand well what are you doing!");
-                    writer.WriteLine("#");
-                    writer.WriteLine("security.db = $(dir_secDb)/security3.fdb");
-                    writer.WriteLine("{");
-                    writer.WriteLine("	RemoteAccess = false");
-                    writer.WriteLine("	DefaultDbCachePages = 50");
-                    writer.WriteLine("}");
-                    writer.WriteLine("");
-                    writer.WriteLine("#");
-                    writer.WriteLine("# Live Databases:");
-                    writer.WriteLine("#");
-                    writer.WriteLine($@"ProlexNet = {databaseFolder}\ProlexNet.prolex");
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("Installer:FirebirdAsync:" + ex.Message);
-            }
-        }
-
-        public static async Task IIS(string installationPath, string prolexNetServerPort)
+        public static async Task IIS(string installationPath, string port)
         {
             try
             {
@@ -126,11 +60,11 @@ namespace ProlexNetSetup.Library
                 if (dismChecker)
                     IISEnablePackagesAsync(servicePath, dismOutputFile, dismVersion);
 
-                await Task.Run(() => ConfigIIS.ProlexNetSettingsAsync(installationPath, prolexNetServerPort));
+                await Task.Run(() => ConfigIIS.ProlexNetSettingsAsync(installationPath, port));
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("Installer:IISAsync:" + ex.Message);
+                Trace.WriteLine($"{nameof(Install)}:{nameof(IIS)}:{ex.Message}");
             }
         }
 
@@ -177,11 +111,11 @@ namespace ProlexNetSetup.Library
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("Installer:IISDismService:" + ex.Message);
+                Trace.WriteLine($"{nameof(Install)}:{nameof(IISEnablePackagesAsync)}:{ex.Message}");
             }
         }
 
-        public static void DotNet(string file)
+        public static void NetCore21(string file)
         {
             try
             {
@@ -197,29 +131,11 @@ namespace ProlexNetSetup.Library
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("Installer:DotNet:" + ex.Message);
+                Trace.WriteLine($"{nameof(Install)}:{nameof(NetCore21)}:{ex.Message}");
             }
         }
 
-        public static void VCRedist(string file)
-        {
-            try
-            {
-                var installArgs = "/install /passive /norestart";
-
-                Process process = new Process();
-                process.StartInfo.FileName = file;
-                process.StartInfo.Arguments = installArgs;
-                process.Start();
-                process.WaitForExit();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("Installer:VCRedist:" + ex.Message);
-            }
-        }
-
-        public static void LINQPad(string file)
+        public static void LINQPad5(string file)
         {
             try
             {
@@ -233,26 +149,7 @@ namespace ProlexNetSetup.Library
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("Installer:LINQPad:" + ex.Message);
-            }
-        }
-
-        public static void IBExpertSetup(string file)
-        {
-            // Argumentos para a correta instalação do IBExpert.
-            try
-            {
-                var installArgs = "/silent";
-
-                Process process = new Process();
-                process.StartInfo.FileName = file;
-                process.StartInfo.Arguments = installArgs;
-                process.Start();
-                process.WaitForExit();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("Installer:IBExpert:" + ex.Message);
+                Trace.WriteLine($"{nameof(Install)}:{nameof(LINQPad5)}:{ex.Message}");
             }
         }
     }

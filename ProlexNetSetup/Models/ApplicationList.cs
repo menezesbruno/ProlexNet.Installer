@@ -4,7 +4,7 @@
     {
         public Files ProlexNet { get; set; }
 
-        public Files Database { get; set; }
+        public States Database { get; set; }
 
         public Files NetCore21 { get; set; }
 
@@ -13,6 +13,7 @@
 
     public class Files
     {
+        public string Name { get; set; }
         public string Url { get; set; }
         public string Hash { get; set; }
     }

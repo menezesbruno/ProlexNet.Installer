@@ -96,9 +96,7 @@
     <Compile Include="Library\Download\Hash.cs" />
     <Compile Include="Library\Firewall\Firewall.cs" />
     <Compile Include="Library\Install\ConfigIIS.cs" />
-    <Compile Include="Library\Install\ConfigProlexNet.cs" />
     <Compile Include="Library\Install\CreateRegistryKey.cs" />
-    <Compile Include="Library\Install\CreateShortcut.cs" />
     <Compile Include="Library\Startup\DetectWindows.cs" />
     <Compile Include="Library\Download\Download.cs" />
     <Compile Include="Library\Install\ZipExtract.cs" />

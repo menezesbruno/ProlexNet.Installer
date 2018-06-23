@@ -1,8 +1,8 @@
-﻿using Microsoft.Web.Administration;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Web.Administration;
 
 namespace ProlexNetSetup.Library
 {
@@ -10,40 +10,16 @@ namespace ProlexNetSetup.Library
     {
         public static async Task ProlexNetSettingsAsync(string installationPath, string serverPort)
         {
-            var installationSitePath = Path.Combine(installationPath, "ProlexNet Server");
+            var installationSitePath = Path.Combine(installationPath, "ProlexNet");
             int sitePort = Convert.ToInt32(serverPort);
 
-            try
-            {
-                var regiisVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "Microsoft.NET", "Framework", "v4.0.30319", "aspnet_regiis.exe");
-                if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-                    regiisVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "Microsoft.NET", "Framework64", "v4.0.30319", "aspnet_regiis.exe");
-
-                Process process = new Process();
-                var regiisArgs = "-i";
-                process.StartInfo.FileName = regiisVersion;
-                process.StartInfo.Arguments = regiisArgs;
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.Start();
-                process.WaitForExit();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"{nameof(ConfigIIS)}:{nameof(ProlexNetSettingsAsync)}:{ex.Message}");
-            }
-
             await Task.Run(() => RemoveSite("prolexnet"));
-            await Task.Run(() => RemoveSite("prolexnet_updater"));
-
             await Task.Run(() => RemovePool("prolexnet"));
 
-            await Task.Run(() => AddSite("prolexnet", sitePort, installationSitePath, "www"));
-            await Task.Run(() => AddSite("prolexnet_updater", sitePort + 1, installationSitePath, "updater"));
-
+            await Task.Run(() => AddSite("prolexnet", sitePort, installationSitePath));
             await Task.Run(() => AddPool("prolexnet"));
 
             await Task.Run(() => SetupPool("prolexnet", "prolexnet"));
-            await Task.Run(() => SetupPool("prolexnet_updater", "prolexnet"));
         }
 
         public static void RemoveSite(string site)
@@ -95,15 +71,14 @@ namespace ProlexNetSetup.Library
             }
         }
 
-        public static void AddSite(string site, int sitePort, string installationSitePath, string siteSuffix)
+        public static void AddSite(string site, int sitePort, string installationSitePath)
         {
             try
             {
                 var protocol = "http";
                 var port = $"*:{sitePort}:";
-                var path = Path.Combine(installationSitePath, $"{siteSuffix}");
                 ServerManager iisManager = new ServerManager();
-                iisManager.Sites.Add(site, protocol, port, path);
+                iisManager.Sites.Add(site, protocol, port, installationSitePath);
                 iisManager.CommitChanges();
             }
             catch (Exception ex)
