@@ -120,7 +120,7 @@ namespace ProlexNetSetup.Library
                     else
                     {
                         MessageBox.Show($"O download do arquivo {file} não passou no teste MD5 informado: {hash}. A instalação será finalizada. Informe ao setor de Desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        System.Windows.Application.Current.Shutdown();
+                        Application.Current.Shutdown();
                     }
                 };
 
@@ -131,7 +131,7 @@ namespace ProlexNetSetup.Library
                 catch
                 {
                     MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    System.Windows.Application.Current.Shutdown();
+                    Application.Current.Shutdown();
                 }
             }
         }

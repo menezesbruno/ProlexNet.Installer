@@ -4,11 +4,13 @@
     {
         public Files ProlexNet { get; set; }
 
-        public States Database { get; set; }
+        public Files Database { get; set; }
 
         public Files NetCore21 { get; set; }
 
         public Files LINQPad5 { get; set; }
+
+        public States StateList { get; set; }
     }
 
     public class Files

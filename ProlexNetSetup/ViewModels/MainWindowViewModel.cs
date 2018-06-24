@@ -420,8 +420,6 @@ namespace ProlexNetSetup.ViewModels
                 }
                 else
                 {
-                    DownloadParameters.AppList.ProlexNet.Url = selectedItem.Url;
-                    DownloadParameters.AppList.ProlexNet.Hash = selectedItem.Hash;
                     DownloadParameters.AppList.Database.Url = selectedItem.Url;
                     DownloadParameters.AppList.Database.Hash = selectedItem.Hash;
                 }
@@ -468,16 +466,6 @@ namespace ProlexNetSetup.ViewModels
             var installQueue = new List<Func<Task>>();
             var bits = DetectWindows.Bits();
 
-            #region NetCore21
-
-            if (RequirementsCheck.NetCore21())
-            {
-                list.Add(Constants.NetCore21);
-                installQueue.Add(() => Download.NetCore21Async(ProgressChanged));
-            }
-
-            #endregion NetCore21
-
             #region ProlexNet
 
             if (InstallProlexNet)
@@ -488,6 +476,16 @@ namespace ProlexNetSetup.ViewModels
                 installQueue.Add(() => Install.IIS(InstallationPath, ProlexNetServerPort));
 
                 #endregion InstallIIS
+
+                #region NetCore21
+
+                if (InstallNetCore21)
+                {
+                    list.Add(Constants.NetCore21);
+                    installQueue.Add(() => Download.NetCore21Async(ProgressChanged));
+                }
+
+                #endregion NetCore21
 
                 #region LinqPad
 
