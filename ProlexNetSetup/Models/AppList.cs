@@ -1,6 +1,6 @@
 ﻿namespace ProlexNetSetup.Models
 {
-    public class ApplicationList
+    public class AppList
     {
         public Files ProlexNet { get; set; }
 

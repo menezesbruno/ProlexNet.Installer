@@ -17,7 +17,7 @@ namespace ProlexNetSetup.Library
         public static async Task ProlexNetAsync(Action<DownloadProgressChangedEventArgs, double> callback, string port)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = ServicePath.Path;
+            var servicePath = CreateServicePath.ServicePath;
 
             var url = DownloadParameters.AppList.ProlexNet.Url;
             var hash = DownloadParameters.AppList.ProlexNet.Hash;
@@ -37,7 +37,7 @@ namespace ProlexNetSetup.Library
         public static async Task DatabaseAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = ServicePath.Path;
+            var servicePath = CreateServicePath.ServicePath;
 
             var databaseFolder = Path.Combine(installationPath, "Database");
             Directory.CreateDirectory(databaseFolder);
@@ -65,7 +65,7 @@ namespace ProlexNetSetup.Library
         public static async Task NetCore21Async(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = ServicePath.Path;
+            var servicePath = CreateServicePath.ServicePath;
 
             var url = DownloadParameters.AppList.NetCore21.Url;
             var hash = DownloadParameters.AppList.NetCore21.Hash;
@@ -81,7 +81,7 @@ namespace ProlexNetSetup.Library
         public static async Task LINQPad5Async(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = ServicePath.Path;
+            var servicePath = CreateServicePath.ServicePath;
 
             var url = DownloadParameters.AppList.LINQPad5.Url;
             var hash = DownloadParameters.AppList.LINQPad5.Hash;

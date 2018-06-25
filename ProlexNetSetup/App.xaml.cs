@@ -9,7 +9,7 @@ namespace ProlexNetSetup
         protected override async void OnStartup(StartupEventArgs e)
         {
             DetectWindows.Supported();
-            ServicePath.Create();
+            CreateServicePath.Run();
 
             base.OnStartup(e);
 
