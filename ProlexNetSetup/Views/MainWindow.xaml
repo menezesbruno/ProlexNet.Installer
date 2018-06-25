@@ -231,6 +231,7 @@
                                         Grid.Column="0"
                                         Width="150"
                                         Margin="25,0,0,0"
+                                        IsEnabled="{Binding InstallDatabase, Mode=TwoWay}"
                                         HorizontalAlignment="Left"
                                         ItemsSource="{Binding States}"
                                         SelectedItem="{Binding SelectedItem}">
@@ -264,25 +265,25 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content="Instalar o SQLServer"
+                                        Content="SQL Server"
                                         IsChecked="{Binding InstallSQLServer, Mode=TwoWay}" />
                                     <CheckBox
                                         Grid.Row="2"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content="Banco de dados"
-                                        IsChecked="{Binding InstallDatabase, Mode=TwoWay}" />
+                                        Content="SQL Server Management Studio"
+                                        IsChecked="{Binding InstallSQLServerStudio, Mode=TwoWay}" />
                                     <CheckBox
                                         Grid.Row="3"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content="Instalar o SQLServer Studio"
-                                        IsChecked="{Binding InstallSQLServerStudio, Mode=TwoWay}" />
+                                        Content="Banco de dados"
+                                        IsChecked="{Binding InstallDatabase, Mode=TwoWay}" />
                                     <CheckBox
                                         Grid.Row="4"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content="Instalar o LINQPad 5"
+                                        Content="LINQPad"
                                         IsChecked="{Binding InstallLinqPad, Mode=TwoWay}" />
                                 </Grid>
                                 <Grid

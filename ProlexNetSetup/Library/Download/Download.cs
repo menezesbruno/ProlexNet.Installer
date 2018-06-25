@@ -33,6 +33,92 @@ namespace ProlexNetSetup.Library
             await Task.Run(() => CreateRegistryKey.ProlexNet(servicePath, installationPath));
         }
 
+        // VCRedist
+        public static async Task VcRedistAsync(string systemType, Action<DownloadProgressChangedEventArgs, double> callback)
+        {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = CreateServicePath.ServicePath;
+
+            var url = DownloadParameters.AppList.VcRedistX86.Url;
+            var hash = DownloadParameters.AppList.VcRedistX86.Hash;
+
+            if (systemType == "x64")
+            {
+                url = DownloadParameters.AppList.VcRedistX64.Url;
+                hash = DownloadParameters.AppList.VcRedistX64.Hash;
+            }
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
+            await Task.Run(() => Install.VCRedist(file));
+        }
+
+        // Net Core
+        public static async Task NetCoreAsync(Action<DownloadProgressChangedEventArgs, double> callback)
+        {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = CreateServicePath.ServicePath;
+
+            var url = DownloadParameters.AppList.NetCore.Url;
+            var hash = DownloadParameters.AppList.NetCore.Hash;
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
+            await Task.Run(() => Install.NetCore(file));
+        }
+
+        // SQL Server
+        public static async Task SQLServerAsync(Action<DownloadProgressChangedEventArgs, double> callback)
+        {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = CreateServicePath.ServicePath;
+
+            var url = DownloadParameters.AppList.SQLServer.Url;
+            var hash = DownloadParameters.AppList.SQLServer.Hash;
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
+            await Task.Run(() => Install.SQLServer(file));
+        }
+
+        // SQL Server Studio
+        public static async Task SQLServerStudioAsync(Action<DownloadProgressChangedEventArgs, double> callback)
+        {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = CreateServicePath.ServicePath;
+
+            var url = DownloadParameters.AppList.SQLServerStudio.Url;
+            var hash = DownloadParameters.AppList.SQLServerStudio.Hash;
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
+            await Task.Run(() => Install.SQLServerStudio(file));
+        }
+
+        // LinqPad
+        public static async Task LINQPad5Async(Action<DownloadProgressChangedEventArgs, double> callback)
+        {
+            var installationPath = MainWindowViewModel.InstallationPath;
+            var servicePath = CreateServicePath.ServicePath;
+
+            var url = DownloadParameters.AppList.LinqPad.Url;
+            var hash = DownloadParameters.AppList.LinqPad.Hash;
+
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
+
+            await DownloadFileInBackgroundAsync(url, file, hash, callback);
+            await Task.Run(() => Install.LinqPad(file));
+        }
+        
         // Database
         public static async Task DatabaseAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
@@ -61,39 +147,7 @@ namespace ProlexNetSetup.Library
                 await Task.Run(() => ZipExtract.Overwrite(file, databaseFolder, databaseDeployed));
         }
 
-        // NetCore 2.1
-        public static async Task NetCore21Async(Action<DownloadProgressChangedEventArgs, double> callback)
-        {
-            var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = CreateServicePath.ServicePath;
-
-            var url = DownloadParameters.AppList.NetCore.Url;
-            var hash = DownloadParameters.AppList.NetCore.Hash;
-
-            var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(servicePath, downloadFileName);
-
-            await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            await Task.Run(() => Install.NetCore(file));
-        }
-
-        // LINQPad5
-        public static async Task LINQPad5Async(Action<DownloadProgressChangedEventArgs, double> callback)
-        {
-            var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = CreateServicePath.ServicePath;
-
-            var url = DownloadParameters.AppList.LinqPad.Url;
-            var hash = DownloadParameters.AppList.LinqPad.Hash;
-
-            var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(servicePath, downloadFileName);
-
-            await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            await Task.Run(() => Install.LinqPad(file));
-        }
-
-        // Download
+        // Download Factory
         public async static Task DownloadFileInBackgroundAsync(string url, string file, string hash, Action<DownloadProgressChangedEventArgs, double> callback)
         {
             if (File.Exists(file))
