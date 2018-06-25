@@ -6,11 +6,19 @@ namespace ProlexNetSetup.Models
     {
         public Files ProlexNet { get; set; }
 
-        public Files Database { get; set; }
+        public Files VcRedistX86 { get; set; }
+
+        public Files VcRedistX64 { get; set; }
 
         public Files NetCore { get; set; }
 
+        public Files SQLServer { get; set; }
+
+        public Files SQLServerStudio { get; set; }
+
         public Files LinqPad { get; set; }
+
+        public Files Database { get; set; }
 
         public List<Files> StateList { get; set; }
     }

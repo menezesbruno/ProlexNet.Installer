@@ -74,7 +74,7 @@ namespace ProlexNetSetup.Library
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            await Task.Run(() => Install.NetCore21(file));
+            await Task.Run(() => Install.NetCore(file));
         }
 
         // LINQPad5
@@ -90,7 +90,7 @@ namespace ProlexNetSetup.Library
             var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            await Task.Run(() => Install.LINQPad5(file));
+            await Task.Run(() => Install.LinqPad(file));
         }
 
         // Download

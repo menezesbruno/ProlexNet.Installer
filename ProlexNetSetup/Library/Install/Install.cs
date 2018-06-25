@@ -122,7 +122,7 @@ namespace ProlexNetSetup.Library
             InstallFactory(file, installArgs);
         }
 
-        public static void NetCore21(string file)
+        public static void NetCore(string file)
         {
             var installArgs = "/passive /norestart";
             InstallFactory(file, installArgs);
@@ -146,7 +146,7 @@ namespace ProlexNetSetup.Library
             InstallFactory("SqlCmd", installArgs);
         }
 
-        public static void LINQPad5(string file)
+        public static void LinqPad(string file)
         {
             var installArgs = "/silent";
             InstallFactory(file, installArgs);
