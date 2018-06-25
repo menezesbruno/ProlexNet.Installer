@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProlexNetSetup.Library.Startup;
 using ProlexNetSetup.ViewModels;
 
 namespace ProlexNetSetup.Library
@@ -19,7 +20,7 @@ namespace ProlexNetSetup.Library
                 if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
                     dismVersion = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "sysnative", "dism.exe");
 
-                var servicePath = MainWindowViewModel.ServicePath;
+                var servicePath = ServicePath.Path;
                 var dismOutputFile = Path.Combine(servicePath, "dismOutput.txt");
 
                 var tempComparer = new string[0];

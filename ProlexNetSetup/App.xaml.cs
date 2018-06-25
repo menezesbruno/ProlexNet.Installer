@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using ProlexNetSetup.Library;
+using ProlexNetSetup.Library.Startup;
 
 namespace ProlexNetSetup
 {
@@ -8,11 +9,12 @@ namespace ProlexNetSetup
         protected override async void OnStartup(StartupEventArgs e)
         {
             DetectWindows.Supported();
+            ServicePath.Create();
 
             base.OnStartup(e);
 
             Uninstall.Run();
-            await DownloadParameters.ApplicationListAsync();
+            await DownloadParameters.AppListAsync();
 
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();

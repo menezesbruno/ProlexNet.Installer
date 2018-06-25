@@ -14,7 +14,7 @@ namespace ProlexNetSetup.Library
         public static ApplicationList AppList { get; private set; }
         public static List<States> StatesList { get; private set; }
 
-        public static async Task ApplicationListAsync()
+        public static async Task AppListAsync()
         {
             WebClient client = new WebClient();
 
@@ -27,7 +27,7 @@ namespace ProlexNetSetup.Library
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(DownloadParameters)}:{nameof(ApplicationListAsync)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(DownloadParameters)}:{nameof(AppListAsync)}:{ex.Message}");
                 MessageBox.Show("Servidor de downloads fora do ar. Informe ao setor de desenvolvimento.", "Erro!", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 Application.Current.Shutdown();

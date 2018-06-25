@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using ProlexNetSetup.Library.Startup;
 using ProlexNetSetup.ViewModels;
 
 namespace ProlexNetSetup.Library
@@ -16,7 +17,7 @@ namespace ProlexNetSetup.Library
         public static async Task ProlexNetAsync(Action<DownloadProgressChangedEventArgs, double> callback, string port)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = MainWindowViewModel.ServicePath;
+            var servicePath = ServicePath.Path;
 
             var url = DownloadParameters.AppList.ProlexNet.Url;
             var hash = DownloadParameters.AppList.ProlexNet.Hash;
@@ -25,7 +26,7 @@ namespace ProlexNetSetup.Library
 
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet");
             if (Directory.Exists(installationSubFolder))
-                Backup.Run(servicePath, installationSubFolder);
+                Directory.Delete(installationSubFolder);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
             await Task.Run(() => ZipExtract.Run(file, installationSubFolder));
@@ -36,7 +37,7 @@ namespace ProlexNetSetup.Library
         public static async Task DatabaseAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = MainWindowViewModel.ServicePath;
+            var servicePath = ServicePath.Path;
 
             var databaseFolder = Path.Combine(installationPath, "Database");
             Directory.CreateDirectory(databaseFolder);
@@ -64,7 +65,7 @@ namespace ProlexNetSetup.Library
         public static async Task NetCore21Async(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = MainWindowViewModel.ServicePath;
+            var servicePath = ServicePath.Path;
 
             var url = DownloadParameters.AppList.NetCore21.Url;
             var hash = DownloadParameters.AppList.NetCore21.Hash;
@@ -80,7 +81,7 @@ namespace ProlexNetSetup.Library
         public static async Task LINQPad5Async(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
-            var servicePath = MainWindowViewModel.ServicePath;
+            var servicePath = ServicePath.Path;
 
             var url = DownloadParameters.AppList.LINQPad5.Url;
             var hash = DownloadParameters.AppList.LINQPad5.Hash;

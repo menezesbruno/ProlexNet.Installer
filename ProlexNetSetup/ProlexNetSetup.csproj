@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Library\Startup\RootServicePath.cs" />
     <Compile Include="Models\ApplicationList.cs" />
     <Compile Include="Library\Download\Hash.cs" />
     <Compile Include="Library\Firewall\Firewall.cs" />

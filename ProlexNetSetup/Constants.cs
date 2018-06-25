@@ -2,7 +2,7 @@
 {
     public class Constants
     {
-        public const string AppListUrl = "https://automatizabox.azurewebsites.net/uploads/applicationlist.json";
+        public const string AppListUrl = "https://automatizabox.azurewebsites.net/uploads/applist.json";
         public const string RegistryUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
 
         // GUID usado para criar entrada de registro de desinstalação do Windows.

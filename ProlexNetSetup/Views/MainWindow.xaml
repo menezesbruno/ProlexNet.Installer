@@ -137,14 +137,9 @@
                                     <CheckBox
                                         Grid.Row="0"
                                         Grid.Column="0"
-                                        Content="ProlexNet - Servidor"
-                                        IsChecked="{Binding InstallProlexNetServer, Mode=TwoWay}" />
-                                    <CheckBox
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="0,5,0,0"
-                                        Content="ProlexNet - Cliente"
-                                        IsChecked="{Binding InstallProlexNetClient, Mode=TwoWay}" />
+                                        Content="ProlexNet"
+                                        IsEnabled="False"
+                                        IsChecked="{Binding InstallProlexNet, Mode=TwoWay}" />
                                 </Grid>
                                 <Grid
                                     Grid.Row="3"
@@ -237,7 +232,6 @@
                                         Width="150"
                                         Margin="25,0,0,0"
                                         HorizontalAlignment="Left"
-                                        IsEnabled="{Binding InstallProlexNetServer}"
                                         ItemsSource="{Binding States}"
                                         SelectedItem="{Binding SelectedItem}">
                                         <ComboBox.ItemTemplate>
@@ -250,8 +244,7 @@
                                 <Grid
                                     Grid.Row="2"
                                     Grid.Column="0"
-                                    Margin="15,5,0,0"
-                                    IsEnabled="{Binding InstallProlexNetServer}">
+                                    Margin="15,5,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
@@ -271,20 +264,20 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content="Instalar o Firebird 3"
-                                        IsChecked="{Binding InstallFirebird, Mode=TwoWay}" />
+                                        Content="Instalar o SQLServer"
+                                        IsChecked="{Binding InstallSQLServer, Mode=TwoWay}" />
                                     <CheckBox
                                         Grid.Row="2"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
                                         Content="Banco de dados"
-                                        IsChecked="{Binding InstallProlexNetDatabase, Mode=TwoWay}" />
+                                        IsChecked="{Binding InstallDatabase, Mode=TwoWay}" />
                                     <CheckBox
                                         Grid.Row="3"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content="Instalar o IBExpert"
-                                        IsChecked="{Binding InstallIBExpert, Mode=TwoWay}" />
+                                        Content="Instalar o LINQPad 5"
+                                        IsChecked="{Binding InstallSQLServerStudio, Mode=TwoWay}" />
                                     <CheckBox
                                         Grid.Row="4"
                                         Grid.Column="0"
@@ -295,8 +288,7 @@
                                 <Grid
                                     Grid.Row="3"
                                     Grid.Column="0"
-                                    Margin="15,5,0,0"
-                                    IsEnabled="{Binding InstallProlexNetServer}">
+                                    Margin="15,5,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
@@ -315,7 +307,7 @@
                                         Width="75"
                                         Margin="5,0,0,0"
                                         VerticalContentAlignment="Center"
-                                        Text="{Binding ProlexNetServerPort, Mode=TwoWay}" />
+                                        Text="{Binding Port, Mode=TwoWay}" />
                                 </Grid>
                             </Grid>
                         </TabItem>

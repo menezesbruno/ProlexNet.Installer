@@ -16,6 +16,8 @@ namespace ProlexNetSetup.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+
+        // Props
         #region Common
 
         private string _title = "Instalação do ProlexNet";
@@ -104,7 +106,7 @@ namespace ProlexNetSetup.ViewModels
 
         #region Checkboxes
 
-        private bool _installProlexNet = false;
+        private bool _installProlexNet = true;
 
         public bool InstallProlexNet
         {
@@ -112,15 +114,15 @@ namespace ProlexNetSetup.ViewModels
             set { SetProperty(ref _installProlexNet, value); }
         }
 
-        private bool _installProlexNetDatabase = false;
+        private bool _installNetCore21 = true;
 
-        public bool InstallProlexNetDatabase
+        public bool InstallNetCore21
         {
-            get { return _installProlexNetDatabase; }
-            set { SetProperty(ref _installProlexNetDatabase, value); }
+            get { return _installNetCore21; }
+            set { SetProperty(ref _installNetCore21, value); }
         }
 
-        private bool _installSQLServer = false;
+        private bool _installSQLServer = true;
 
         public bool InstallSQLServer
         {
@@ -128,7 +130,15 @@ namespace ProlexNetSetup.ViewModels
             set { SetProperty(ref _installSQLServer, value); }
         }
 
-        private bool _installSQLServerStudio = false;
+        private bool _installDatabase = true;
+
+        public bool InstallDatabase
+        {
+            get { return _installDatabase; }
+            set { SetProperty(ref _installDatabase, value); }
+        }
+
+        private bool _installSQLServerStudio = true;
 
         public bool InstallSQLServerStudio
         {
@@ -136,7 +146,7 @@ namespace ProlexNetSetup.ViewModels
             set { SetProperty(ref _installSQLServerStudio, value); }
         }
 
-        private bool _installLinqPad = false;
+        private bool _installLinqPad = true;
 
         public bool InstallLinqPad
         {
@@ -163,8 +173,6 @@ namespace ProlexNetSetup.ViewModels
             get { return _prolexNetServerPort; }
             set { SetProperty(ref _prolexNetServerPort, value); }
         }
-
-        public static string ServicePath { get; set; }
 
         private string _installationResult = "O ProlexNet foi instalado com sucesso!";
 
@@ -292,10 +300,11 @@ namespace ProlexNetSetup.ViewModels
 
         #endregion Commands
 
+
+        // Methods
         public MainWindowViewModel()
         {
             ChangePagesAsync();
-            CreateServicePath();
             GetStates();
 
             InstallStatus = new ObservableCollection<string>();
@@ -305,6 +314,15 @@ namespace ProlexNetSetup.ViewModels
             CancelCommand = new DelegateCommand(Cancel);
             ChangeInstallPathCommand = new DelegateCommand(ChangeInstallPath);
         }
+
+        private void ChangeInstallPath()
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            {
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                    InstallPath = Path.GetFullPath(folderBrowserDialog.SelectedPath);
+            }
+        } 
 
         private void GetStates()
         {
@@ -316,11 +334,8 @@ namespace ProlexNetSetup.ViewModels
             }
         }
 
-        private void CreateServicePath()
-        {
-            ServicePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Automatiza", "Instalador");
-            Directory.CreateDirectory(ServicePath);
-        }
+
+        #region Navigation
 
         private void Back()
         {
@@ -407,6 +422,8 @@ namespace ProlexNetSetup.ViewModels
                     break;
             }
         }
+
+        #endregion
 
         private void SetStateToDownload()
         {
@@ -499,7 +516,7 @@ namespace ProlexNetSetup.ViewModels
 
                 #region Database
 
-                if (InstallProlexNetDatabase)
+                if (InstallDatabase)
                 {
                     list.Add(Constants.Database);
                     installQueue.Add(() => Download.DatabaseAsync(ProgressChanged));
@@ -519,15 +536,6 @@ namespace ProlexNetSetup.ViewModels
 
             InstallList = list;
             InstallQueue = installQueue;
-        }
-
-        private void ChangeInstallPath()
-        {
-            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-            {
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-                    InstallPath = Path.GetFullPath(folderBrowserDialog.SelectedPath);
-            }
         }
     }
 }
