@@ -166,12 +166,12 @@ namespace ProlexNetSetup.ViewModels
             set { SetProperty(ref InstallationPath, value); }
         }
 
-        private string _prolexNetServerPort = "5000";
+        private string _port = "5000";
 
         public string Port
         {
-            get { return _prolexNetServerPort; }
-            set { SetProperty(ref _prolexNetServerPort, value); }
+            get { return _port; }
+            set { SetProperty(ref _port, value); }
         }
 
         private string _installationResult = "O ProlexNet foi instalado com sucesso!";
@@ -482,7 +482,7 @@ namespace ProlexNetSetup.ViewModels
 
             #region InstallIIS
 
-            list.Add(Constants.IIS);
+            list.Add("IIS - Serviços de Informações da Internet");
             installQueue.Add(() => Install.IIS(InstallationPath, Port));
 
             #endregion InstallIIS
@@ -496,7 +496,7 @@ namespace ProlexNetSetup.ViewModels
             }
 
             if (bits == "x64")
-            {       
+            {
                 if (RequirementsCheck.VcRedistX64())
                 {
                     list.Add(appList.VcRedistX64.Name);
@@ -508,46 +508,57 @@ namespace ProlexNetSetup.ViewModels
 
             #region NetCore
 
-            list.Add(appList.NetCore.Name);
-            installQueue.Add(() => Download.NetCoreAsync(ProgressChanged));
+            if (RequirementsCheck.NetCore())
+            {
+                list.Add(appList.NetCore.Name);
+                installQueue.Add(() => Download.NetCoreAsync(ProgressChanged));
+            }
 
             #endregion NetCore
 
             #region SQLServer
 
-
+            if (RequirementsCheck.SQLServer())
+            {
+                list.Add(appList.SQLServer.Name);
+                installQueue.Add(() => Download.SQLServerAsync(ProgressChanged));
+            }
 
             #endregion
 
             #region SQLServerStudio
 
-
-
-            #endregion
-
-            #region LinqPad
-
-            if (InstallLinqPad)
+            if (RequirementsCheck.SQLServerStudio())
             {
-                list.Add(Constants.LINQPad5);
-                installQueue.Add(() => Download.LINQPad5Async(ProgressChanged));
+                list.Add(appList.SQLServerStudio.Name);
+                installQueue.Add(() => Download.SQLServerStudioAsync(ProgressChanged));
             }
 
-            #endregion LinqPad
+            #endregion
 
             #region Database
 
             if (InstallDatabase)
             {
-                list.Add(Constants.Database);
+                list.Add(appList.Database.Name);
                 installQueue.Add(() => Download.DatabaseAsync(ProgressChanged));
             }
 
             #endregion Database
 
+            #region LinqPad
+
+            if (InstallLinqPad)
+            {
+                list.Add(appList.LinqPad.Name);
+                installQueue.Add(() => Download.LinqPadAsync(ProgressChanged));
+            }
+
+            #endregion LinqPad
+
             #region ProlexNet
 
-            list.Add(Constants.ProlexNet);
+            list.Add(appList.ProlexNet.Name);
             installQueue.Add(() => Download.ProlexNetAsync(ProgressChanged, Port));
 
             #endregion ProlexNet

@@ -104,7 +104,7 @@ namespace ProlexNetSetup.Library
         }
 
         // LinqPad
-        public static async Task LINQPad5Async(Action<DownloadProgressChangedEventArgs, double> callback)
+        public static async Task LinqPadAsync(Action<DownloadProgressChangedEventArgs, double> callback)
         {
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = CreateServicePath.ServicePath;
