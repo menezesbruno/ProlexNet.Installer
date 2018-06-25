@@ -1,4 +1,6 @@
-﻿namespace ProlexNetSetup.Models
+﻿using System.Collections.Generic;
+
+namespace ProlexNetSetup.Models
 {
     public class AppList
     {
@@ -6,23 +8,16 @@
 
         public Files Database { get; set; }
 
-        public Files NetCore21 { get; set; }
+        public Files NetCore { get; set; }
 
-        public Files LINQPad5 { get; set; }
+        public Files LinqPad { get; set; }
 
-        public States StateList { get; set; }
+        public List<Files> StateList { get; set; }
     }
 
     public class Files
     {
         public string Name { get; set; }
-        public string Url { get; set; }
-        public string Hash { get; set; }
-    }
-
-    public class States
-    {
-        public string StateAcronym { get; set; }
         public string Url { get; set; }
         public string Hash { get; set; }
     }

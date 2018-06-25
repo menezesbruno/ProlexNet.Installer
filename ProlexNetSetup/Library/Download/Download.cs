@@ -67,8 +67,8 @@ namespace ProlexNetSetup.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = CreateServicePath.ServicePath;
 
-            var url = DownloadParameters.AppList.NetCore21.Url;
-            var hash = DownloadParameters.AppList.NetCore21.Hash;
+            var url = DownloadParameters.AppList.NetCore.Url;
+            var hash = DownloadParameters.AppList.NetCore.Hash;
 
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
@@ -83,8 +83,8 @@ namespace ProlexNetSetup.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = CreateServicePath.ServicePath;
 
-            var url = DownloadParameters.AppList.LINQPad5.Url;
-            var hash = DownloadParameters.AppList.LINQPad5.Hash;
+            var url = DownloadParameters.AppList.LinqPad.Url;
+            var hash = DownloadParameters.AppList.LinqPad.Hash;
 
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);

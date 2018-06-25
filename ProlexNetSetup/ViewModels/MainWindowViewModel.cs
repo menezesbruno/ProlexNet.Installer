@@ -46,7 +46,7 @@ namespace ProlexNetSetup.ViewModels
 
         public ObservableCollection<string> InstallStatus { get; set; }
 
-        public ObservableCollection<States> States { get; set; }
+        public ObservableCollection<Files> States { get; set; }
 
         private List<Func<Task>> InstallQueue { get; set; }
 
@@ -182,9 +182,9 @@ namespace ProlexNetSetup.ViewModels
             set { SetProperty(ref _installationResult, value); }
         }
 
-        private States _selectedItem;
+        private Files _selectedItem;
 
-        public States SelectedItem
+        public Files SelectedItem
         {
             get { return _selectedItem; }
             set { SetProperty(ref _selectedItem, value); }
@@ -326,8 +326,8 @@ namespace ProlexNetSetup.ViewModels
 
         private void GetStates()
         {
-            States = new ObservableCollection<States>();
-            var getStates = DownloadParameters.StatesList;
+            States = new ObservableCollection<Files>();
+            var getStates = DownloadParameters.AppList.StateList;
             foreach (var item in getStates)
             {
                 States.Add(item);
