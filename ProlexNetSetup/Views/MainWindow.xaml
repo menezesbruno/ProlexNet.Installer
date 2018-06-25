@@ -276,7 +276,7 @@
                                         Grid.Row="3"
                                         Grid.Column="0"
                                         Margin="25,0,0,0"
-                                        Content="Instalar o LINQPad 5"
+                                        Content="Instalar o SQLServer Studio"
                                         IsChecked="{Binding InstallSQLServerStudio, Mode=TwoWay}" />
                                     <CheckBox
                                         Grid.Row="4"

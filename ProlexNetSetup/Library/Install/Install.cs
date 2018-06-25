@@ -59,7 +59,7 @@ namespace ProlexNetSetup.Library
                 }
 
                 if (dismChecker)
-                    IISEnablePackagesAsync(servicePath, dismOutputFile, dismVersion);
+                    IISEnablePackages(servicePath, dismOutputFile, dismVersion);
 
                 await Task.Run(() => ConfigIIS.ProlexNetSettingsAsync(installationPath, port));
             }
@@ -69,7 +69,7 @@ namespace ProlexNetSetup.Library
             }
         }
 
-        public static void IISEnablePackagesAsync(string servicePath, string dismOutputFile, string dismVersion)
+        public static void IISEnablePackages(string servicePath, string dismOutputFile, string dismVersion)
         {
             try
             {
@@ -112,36 +112,50 @@ namespace ProlexNetSetup.Library
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(Install)}:{nameof(IISEnablePackagesAsync)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(Install)}:{nameof(IISEnablePackages)}:{ex.Message}");
             }
+        }
+
+        public static void VCRedist(string file)
+        {
+            var installArgs = "/install /passive /norestart";
+            InstallFactory(file, installArgs);
         }
 
         public static void NetCore21(string file)
         {
-            try
-            {
-                var installArgs = "/passive /norestart";
+            var installArgs = "/passive /norestart";
+            InstallFactory(file, installArgs);
+        }
 
-                Process process = new Process();
-                process.StartInfo.FileName = file;
-                process.StartInfo.Arguments = installArgs;
-                process.Start();
-                while (!process.HasExited) // Truque para evitar congelamento do instalador no Windows 8.1
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"{nameof(Install)}:{nameof(NetCore21)}:{ex.Message}");
-            }
+        public static void SQLServer(string file)
+        {
+            var installArgs = "/ACTION=\"Install\" /IACCEPTSQLSERVERLICENSETERMS /Q";
+            InstallFactory(file, installArgs);
+        }
+
+        public static void SQLServerStudio(string file)
+        {
+            var installArgs = "/passive /norestart";
+            InstallFactory(file, installArgs);
+        }
+
+        public static void Database(string installationPath, string file)
+        {
+            var installArgs = $@"-E -S NBDEV24\SQLEXPRESS -Q \""RESTORE DATABASE[prolex] FROM DISK = '{file}' WITH RECOVERY, MOVE 'ProlexNet_Se_Conversao_DATA' TO '{installationPath}\Database\ProlexNet_Se_Conversao_DATA.mdf', MOVE 'ProlexNet_Se_Conversao_Log' TO '{installationPath}\Database\ProlexNet_Se_Conversao_Log.ldf'\""";
+            InstallFactory("SqlCmd", installArgs);
         }
 
         public static void LINQPad5(string file)
         {
+            var installArgs = "/silent";
+            InstallFactory(file, installArgs);
+        }
+
+        public static void InstallFactory(string file, string installArgs)
+        {
             try
             {
-                var installArgs = "/silent";
-
                 Process process = new Process();
                 process.StartInfo.FileName = file;
                 process.StartInfo.Arguments = installArgs;
@@ -150,7 +164,7 @@ namespace ProlexNetSetup.Library
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{nameof(Install)}:{nameof(LINQPad5)}:{ex.Message}");
+                Trace.WriteLine($"{nameof(Install)}:{nameof(InstallFactory)}:{ex.Message}");
             }
         }
     }
