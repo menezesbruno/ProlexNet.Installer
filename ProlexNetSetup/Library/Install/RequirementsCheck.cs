@@ -88,15 +88,11 @@ namespace ProlexNetSetup.Library
         {
             try
             {
-                var subkey = @"SOFTWARE\Classes\Installer\Dependencies\{6CE9A8AA-C478-4706-BD28-95993D52B5A1}\";
+                var subkey = @"SOFTWARE\Classes\Applications\sqlwb.exe";
                 using (RegistryKey redistKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
                 {
-                    if (redistKey != null && redistKey.GetValue("Version") != null)
-                    {
-                        var versionKey = redistKey.GetValue("Version").ToString();
-                        if (versionKey == "14.0.1000.169")
-                            return false;
-                    }
+                    if (redistKey != null)
+                        return false;
                 }
                 return true;
             }

@@ -12,6 +12,9 @@ namespace ProlexNetSetup.Library
         {
             try
             {
+                if (Directory.Exists(folder))
+                    Directory.Delete(folder, true);
+                Directory.CreateDirectory(folder);
                 ZipFile.ExtractToDirectory(file, folder);
             }
             catch (Exception ex)
@@ -26,7 +29,7 @@ namespace ProlexNetSetup.Library
             {
                 var tempFolder = Path.Combine(servicePath, "Database");
                 if (Directory.Exists(tempFolder))
-                    Directory.Delete(tempFolder);
+                    Directory.Delete(tempFolder, true);
                 Directory.CreateDirectory(tempFolder);
 
                 ZipFile.ExtractToDirectory(file, tempFolder);

@@ -25,8 +25,6 @@ namespace ProlexNetSetup.Library
             var file = Path.Combine(servicePath, downloadFileName);
 
             var installationSubFolder = Path.Combine(installationPath, "ProlexNet");
-            if (Directory.Exists(installationSubFolder))
-                Directory.Delete(installationSubFolder);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
             await Task.Run(() => ZipExtract.Run(file, installationSubFolder));
