@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace ProlexNetSetup.Library
 {
@@ -16,6 +17,27 @@ namespace ProlexNetSetup.Library
             catch (Exception ex)
             {
                 Trace.WriteLine($"{nameof(ZipExtract)}:{nameof(Run)}:{ex.Message}");
+            }
+        }
+
+        public static string ExtractAndGetFile(string servicePath, string file)
+        {
+            try
+            {
+                var tempFolder = Path.Combine(servicePath, "Database");
+                if (Directory.Exists(tempFolder))
+                    Directory.Delete(tempFolder);
+                Directory.CreateDirectory(tempFolder);
+
+                ZipFile.ExtractToDirectory(file, tempFolder);
+
+                var extractedFile = Directory.GetFiles(tempFolder).FirstOrDefault();
+                return extractedFile;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"{nameof(ZipExtract)}:{nameof(Run)}:{ex.Message}");
+                return null;
             }
         }
 

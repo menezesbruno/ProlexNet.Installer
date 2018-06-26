@@ -433,8 +433,7 @@ namespace ProlexNetSetup.ViewModels
                 }
                 else
                 {
-                    DownloadParameters.AppList.Database.Url = selectedItem.Url;
-                    DownloadParameters.AppList.Database.Hash = selectedItem.Hash;
+                    DownloadParameters.AppList.Database = selectedItem;
                 }
             }
         }

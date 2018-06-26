@@ -125,26 +125,14 @@ namespace ProlexNetSetup.Library
             var installationPath = MainWindowViewModel.InstallationPath;
             var servicePath = CreateServicePath.ServicePath;
 
-            var databaseFolder = Path.Combine(installationPath, "Database");
-            Directory.CreateDirectory(databaseFolder);
-
             var url = DownloadParameters.AppList.Database.Url;
-            var downloadFileName = Path.GetFileName(url);
-            var file = Path.Combine(servicePath, downloadFileName);
             var hash = DownloadParameters.AppList.Database.Hash;
 
-            var databaseName = "ProlexNet.prolex";
-            var databaseDeployed = Path.Combine(databaseFolder, databaseName);
+            var downloadFileName = Path.GetFileName(url);
+            var file = Path.Combine(servicePath, downloadFileName);
 
             await DownloadFileInBackgroundAsync(url, file, hash, callback);
-            if (File.Exists(databaseDeployed))
-            {
-                var overwrite = System.Windows.MessageBox.Show($"O banco de dados {databaseName} já existe na pasta {databaseFolder}. Deseja sobrescrevê-lo? Este processo não poderá ser revertido.", "Aviso!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (overwrite == MessageBoxResult.Yes)
-                    await Task.Run(() => ZipExtract.Overwrite(file, databaseFolder, databaseDeployed));
-            }
-            else
-                await Task.Run(() => ZipExtract.Overwrite(file, databaseFolder, databaseDeployed));
+            await Task.Run(() => Install.DatabaseAsync(servicePath, installationPath, file));
         }
 
         // Download Factory

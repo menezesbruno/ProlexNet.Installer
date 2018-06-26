@@ -140,9 +140,15 @@ namespace ProlexNetSetup.Library
             InstallFactory(file, installArgs);
         }
 
-        public static void Database(string installationPath, string file)
+        public static async void DatabaseAsync(string servicePath, string installationPath, string file)
         {
-            var installArgs = $@"-E -S NBDEV24\SQLEXPRESS -Q \""RESTORE DATABASE[prolex] FROM DISK = '{file}' WITH RECOVERY, MOVE 'ProlexNet_Se_Conversao_DATA' TO '{installationPath}\Database\ProlexNet_Se_Conversao_DATA.mdf', MOVE 'ProlexNet_Se_Conversao_Log' TO '{installationPath}\Database\ProlexNet_Se_Conversao_Log.ldf'\""";
+            var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
+            var databaseFolder = Path.Combine(installationPath, "Database");
+            Directory.CreateDirectory(databaseFolder);
+
+            var database = await Task.Run(() => ZipExtract.ExtractAndGetFile(servicePath, file));
+
+            var installArgs = $@"-E -S {computerName}\SQLEXPRESS -Q \""RESTORE DATABASE[prolex] FROM DISK = '{database}' WITH RECOVERY, MOVE 'ProlexNet_Se_Conversao_DATA' TO '{databaseFolder}\ProlexNet_Se_Conversao_DATA.mdf', MOVE 'ProlexNet_Se_Conversao_Log' TO '{databaseFolder}\ProlexNet_Se_Conversao_Log.ldf'\""";
             InstallFactory("SqlCmd", installArgs);
         }
 
