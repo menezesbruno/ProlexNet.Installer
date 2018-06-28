@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace ProlexNetSetup.Library.Startup
 {
@@ -11,10 +6,11 @@ namespace ProlexNetSetup.Library.Startup
     {
         public static string ServicePath { get; set; }
 
-        public static void Run()
+        public static void Run(string installPath)
         {
-            ServicePath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Automatiza", "Instalador");
-            Directory.CreateDirectory(ServicePath);
+            var servicePath = Path.Combine(installPath, "Instalador");
+            Directory.CreateDirectory(servicePath);
+            ServicePath = servicePath;
         }
     }
 }

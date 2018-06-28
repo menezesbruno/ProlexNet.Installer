@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
 using ProlexNetSetup.Library;
+using ProlexNetSetup.Library.Startup;
 using ProlexNetSetup.Models;
 
 namespace ProlexNetSetup.ViewModels
@@ -453,6 +454,8 @@ namespace ProlexNetSetup.ViewModels
 
         private async Task InstallComponentsAsync()
         {
+            CreateServicePath.Run(InstallationPath);
+
             foreach (var item in InstallQueue)
             {
                 try
