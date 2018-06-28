@@ -347,6 +347,11 @@ namespace ProlexNetSetup.ViewModels
             CountPages = CountPages + 1;
             if (CountPages > 5)
                 CountPages = 5;
+            if (CountPages == 4)
+            {
+                BackVisibility = Visibility.Hidden;
+                NextVisibility = Visibility.Hidden;
+            }
             ChangePagesAsync();
         }
 

@@ -150,9 +150,24 @@ namespace ProlexNetSetup.Library
             var databaseName = Path.GetFileName(database);
             var databaseWithoutExt = Path.GetFileNameWithoutExtension(databaseName);
 
-            var installArgs = $"-E -S {computerName}\\SQLEXPRESS -Q \"RESTORE DATABASE[ProlexNet] FROM DISK = '{database}' WITH RECOVERY, MOVE '{databaseWithoutExt}_DATA' TO '{databaseFolder}\\{databaseWithoutExt}_DATA.mdf', MOVE '{databaseWithoutExt}_Log' TO '{databaseFolder}\\{databaseWithoutExt}_Log.ldf'\"";
+            var installArgs0 = $"-E -S {computerName}\\SQLEXPRESS -Q \"USE master\"";
 
-            InstallFactory("SqlCmd", installArgs);
+            var installArgs1 = $"-E -S {computerName}\\SQLEXPRESS -Q \"EXEC xp_instance_regwrite N'HKEY_LOCAL_MACHINE', N'Software\\Microsoft\\MSSQLServer\\MSSQLServer', N'LoginMode', REG_DWORD, 2\"";
+
+            var installArgs2 = $"-E -S {computerName}\\SQLEXPRESS -Q \"CREATE LOGIN prolexnet WITH PASSWORD = 'Admin@13'\"";
+
+            var installArgs3 = $"-E -S {computerName}\\SQLEXPRESS -Q \"ALTER SERVER ROLE [sysadmin] ADD MEMBER [prolexnet]\"";
+
+            var installArgs4 = $"-E -S {computerName}\\SQLEXPRESS -Q \"RESTORE DATABASE[ProlexNet] FROM DISK = '{database}' WITH RECOVERY, MOVE '{databaseWithoutExt}_DATA' TO '{databaseFolder}\\{databaseWithoutExt}_DATA.mdf', MOVE '{databaseWithoutExt}_Log' TO '{databaseFolder}\\{databaseWithoutExt}_Log.ldf'\"";
+
+            InstallFactory("SqlCmd", installArgs0);
+            InstallFactory("SqlCmd", installArgs1);
+            InstallFactory("SqlCmd", installArgs2);
+            InstallFactory("SqlCmd", installArgs3);
+            InstallFactory("SqlCmd", installArgs4);
+
+            InstallFactory("NET", "STOP MSSQL$SQLEXPRESS");
+            InstallFactory("NET", "START MSSQL$SQLEXPRESS");
 
         }
 
