@@ -525,7 +525,7 @@ namespace ProlexNetSetup.ViewModels
 
             #region SQLServer
 
-            if (RequirementsCheck.SQLServer())
+            if (InstallSQLServer)
             {
                 list.Add(appList.SQLServer.Name);
                 installQueue.Add(() => Download.SQLServerAsync(ProgressChanged));
@@ -535,7 +535,7 @@ namespace ProlexNetSetup.ViewModels
 
             #region SQLServerStudio
 
-            if (RequirementsCheck.SQLServerStudio())
+            if (InstallSQLServerStudio)
             {
                 list.Add(appList.SQLServerStudio.Name);
                 installQueue.Add(() => Download.SQLServerStudioAsync(ProgressChanged));
