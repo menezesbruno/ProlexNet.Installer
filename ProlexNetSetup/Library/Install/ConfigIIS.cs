@@ -94,7 +94,7 @@ namespace ProlexNetSetup.Library
                 var appcmd = Path.Combine(Environment.ExpandEnvironmentVariables("%windir%"), "system32", "inetsrv", "appcmd.exe");
 
                 Process process = new Process();
-                var appcmdArgs = "add apppool /name:prolexnet /managedRuntimeVersion:v4.0 -processModel.identityType:LocalSystem /enable32BitAppOnWin64:true";
+                var appcmdArgs = "add apppool /name:prolexnet /managedRuntimeVersion:";
                 process.StartInfo.FileName = appcmd;
                 process.StartInfo.Arguments = appcmdArgs;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
