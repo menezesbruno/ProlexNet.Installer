@@ -41,7 +41,7 @@ namespace ProlexNetSetup.Library
                         var uninstallerExe = Path.Combine(servicePath, "ProlexNet.Setup.exe");
                         var installedPath = Path.Combine(installationPath, "ProlexNet", "wwwroot");
                         var rootPath = Path.Combine(installationPath, "ProlexNet");
-                        var iconPath = Path.Combine(installedPath, "images", "favicon.ico");
+                        var iconPath = Path.Combine(installedPath, "assets", "images", "favicon.ico");
                         var version = "1.0.0.0";
 
                         key.SetValue("DisplayName", "ProlexNet");
