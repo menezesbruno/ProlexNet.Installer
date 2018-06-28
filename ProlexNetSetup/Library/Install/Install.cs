@@ -150,7 +150,7 @@ namespace ProlexNetSetup.Library
             var databaseName = Path.GetFileName(database);
             var databaseWithoutExt = Path.GetFileNameWithoutExtension(databaseName);
 
-            var installArgs = $"-E -S {computerName}\\SQLEXPRESS -Q \"RESTORE DATABASE[prolex] FROM DISK = '{database}' WITH RECOVERY, MOVE '{databaseWithoutExt}_DATA' TO '{databaseFolder}\\{databaseWithoutExt}_DATA.mdf', MOVE '{databaseWithoutExt}_Log' TO '{databaseFolder}\\{databaseWithoutExt}_Log.ldf'\"";
+            var installArgs = $"-E -S {computerName}\\SQLEXPRESS -Q \"RESTORE DATABASE[ProlexNet] FROM DISK = '{database}' WITH RECOVERY, MOVE '{databaseWithoutExt}_DATA' TO '{databaseFolder}\\{databaseWithoutExt}_DATA.mdf', MOVE '{databaseWithoutExt}_Log' TO '{databaseFolder}\\{databaseWithoutExt}_Log.ldf'\"";
 
             InstallFactory("SqlCmd", installArgs);
 
