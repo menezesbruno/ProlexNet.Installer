@@ -29,7 +29,7 @@ namespace ProlexNetSetup.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
-        private int _countPages = 0;
+        public static int _countPages = 0;
 
         public int CountPages
         {
@@ -347,11 +347,6 @@ namespace ProlexNetSetup.ViewModels
             CountPages = CountPages + 1;
             if (CountPages > 5)
                 CountPages = 5;
-            if (CountPages == 4)
-            {
-                BackVisibility = Visibility.Hidden;
-                NextVisibility = Visibility.Hidden;
-            }
             ChangePagesAsync();
         }
 

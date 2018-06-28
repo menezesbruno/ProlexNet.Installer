@@ -530,6 +530,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Button
+                    x:Name="Back"
                     Grid.Row="0"
                     Grid.Column="0"
                     Width="80"
@@ -543,6 +544,7 @@
                     FontWeight="Bold"
                     Visibility="{Binding BackVisibility}" />
                 <Button
+                    x:Name="Next"
                     Grid.Row="0"
                     Grid.Column="1"
                     Width="80"
@@ -550,6 +552,7 @@
                     Margin="5,0,0,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
+                    Click="Next_Click"
                     VerticalContentAlignment="Center"
                     Command="{Binding NextCommand}"
                     Content="{Binding NextContent}"
