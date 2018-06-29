@@ -50,6 +50,7 @@ namespace ProlexNetSetup.Library
                         key.SetValue("DisplayIcon", iconPath);
                         key.SetValue("InstallLocation", installedPath);
                         key.SetValue("RootLocation", rootPath);
+                        key.SetValue("ServicePath", servicePath);
                         key.SetValue("DisplayVersion", version);
                         key.SetValue("URLInfoAbout", "http://www.automatizatec.com.br/");
                         key.SetValue("Contact", "automatiza@automatizatec.com.br");
