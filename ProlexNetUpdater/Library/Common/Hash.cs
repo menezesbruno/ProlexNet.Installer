@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ProlexNetUpdater.Library.Update
+namespace ProlexNetUpdater.Library.Common
 {
     internal class Hash
     {

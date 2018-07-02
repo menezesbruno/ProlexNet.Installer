@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 
-namespace ProlexNetUpdater.Library.Update
+namespace ProlexNetUpdater.Library.Common
 {
     internal class Zip
     {

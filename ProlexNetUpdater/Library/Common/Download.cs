@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 
-namespace ProlexNetUpdater.Library.Update
+namespace ProlexNetUpdater.Library.Common
 {
     internal class Download
     {

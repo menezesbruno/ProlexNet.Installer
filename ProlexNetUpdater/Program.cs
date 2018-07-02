@@ -1,4 +1,5 @@
-﻿using ProlexNetUpdater.Library.Script;
+﻿using ProlexNetUpdater.Library.Common;
+using ProlexNetUpdater.Library.Script;
 using ProlexNetUpdater.Library.Update;
 using ProlexNetUpdater.Models;
 using System;
@@ -12,6 +13,12 @@ namespace ProlexNetUpdater
         {
             var result = new List<Result>();
             var error = new List<object>();
+
+            //Vasculha registro pela pasta do ProlexNet             
+            Registry.LoadPath();
+
+            //Download da lista 
+            DownloadParameters.LoadApplicationList();
 
             foreach (var item in args)
             {

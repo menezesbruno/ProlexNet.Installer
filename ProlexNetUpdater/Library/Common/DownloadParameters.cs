@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProlexNetUpdater.Library.Update
+namespace ProlexNetUpdater.Library.Common
 {
     public class DownloadParameters
     {

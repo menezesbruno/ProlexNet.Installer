@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProlexNetUpdater.Library.Common;
+using ProlexNetUpdater.Library.Update;
 
 namespace ProlexNetUpdater.Library.Script
 {
@@ -10,7 +7,14 @@ namespace ProlexNetUpdater.Library.Script
     {
         public static void Run()
         {
+            //Pára o IIS
+            IIS.Stop();
 
+            //Download e extração do ProlexNet
+            Download.ProlexNet();
+
+            //Inicia o IIS
+            IIS.Start();
         }
     }
 }

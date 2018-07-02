@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace ProlexNetUpdater.Library.Update
+namespace ProlexNetUpdater.Library.Common
 {
     public class Registry
     {
