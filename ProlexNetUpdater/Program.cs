@@ -11,10 +11,11 @@ namespace ProlexNetUpdater
         public static int Main(string[] args)
         {
             var result = new List<Result>();
+            var error = new List<object>();
 
             foreach (var item in args)
             {
-                // Métodos de atualização da aplicação
+                // Método de atualização da aplicação
                 if (item == "/update")
                 {
                     try
@@ -22,13 +23,14 @@ namespace ProlexNetUpdater
                         Update.Run();
                         result.Add(Result.Finished);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        error.Add(ex.Message);
                         result.Add(Result.Failed);
                     }
                 }
 
-                // Metódos de atualização de banco
+                // Metódo de atualização de banco
                 if (item == "/script")
                 {
                     try
@@ -36,15 +38,20 @@ namespace ProlexNetUpdater
                         Script.Run();
                         result.Add(Result.Finished);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        error.Add(ex.Message);
                         result.Add(Result.Failed);
                     }
                 }
             }
+
             var updateResult = 0;
             if (result.Contains(Result.Failed))
+            {
                 updateResult = 2;
+                Console.Write(error);
+            }
 
             Console.WriteLine(updateResult);
             return updateResult;
