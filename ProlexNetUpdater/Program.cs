@@ -21,7 +21,7 @@ namespace ProlexNetUpdater
                     try
                     {
                         Update.Run();
-                        result.Add(Result.Finished);
+                        result.Add(Result.Success);
                     }
                     catch (Exception ex)
                     {
@@ -36,7 +36,7 @@ namespace ProlexNetUpdater
                     try
                     {
                         Script.Run();
-                        result.Add(Result.Finished);
+                        result.Add(Result.Success);
                     }
                     catch (Exception ex)
                     {
@@ -49,7 +49,7 @@ namespace ProlexNetUpdater
             var updateResult = 0;
             if (result.Contains(Result.Failed))
             {
-                updateResult = 2;
+                updateResult = 1;
                 Console.Write(error);
             }
 

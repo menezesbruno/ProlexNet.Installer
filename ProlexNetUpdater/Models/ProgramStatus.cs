@@ -7,8 +7,7 @@
 
     public enum Result
     {
-        Finished,
-        FinishedWithErrors,
+        Success,
         Failed
     };
 }
