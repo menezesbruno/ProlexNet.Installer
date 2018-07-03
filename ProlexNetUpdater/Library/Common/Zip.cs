@@ -8,7 +8,13 @@ namespace ProlexNetUpdater.Library.Common
         public static void Extract(string file, string folder)
         {
             if (Directory.Exists(folder))
-                Directory.Delete(folder, true);
+            {
+                var bakFolder = folder + "bak";
+                if (Directory.Exists(bakFolder))
+                    Directory.Delete(bakFolder, true);
+
+                Directory.Move(folder, bakFolder);
+            }
 
             Directory.CreateDirectory(folder);
             ZipFile.ExtractToDirectory(file, folder);

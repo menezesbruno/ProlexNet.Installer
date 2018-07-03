@@ -14,11 +14,21 @@ namespace ProlexNetUpdater
             var result = new List<Result>();
             var error = new List<object>();
 
-            //Vasculha registro pela pasta do ProlexNet             
-            Registry.LoadPath();
+            try
+            {
+                //Vasculha registro pela pasta do ProlexNet             
+                Registry.LoadPath();
 
-            //Download da lista 
-            DownloadParameters.LoadApplicationList();
+                //Download da lista 
+                DownloadParameters.LoadApplicationList();
+
+                result.Add(Result.Success);
+            }
+            catch (Exception ex)
+            {
+                error.Add(ex.Message);
+                result.Add(Result.Failed);
+            }  
 
             foreach (var item in args)
             {

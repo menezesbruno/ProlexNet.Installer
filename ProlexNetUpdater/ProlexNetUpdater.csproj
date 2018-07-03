@@ -67,6 +67,7 @@
     <Compile Include="Library\Common\Download.cs" />
     <Compile Include="Library\Common\DownloadParameters.cs" />
     <Compile Include="Library\Common\Hash.cs" />
+    <Compile Include="Library\Script\ScriptExec.cs" />
     <Compile Include="Library\Update\IIS.cs" />
     <Compile Include="Library\Common\Registry.cs" />
     <Compile Include="Library\Script\Script.cs" />
