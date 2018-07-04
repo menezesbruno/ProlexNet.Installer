@@ -69,14 +69,11 @@ namespace ProlexNetUpdater
             var htmlResult = Path.Combine(rootPath, "result.html");
 
             var updateResult = 0;
-            //result.Add(Result.Failed);
+            result.Add(Result.Failed);
             if (result.Contains(Result.Failed))
-            {
                 updateResult = 1;
-                Console.Write(error);
-            }
 
-            UpdateResult.Build(htmlResult, updateResult);
+            UpdateResult.Build(htmlResult, updateResult, error);
 
             System.Diagnostics.Process.Start(htmlResult);
             Console.WriteLine(updateResult);
