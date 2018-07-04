@@ -13,6 +13,7 @@ namespace ProlexNetUpdater.Library.Common
     public class DownloadParameters
     {
         public static ApplicationList ApplicationList { get; set; }
+        public static ApplicationList ScriptList { get; set; }
 
         public static void LoadApplicationList()
         {
@@ -21,7 +22,9 @@ namespace ProlexNetUpdater.Library.Common
             try
             {
                 var appList = client.DownloadString(Constants.AppListUrl);
+                var scriptList = client.DownloadString(Constants.ScriptListUrl);
                 ApplicationList = JsonConvert.DeserializeObject<ApplicationList>(appList);
+                ScriptList = JsonConvert.DeserializeObject<ApplicationList>(scriptList);
             }
             catch (Exception ex)
             {

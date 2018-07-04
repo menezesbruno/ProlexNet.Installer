@@ -7,18 +7,22 @@ namespace ProlexNetUpdater.Library.Common
 {
     internal class Hash
     {
-        public static bool Check(string downloadedFile, string originalHash)
+        public static bool Check(string source, string originalHash)
         {
-            string source = downloadedFile;
-            using (MD5 md5Hash = MD5.Create())
+            if (File.Exists(source))
             {
-                string hash = GetMd5FileHash(md5Hash, source);
-                var result = VerifyMd5Hash(md5Hash, source, originalHash);
-                if (!result)
-                    File.Delete(downloadedFile);
+                using (MD5 md5Hash = MD5.Create())
+                {
+                    string hash = GetMd5FileHash(md5Hash, source);
+                    var result = VerifyMd5Hash(md5Hash, source, originalHash);
+                    if (!result)
+                        File.Delete(source);
 
-                return result;
+                    return result;
+                }
             }
+
+            return false;
         }
 
         private static string GetMd5FileHash(MD5 md5Hash, string input)

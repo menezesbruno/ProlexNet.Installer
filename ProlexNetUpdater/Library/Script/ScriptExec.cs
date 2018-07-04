@@ -14,22 +14,47 @@ namespace ProlexNetUpdater.Library.Script
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
 
             string queryString = $"SELECT TOP(1) Version FROM [dbo].[dbVersion] WHERE Version < {version} ORDER BY Version DESC";
-            string connectionString = $"{computerName}\\SQLEXPRESS;Database=ProlexNet;User Id=prolexnet;Password=Admin@13;MultipleActiveResultSets=true";
+            string connectionString = $"Server={computerName}\\SQLEXPRESS;Database=ProlexNet;User Id=prolexnet;Password=Admin@13;MultipleActiveResultSets=true";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                var command = new SqlCommand(queryString, connection);
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
+                var reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    SqlCommand scriptExecution = new SqlCommand(script, connection);
+                    var scriptExecution = new SqlCommand(script, connection);
                     scriptExecution.BeginExecuteNonQuery();
                 }
 
                 reader.Close();
             }
+        }
+
+        public static string GetState()
+        {
+            var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
+
+            string queryString = $"SELECT TOP(1) Address_StateAcronym FROM Office";
+            string connectionString = $"Server={computerName}\\SQLEXPRESS; Database=ProlexNet; user id=prolexnet; password=Admin@13; MultipleActiveResultSets=true";
+            var result = "";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                var command = new SqlCommand(queryString, connection);
+                connection.Open();
+
+                var reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    result = (string)reader[0];
+                }
+
+                reader.Close();
+            }
+
+            return result;
         }
 
         public static string ReadFile(string file)

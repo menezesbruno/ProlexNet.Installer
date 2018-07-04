@@ -9,6 +9,7 @@ namespace ProlexNetUpdater
     public class Constants
     {
         public const string AppListUrl = "https://automatizabox.azurewebsites.net/uploads/update.json";
+        public const string ScriptListUrl = "https://automatizabox.azurewebsites.net/uploads/scripts.json";
         public const string RegistryUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
 
         // GUID usado para criar entrada de registro de desinstalação do Windows.

@@ -11,7 +11,7 @@ namespace ProlexNetUpdater.Library.Script
             IIS.Stop();
 
             //Download e extração do ProlexNet
-            Download.Script();
+            Download.ScriptAsync();
 
             //Inicia o IIS
             IIS.Start();

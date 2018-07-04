@@ -1,7 +1,9 @@
 ﻿using ProlexNetUpdater.Library.Script;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace ProlexNetUpdater.Library.Common
 {
@@ -17,41 +19,47 @@ namespace ProlexNetUpdater.Library.Common
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
-            DownloadFile(url, file, hash);
+            DownloadFileAsync(url, file, hash);
 
             //Extrai o ProlexNet para a pasta
             Zip.Extract(file, installationSubFolder);
         }
 
-        public static void Script()
+        public static async void ScriptAsync()
         {
             var installationSubFolder = Registry.InstallationSubFolder;
             var servicePath = Registry.ServicePath;
+            var state = ScriptExec.GetState();
 
-            var scripts = DownloadParameters.ApplicationList.ScriptList;
+            var scripts = DownloadParameters.ScriptList.ScriptList;
             scripts.OrderBy(s => s.State).ThenBy(s => s.Version);
 
             //Roda os scripts em ordem
             foreach (var item in scripts)
             {
-                var url = DownloadParameters.ApplicationList.ProlexNet.Url;
-                var hash = DownloadParameters.ApplicationList.ProlexNet.Hash;
-                var downloadFileName = Path.GetFileName(url);
-                var file = Path.Combine(servicePath, downloadFileName);
+                if (item.State == state)
+                {
+                    var url = item.Url;
+                    var hash = item.Hash;
+                    var downloadFileName = Path.GetFileName(url);
+                    var file = Path.Combine(servicePath, downloadFileName);
 
-                DownloadFile(url, file, hash);
+                    await DownloadFileAsync(url, file, hash);
 
-                //Executa os script
-                ScriptExec.Run(file, item);
+                    //Executa os script
+                    ScriptExec.Run(file, item);
+                }
             }
         }
 
-        public static void DownloadFile(string url, string file, string hash)
+        public static async Task DownloadFileAsync(string url, string file, string hash)
         {
+            var uri = new Uri(url);
+
             using (WebClient client = new WebClient())
             {
                 while (!Hash.Check(file, hash))
-                    client.DownloadFileTaskAsync(url, file).GetAwaiter().GetResult();
+                    await client.DownloadFileTaskAsync(uri, file);// .GetAwaiter().GetResult();
             }
         }
     }
