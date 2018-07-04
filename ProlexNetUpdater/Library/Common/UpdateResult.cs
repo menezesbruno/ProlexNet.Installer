@@ -8,6 +8,8 @@ namespace ProlexNetUpdater.Library.Common
         public static void Build(string htmlResult, int updateResult, List<object> error)
         {
             StreamWriter file = new StreamWriter(htmlResult, false);
+
+            //Estrutura do HTML
             file.WriteLine("<!DOCTYPE html>");
             file.WriteLine("<html>");
             file.WriteLine("<head>");
@@ -39,7 +41,6 @@ namespace ProlexNetUpdater.Library.Common
             {
                 file.WriteLine($"<h1 class=\"cover-heading\">Erro durante a atualização do ProlexNet</h1>");
                 file.WriteLine("<p class=\"lead\">Entre em contato com a Automatiza.</p>");
-                file.WriteLine("<img style=\"height:100px;\" src=\"data:image/png;base64, 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\"/>");
                 file.WriteLine("<a href=\"http://www.automatizatec.com.br/login\" class=\"btn btn-lg btn-danger\">Atendimento online</a>");
                 file.WriteLine("</p>");
             }
@@ -52,6 +53,7 @@ namespace ProlexNetUpdater.Library.Common
             file.WriteLine("</div>");
             file.WriteLine("</body>");
             file.WriteLine("</html>");
+
             file.Close();
         }
     }
