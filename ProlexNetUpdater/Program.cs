@@ -71,9 +71,10 @@ namespace ProlexNetUpdater
 
             var rootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var htmlResult = Path.Combine(rootPath, "result.html");
-            UpdateResult.Build(htmlResult, updateResult, error);
+            UpdateResult.Build(htmlResult, updateResult);
 
             System.Diagnostics.Process.Start(htmlResult);
+
             return updateResult;
         }
     }

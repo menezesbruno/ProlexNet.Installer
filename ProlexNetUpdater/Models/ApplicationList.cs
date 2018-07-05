@@ -17,7 +17,7 @@ namespace ProlexNetUpdater.Models
     public class Scripts
     {
         public string State { get; set; }
-        public double Version { get; set; }
+        public decimal Version { get; set; }
         public string Url { get; set; }
         public string Hash { get; set; }
     }

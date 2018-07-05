@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 
 namespace ProlexNetUpdater.Library.Common
 {
     public static class UpdateResult
     {
-        public static void Build(string htmlResult, int updateResult, List<object> error)
+        public static void Build(string htmlResult, int updateResult)
         {
             StreamWriter file = new StreamWriter(htmlResult, false);
 

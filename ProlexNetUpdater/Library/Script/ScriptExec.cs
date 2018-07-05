@@ -1,6 +1,7 @@
 ﻿using ProlexNetUpdater.Models;
 using System;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 
 namespace ProlexNetUpdater.Library.Script
@@ -10,10 +11,10 @@ namespace ProlexNetUpdater.Library.Script
         public static async void RunAsync(string file, Scripts item)
         {
             var script = ReadFile(file);
-            var version = item.Version;
+            var version = item.Version.ToString(CultureInfo.GetCultureInfo("en-US"));
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
 
-            string queryString = $"SELECT TOP(1) Version FROM DbVersion WHERE Version < '{version}' ORDER BY Version DESC";
+            string queryString = $"SELECT IIF ((SELECT TOP(1) Version FROM DbVersion WHERE Version >= {version}) IS NULL, 'true', 'false') AS Result";
             string connectionString = $"server={computerName}\\SQLEXPRESS; database=ProlexNet; user id=prolexnet; password=Admin@13; MultipleActiveResultSets=true";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -22,12 +23,15 @@ namespace ProlexNetUpdater.Library.Script
                 connection.Open();
 
                 var reader = command.ExecuteReader();
-                if (!reader.HasRows)
+                if (reader.Read())
                 {
-                    var scriptExecution = new SqlCommand(script, connection);
-                    await scriptExecution.ExecuteNonQueryAsync();
+                    var result = reader.GetString(0);
+                    if (result == "true")
+                    {
+                        var scriptExecution = new SqlCommand(script, connection);
+                        await scriptExecution.ExecuteNonQueryAsync();
+                    }
                 }
-
                 reader.Close();
             }
         }
@@ -47,9 +51,7 @@ namespace ProlexNetUpdater.Library.Script
 
                 var reader = command.ExecuteReader();
                 if (reader.Read())
-                {
-                    result = (string)reader[0];
-                }
+                    result = reader.GetString(0);
 
                 reader.Close();
             }
