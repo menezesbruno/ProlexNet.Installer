@@ -7,14 +7,14 @@ namespace ProlexNetUpdater.Library.Script
 {
     public static class ScriptExec
     {
-        public static void Run(string file, Scripts item)
+        public static async void RunAsync(string file, Scripts item)
         {
             var script = ReadFile(file);
             var version = item.Version;
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
 
-            string queryString = $"SELECT TOP(1) Version FROM [dbo].[dbVersion] WHERE Version < {version} ORDER BY Version DESC";
-            string connectionString = $"Server={computerName}\\SQLEXPRESS;Database=ProlexNet;User Id=prolexnet;Password=Admin@13;MultipleActiveResultSets=true";
+            string queryString = $"SELECT TOP(1) Version FROM DbVersion WHERE Version < '{version}' ORDER BY Version DESC";
+            string connectionString = $"server={computerName}\\SQLEXPRESS; database=ProlexNet; user id=prolexnet; password=Admin@13; MultipleActiveResultSets=true";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -22,10 +22,10 @@ namespace ProlexNetUpdater.Library.Script
                 connection.Open();
 
                 var reader = command.ExecuteReader();
-                if (reader.Read())
+                if (!reader.HasRows)
                 {
                     var scriptExecution = new SqlCommand(script, connection);
-                    scriptExecution.BeginExecuteNonQuery();
+                    await scriptExecution.ExecuteNonQueryAsync();
                 }
 
                 reader.Close();
@@ -37,7 +37,7 @@ namespace ProlexNetUpdater.Library.Script
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
 
             string queryString = $"SELECT TOP(1) Address_StateAcronym FROM Office";
-            string connectionString = $"Server={computerName}\\SQLEXPRESS; Database=ProlexNet; user id=prolexnet; password=Admin@13; MultipleActiveResultSets=true";
+            string connectionString = $"server={computerName}\\SQLEXPRESS; database=ProlexNet; user id=prolexnet; password=Admin@13; MultipleActiveResultSets=true";
             var result = "";
 
             using (SqlConnection connection = new SqlConnection(connectionString))

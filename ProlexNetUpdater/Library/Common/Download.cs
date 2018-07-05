@@ -9,7 +9,7 @@ namespace ProlexNetUpdater.Library.Common
 {
     internal class Download
     {
-        public static void ProlexNet()
+        public static async void ProlexNetAsync()
         {
             var installationSubFolder = Registry.InstallationSubFolder;
             var servicePath = Registry.ServicePath;
@@ -19,7 +19,7 @@ namespace ProlexNetUpdater.Library.Common
             var downloadFileName = Path.GetFileName(url);
             var file = Path.Combine(servicePath, downloadFileName);
 
-            DownloadFileAsync(url, file, hash);
+            await DownloadFileAsync(url, file, hash);
 
             //Extrai o ProlexNet para a pasta
             Zip.Extract(file, installationSubFolder);
@@ -27,12 +27,13 @@ namespace ProlexNetUpdater.Library.Common
 
         public static async void ScriptAsync()
         {
-            var installationSubFolder = Registry.InstallationSubFolder;
             var servicePath = Registry.ServicePath;
+            var scriptsFolder = Path.Combine(servicePath, "Scripts");
+            Directory.CreateDirectory(scriptsFolder);
             var state = ScriptExec.GetState();
 
             var scripts = DownloadParameters.ScriptList.ScriptList;
-            scripts.OrderBy(s => s.State).ThenBy(s => s.Version);
+            scripts.OrderBy(s => s.Version);
 
             //Roda os scripts em ordem
             foreach (var item in scripts)
@@ -42,12 +43,12 @@ namespace ProlexNetUpdater.Library.Common
                     var url = item.Url;
                     var hash = item.Hash;
                     var downloadFileName = Path.GetFileName(url);
-                    var file = Path.Combine(servicePath, downloadFileName);
+                    var file = Path.Combine(scriptsFolder, downloadFileName);
 
                     await DownloadFileAsync(url, file, hash);
 
                     //Executa os script
-                    ScriptExec.Run(file, item);
+                    ScriptExec.RunAsync(file, item);
                 }
             }
         }
@@ -59,7 +60,7 @@ namespace ProlexNetUpdater.Library.Common
             using (WebClient client = new WebClient())
             {
                 while (!Hash.Check(file, hash))
-                    await client.DownloadFileTaskAsync(uri, file);// .GetAwaiter().GetResult();
+                    await client.DownloadFileTaskAsync(uri, file);
             }
         }
     }
