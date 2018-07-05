@@ -14,10 +14,10 @@ namespace ProlexNetUpdater.Library.Script
             var version = item.Version.ToString(CultureInfo.GetCultureInfo("en-US"));
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
 
-            string queryString = $"SELECT IIF ((SELECT TOP(1) Version FROM DbVersion WHERE Version >= {version}) IS NULL, 'true', 'false') AS Result";
-            string connectionString = $"server={computerName}\\SQLEXPRESS; database=ProlexNet; user id=prolexnet; password=Admin@13; MultipleActiveResultSets=true";
+            var queryString = $"SELECT IIF ((SELECT TOP(1) Version FROM DbVersion WHERE Version >= {version}) IS NULL, 'true', 'false') AS Result";
+            var connectionString = $"server={computerName}\\SQLEXPRESS; database=ProlexNet; user id=prolexnet; password=Admin@13; MultipleActiveResultSets=true";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(connectionString))
             {
                 var command = new SqlCommand(queryString, connection);
                 connection.Open();
@@ -32,6 +32,7 @@ namespace ProlexNetUpdater.Library.Script
                         await scriptExecution.ExecuteNonQueryAsync();
                     }
                 }
+
                 reader.Close();
             }
         }
@@ -40,11 +41,11 @@ namespace ProlexNetUpdater.Library.Script
         {
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
 
-            string queryString = $"SELECT TOP(1) Address_StateAcronym FROM Office";
-            string connectionString = $"server={computerName}\\SQLEXPRESS; database=ProlexNet; user id=prolexnet; password=Admin@13; MultipleActiveResultSets=true";
+            var queryString = $"SELECT TOP(1) Address_StateAcronym FROM Office";
+            var connectionString = $"server={computerName}\\SQLEXPRESS; database=ProlexNet; user id=prolexnet; password=Admin@13; MultipleActiveResultSets=true";
             var result = "";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(connectionString))
             {
                 var command = new SqlCommand(queryString, connection);
                 connection.Open();

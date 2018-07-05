@@ -32,35 +32,38 @@ namespace ProlexNetUpdater
                 result.Add(Result.Failed);
             }
 
-            foreach (var item in args)
+            if (!result.Contains(Result.Failed))
             {
-                // Método de atualização da aplicação
-                if (item == "/update")
+                foreach (var item in args)
                 {
-                    try
+                    //Método de atualização da aplicação
+                    if (item == "/update")
                     {
-                        Update.Run();
-                        result.Add(Result.Success);
+                        try
+                        {
+                            Update.Run();
+                            result.Add(Result.Success);
+                        }
+                        catch (Exception ex)
+                        {
+                            error.Add(ex.Message);
+                            result.Add(Result.Failed);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        error.Add(ex.Message);
-                        result.Add(Result.Failed);
-                    }
-                }
 
-                // Metódo de atualização de banco
-                if (item == "/script")
-                {
-                    try
+                    //Metódo de atualização de banco
+                    if (item == "/script")
                     {
-                        Script.Run();
-                        result.Add(Result.Success);
-                    }
-                    catch (Exception ex)
-                    {
-                        error.Add(ex.Message);
-                        result.Add(Result.Failed);
+                        try
+                        {
+                            Script.Run();
+                            result.Add(Result.Success);
+                        }
+                        catch (Exception ex)
+                        {
+                            error.Add(ex.Message);
+                            result.Add(Result.Failed);
+                        }
                     }
                 }
             }
@@ -69,10 +72,10 @@ namespace ProlexNetUpdater
             if (result.Contains(Result.Failed))
                 updateResult = 1;
 
+            //Gera a página de resultado da atualização
             var rootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var htmlResult = Path.Combine(rootPath, "result.html");
             UpdateResult.Build(htmlResult, updateResult);
-
             System.Diagnostics.Process.Start(htmlResult);
 
             return updateResult;
