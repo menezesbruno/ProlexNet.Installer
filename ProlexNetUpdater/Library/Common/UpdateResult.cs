@@ -24,9 +24,7 @@ namespace ProlexNetUpdater.Library.Common
             file.WriteLine("<div class=\"inner\">");
             file.WriteLine("<h3 class=\"masthead-brand\">ProlexNet</h3>");
             file.WriteLine("<nav class=\"nav nav-masthead justify-content-center\">");
-            file.WriteLine("<a class=\"nav-link active\" href=\"#\">Link</a>");
-            file.WriteLine("<a class=\"nav-link\" href=\"#\">Link</a>");
-            file.WriteLine("<a class=\"nav-link\" href=\"#\">Link</a>");
+            file.WriteLine("<a class=\"nav-link active\" href=\"#\">Atualização</a>");
             file.WriteLine("</nav>");
             file.WriteLine("</div>");
             file.WriteLine("</header>");
